@@ -1,0 +1,13 @@
+@import '_setting.scss';
+
+.d-block {
+    width: 100%;
+}
+
+.carousel-control-next, .carousel-control-prev {
+    cursor: pointer;
+}
+
+.visually-hidden {
+    display: none;
+}
