@@ -1,6 +1,43 @@
-body {margin: 0; padding: 0;}
-* {box-sizing: border-box;}
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
+@import '_setting.scss';
+@import '/node_modules/bootstrap/scss/functions';
+@import '/node_modules/bootstrap/scss/variables';
+@import '/node_modules/bootstrap/scss/mixins';
+@import '/node_modules/bootstrap/scss/bootstrap-grid.scss';
+@import '/node_modules/bootstrap/scss/carousel';
 
-.app {
-  color: antiquewhite;
+body {
+  margin: 0; padding: 0;
+  background-color: $lightblack;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+}
+
+html {
+  font-size: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  opacity: 0;
+}
+  
+  /* Track */
+::-webkit-scrollbar-track {
+  background: $black;
+}
+  
+  /* Handle */
+::-webkit-scrollbar-thumb {
+  background: $black; 
+}
+  
+  /* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: $yellow;
+  border-radius: 2.5px;
+  opacity: 1;
 }
