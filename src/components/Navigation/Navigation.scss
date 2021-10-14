@@ -7,6 +7,7 @@
     padding: 0 20px 0 40px;
     display: flex;
     justify-content: space-between;
+    position: relative;
 
     .navigation-right-container, .navigation-left-container {
 
@@ -17,6 +18,9 @@
             display: flex;
             align-items: center;
             padding: 0 20px;
+            &:hover {
+                background-color: darken($yellow, $amount: 5);
+            }
 
             svg {
                 width: 22px;
@@ -35,5 +39,17 @@
 
     .navbar-active {
         background-color: darken($yellow, $amount: 15);
+
+        &:hover {
+            background-color: darken($yellow, $amount: 15) !important;
+        }
+    }
+
+    .dropdown-btn {
+        cursor: pointer;
+
+        &:hover {
+            background-color: darken($yellow, $amount: 5);
+        }
     }
 }
