@@ -27,7 +27,7 @@ function SlideShow() {
             <Carousel.Item>
                 <img
                 className="d-block w-100"
-                src="https://4.bp.blogspot.com/-H3Nd4Wu-qUs/WV7gdA9dAHI/AAAAAAAASJc/2O6e-uSXX1YGbrdoaWVH-0AcuL2fZ_-iwCLcBGAs/s1600/hinh-anh-naruto-dep-nhat-tai-anh-naruto-full-hd%2B%25282%2529.jpg"
+                src="https://www.epicquotes.com/wp-content/uploads/2021/01/Sasuke-Uchiha.png"
                 alt="Second slide"
                 />
 

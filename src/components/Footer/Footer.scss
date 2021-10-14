@@ -1,0 +1,12 @@
+@import '_setting.scss';
+
+.footer-container {
+    width: 100%;
+    height: 70px;
+    background-color: $yellow;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
