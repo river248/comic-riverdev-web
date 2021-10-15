@@ -1,8 +1,21 @@
-import React from 'react'
-import thumbnail from 'resources/thumbnail.jpg'
+import React, { useEffect, useState } from 'react'
+import loading from 'resources/loading.png'
+import { storage } from "firebase/index"
+import { ref, getDownloadURL } from 'firebase/storage'
+
 import './NewComic.scss'
 
 function NewComic() {
+
+    const [image, setImage] = useState('')
+
+    useEffect(() => {
+        getDownloadURL(ref(storage, 'comics/truyen1/thumbnail.jpg'))
+        .then((url) => setImage(url))
+        .catch((error) => console.log(error))
+    }, [])
+
+
     return (
         <div className="new-comic-container">
 
@@ -10,7 +23,11 @@ function NewComic() {
 
             <div className="new-comic-container-item">
                 <div className="new-comic-image">
-                    <img src={thumbnail} alt=""/>
+                    { image ? <img src={image} alt=""/> : 
+                        <div className="loading">
+                            <img src={loading} alt="loading"/>
+                        </div> 
+                    }
                 </div>
                 <div className="new-comic-info">
                     <div>
@@ -24,7 +41,11 @@ function NewComic() {
 
             <div className="new-comic-container-item">
                 <div className="new-comic-image">
-                    <img src={thumbnail} alt=""/>
+                    { image ? <img src={image} alt=""/> : 
+                        <div className="loading">
+                            <img src={loading} alt="loading"/>
+                        </div> 
+                    }
                 </div>
                 <div className="new-comic-info">
                     <div>
