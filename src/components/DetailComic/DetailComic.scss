@@ -1,0 +1,92 @@
+@import '_setting.scss';
+
+.detail-comic-container {
+    display: flex;
+    padding: 10px 0;
+    margin-bottom: 25px;
+
+    .detail-comic-image {
+        width: 264px;
+        height: 336px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 10px $black;
+        border-radius: 12px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+        }
+    }
+
+    .detail-comic-info {
+        display: flex;
+        padding: 5px 0 5px 15px;
+        flex-direction: column;
+        justify-content: space-between;
+        width: calc(100% - 264px);
+        span {
+            font-size: 1.1rem;
+            color: $white;
+
+            &:first-child {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: $yellow;
+            }
+        }
+
+        .detail-comic-statistic {
+
+            width: 300px;
+            display: flex;
+            justify-content: space-between;
+
+            span {
+                color: $white;
+                font-size: 1rem;
+                font-weight: normal;
+                display: flex;
+                align-items: center;
+                
+                svg {
+                    margin-right: 5px;
+                }
+            }
+        }
+
+        .detail-comic-actions {
+            width: 400px;
+            display: flex;
+            justify-content: space-between;
+
+            button {
+                height: 36px;
+                width: 120px;
+                border: none;
+                outline: none;
+                border-radius: 18px;
+                background-color: $yellow;
+                font-size: 1rem;
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                &:first-child {
+                    background-color: $pink
+                }
+
+                &:last-child {
+                    background-color: darken($purple, $amount: 20);
+                }
+
+                svg {
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+}

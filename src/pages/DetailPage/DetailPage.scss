@@ -1,1 +1,13 @@
 @import '_setting.scss';
+
+h1 {
+    display: flex;
+    align-items: center;
+    color: $purple;
+
+    svg { margin-right: 5px; }
+}
+
+h3 {
+    color: $purple;
+}
