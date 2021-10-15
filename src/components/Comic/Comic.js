@@ -1,12 +1,29 @@
-import React from 'react'
-import thumbnail from 'resources/thumbnail.jpg'
+import React, { useState, useEffect } from 'react'
+import { storage } from "firebase/index"
+import loading from 'resources/loading.png'
+import { ref, getDownloadURL } from 'firebase/storage'
+
 import './Comic.scss'
 
 function Comic() {
+
+    const [image, setImage] = useState('')
+
+    useEffect(() => {
+        getDownloadURL(ref(storage, 'comics/truyen1/thumbnail.jpg'))
+        .then((url) => setImage(url))
+        .catch((error) => console.log(error))
+    }, [])
+
+
     return (
         <div className="comic-container">
             <div className="comic-image">
-                <img src={thumbnail} alt=""/>
+                { image ? <img src={image} alt=""/> : 
+                    <div className="loading">
+                        <img src={loading} alt="loading"/>
+                    </div> 
+                }
             </div>
             <div className="comic-info">
                 <span>Phục Thiên Thánh Chủ</span>
