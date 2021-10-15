@@ -10,9 +10,9 @@ import Navigation from "components/Navigation/Navigation"
 import HomePage from "pages/HomePage/HomePage"
 import ToTop from "components/ToTop/ToTop"
 import Footer from "components/Footer/Footer"
+import DetailPage from "pages/DetailPage/DetailPage"
+
 import './App.scss'
-
-
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
         <Navigation/>
       <Switch>
         <Route path='/home' component={HomePage}/>
-        <Route path='/category' component={HomePage}/>
+        <Route path='/detail' component={DetailPage}/>
       </Switch>
         <ToTop/>
         <Footer/>
