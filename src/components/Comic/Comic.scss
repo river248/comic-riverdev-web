@@ -13,6 +13,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
 
 
         img {
@@ -20,6 +21,19 @@
             height: 100%;
             border-radius: 10px;
             cursor: pointer;
+            box-shadow: 8px 6px 10px darken($black, $amount: 10);
+        }
+
+        time {
+            color: $white;
+            position: absolute;
+            top: 5px;
+            font-weight: bold;
+            left: 5px;
+            background-color: $purple;
+            padding: 5px 8px;
+            border-radius: 13px;
+            font-size: 0.8rem;
         }
     }
 
@@ -37,6 +51,7 @@
             overflow: hidden;
             white-space: nowrap;
             text-align: center;
+            text-shadow: 2px 2px 4px darken($black, $amount: 10);
 
             &:first-child {
                 color: $yellow;
@@ -60,6 +75,8 @@
     
         .comic-image {
             height: 224px;
+
+            time { font-size: 0.64rem;}
         }
     
         .comic-info {
