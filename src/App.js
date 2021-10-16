@@ -11,6 +11,7 @@ import HomePage from "pages/HomePage/HomePage"
 import ToTop from "components/ToTop/ToTop"
 import Footer from "components/Footer/Footer"
 import DetailPage from "pages/DetailPage/DetailPage"
+import CategoriesPage from "pages/CategoriesPage/CategoriesPage"
 
 import './App.scss'
 
@@ -22,8 +23,9 @@ function App() {
         <Header/>
         <Navigation/>
       <Switch>
-        <Route path='/home' component={HomePage}/>
-        <Route path='/detail' component={DetailPage}/>
+        <Route exact path='/home' component={HomePage}/>
+        <Route exact path='/home/detail' component={DetailPage}/>
+        <Route path='/categories' component={CategoriesPage}/>
       </Switch>
         <ToTop/>
         <Footer/>

@@ -1,0 +1,50 @@
+@import '_setting.scss';
+
+.pagination {
+    justify-content: center;
+}
+
+.page-item {
+
+    cursor: pointer;
+    &:not(:last-child){ margin-right: 8px;}
+
+    .page-link {
+        display: flex;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        background-color: $yellow;
+        border: none;
+        color: $black;
+        outline: none;
+        &:hover {
+            background-color: darken($yellow, $amount: 10);
+            color: $black;
+        }
+    }
+
+}
+
+.page-item:last-child, .page-item:first-child, .page-item:nth-child(2), .page-item:nth-child(6) {
+
+    .page-link { 
+        border-radius: 50% !important;
+        font-size: 2rem;
+        font-weight: bold;
+        
+        span {
+            &:first-child {
+                margin-bottom: 6px;
+            }
+        }
+    }
+}
+
+.page-item.active {
+    .page-link {
+        background-color: $purple !important;
+    }
+}
