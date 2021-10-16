@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import ReactTimeAgo from 'react-time-ago'
 import loading from 'resources/loading.png'
 import { storage } from "firebase/index"
 import { ref, getDownloadURL } from 'firebase/storage'
@@ -35,7 +36,9 @@ function NewComic() {
                         <span>Tác giả: đang cập nhập</span>
                         <span>Chapter 1</span>
                     </div>
-                    <span className="comic-time-post">1 giờ trước</span>
+                    <span className="comic-time-post">
+                        <ReactTimeAgo locale="en-US" date={1630341258225}/>
+                    </span>
                 </div>
             </div>
 
@@ -53,7 +56,9 @@ function NewComic() {
                         <span>Tác giả: đang cập nhập</span>
                         <span>Chapter 1</span>
                     </div>
-                    <span className="comic-time-post">1 giờ trước</span>
+                    <span className="comic-time-post">
+                        <ReactTimeAgo locale="en-US" date={1630341258225}/>
+                    </span>
                 </div>
             </div>
             

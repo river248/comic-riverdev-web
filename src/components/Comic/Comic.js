@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import ReactTimeAgo from 'react-time-ago'
 import { storage } from "firebase/index"
 import loading from 'resources/loading.png'
 import { ref, getDownloadURL } from 'firebase/storage'
@@ -19,11 +20,12 @@ function Comic() {
     return (
         <div className="comic-container">
             <div className="comic-image">
-                { image ? <img src={image} alt=""/> : 
+                { image ? <img src={image} alt=""/>: 
                     <div className="loading">
                         <img src={loading} alt="loading"/>
                     </div> 
                 }
+                { image && <ReactTimeAgo locale="en-US" date={1630341258225}/>}
             </div>
             <div className="comic-info">
                 <span>Phục Thiên Thánh Chủ</span>
