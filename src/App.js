@@ -13,7 +13,7 @@ import Footer from "components/Footer/Footer"
 import DetailPage from "pages/DetailPage/DetailPage"
 import CategoriesPage from "pages/CategoriesPage/CategoriesPage"
 import ScrollToTop from "utils/ScrollToTop"
-
+import ReadingPage from "pages/ReadingPage/ReadingPage"
 import './App.scss'
 
 function App() {
@@ -25,8 +25,9 @@ function App() {
         <Navigation/>
         <ScrollToTop>
           <Switch>
-            <Route exact path='/home' component={HomePage}/>
-            <Route exact path='/home/detail/:id' component={DetailPage}/>
+            <Route exact path='/' component={HomePage}/>
+            <Route path='/comic/:id' component={DetailPage}/>
+            <Route path='/reading/:chap' component={ReadingPage}/>
             <Route path='/categories' component={CategoriesPage}/>
           </Switch>
         </ScrollToTop>

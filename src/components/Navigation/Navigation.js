@@ -11,7 +11,7 @@ function Navigation() {
     return (
         <div className="navigation-container">
             <div className="navigation-left-container">
-                <NavLink to="/home" activeClassName="navbar-active" className="navbar-item">
+                <NavLink exact to="/" activeClassName="navbar-active" className="navbar-item">
                         <AiFillHome/>
                         <span>Trang chủ</span>
                 </NavLink>

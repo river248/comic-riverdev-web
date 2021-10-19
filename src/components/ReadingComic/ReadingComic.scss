@@ -1,0 +1,50 @@
+@import '_setting.scss';
+
+.reading-comic-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    margin-top: 10px !important;
+    font-size: 3rem !important;
+}
+
+.reading-comic-chap {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+
+    span {
+        font-size: 1.2rem;
+        margin: 0 100px;
+        padding: 0 10px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        background-color: $purple;
+        color: $white;
+        border-radius: 6px;
+    }
+    button {
+        height: 38px;
+        background-color: $yellow;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        border-radius: 6px;
+        font-size: 1rem;
+    }
+}
+.reading-comic-img {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 10px;
+
+    img {
+        width: 100%;
+    }
+}

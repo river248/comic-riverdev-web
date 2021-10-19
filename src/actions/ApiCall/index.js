@@ -20,3 +20,8 @@ export const fetchAllTag = async () => {
     const request = await axios.get(`${API_ROOT}/v1/tags`)
     return request.data
 }
+
+export const fetchFullChapter = async (id) => {
+    const request = await axios.get(`${API_ROOT}/v1/chapters/${id}`)
+    return request.data
+}
