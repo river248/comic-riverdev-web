@@ -12,6 +12,7 @@ import ToTop from "components/ToTop/ToTop"
 import Footer from "components/Footer/Footer"
 import DetailPage from "pages/DetailPage/DetailPage"
 import CategoriesPage from "pages/CategoriesPage/CategoriesPage"
+import ScrollToTop from "utils/ScrollToTop"
 
 import './App.scss'
 
@@ -22,11 +23,13 @@ function App() {
     <div className="app">
         <Header/>
         <Navigation/>
-      <Switch>
-        <Route exact path='/home' component={HomePage}/>
-        <Route exact path='/home/detail' component={DetailPage}/>
-        <Route path='/categories' component={CategoriesPage}/>
-      </Switch>
+        <ScrollToTop>
+          <Switch>
+            <Route exact path='/home' component={HomePage}/>
+            <Route exact path='/home/detail/:id' component={DetailPage}/>
+            <Route path='/categories' component={CategoriesPage}/>
+          </Switch>
+        </ScrollToTop>
         <ToTop/>
         <Footer/>
     </div>

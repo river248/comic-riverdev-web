@@ -1,26 +1,25 @@
-import React from 'react'
+import { fetchAllTag } from 'actions/ApiCall'
+import React, { useEffect, useState } from 'react'
 
 import './Categories.scss'
 
 function Categories() {
+
+    const [categories, setCategories] = useState([])
+
+    useEffect(() => {
+        fetchAllTag().then(categories => {
+            setCategories(categories)
+        })
+    }, [])
+
     return (
         <div className="categories-container">
-            <div className="category-container">
-                <input type="checkbox"/>
-                <span>Ngôn tình</span>
-            </div>
-            <div className="category-container">
-                <input type="checkbox"/>
-                <span>Ngôn tình</span>
-            </div>
-            <div className="category-container">
-                <input type="checkbox"/>
-                <span>Ngôn tình</span>
-            </div>
-            <div className="category-container">
-                <input type="checkbox"/>
-                <span>Ngôn tình</span>
-            </div>
+            { categories.map(category => (
+                <div key={category._id} className="category-container">
+                    <input type="checkbox"/>
+                    <span>{category.name}</span>
+                </div> ))}
         </div>
     )
 }

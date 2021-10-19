@@ -1,22 +1,25 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect} from 'react'
 import loading from 'resources/loading.png'
-import { storage } from "firebase/index"
-import { ref, getDownloadURL } from 'firebase/storage'
 import { FaHeart, FaEye } from 'react-icons/fa'
 import { GiOpenBook } from 'react-icons/gi'
 import { AiFillLike } from 'react-icons/ai'
+import { storage } from "firebase/index"
+import { ref, getDownloadURL } from 'firebase/storage'
 
 import './DetailComic.scss'
 
-function DetailComic() {
+function DetailComic({ comic }) {
     
     const [image, setImage] = useState('')
 
     useEffect(() => {
-        getDownloadURL(ref(storage, 'comics/truyen1/thumbnail.jpg'))
-        .then((url) => setImage(url))
-        .catch((error) => console.log(error))
-    }, [])
+        if(comic.thumbnail !== undefined) {
+            getDownloadURL(ref(storage, `comics/${comic.thumbnail}`))
+            .then((url) => setImage(url))
+            .catch((error) => console.log(error))
+        }
+    }, [comic])
 
     return (
         <div className="detail-comic-container">
@@ -28,11 +31,11 @@ function DetailComic() {
                 }
             </div>
             <div className="detail-comic-info">
-                <span>Phục Thiên Thánh Chủ</span>
-                <span>Tác giả: Đang cập nhật</span>
-                <span>Tình trạng: Chưa hoàn thành</span>
+                <span>{comic.title}</span>
+                <span>Tác giả: {comic.author}</span>
+                <span>Tình trạng: {comic.status}</span>
                 <span>
-                    Mô tả: Truyện tranh Võ Đang Kỳ Hiệp được cập nhật nhất và đầy đủ nhất tại TruyenQQTop.Com. Hãy ghé thăm TruyenQQTop.Com mỗi ngày để được đọc các chương mới nhất của Võ Đang Kỳ Hiệp.
+                    Mô tả: {comic.description}
                 </span>
                 <div className="detail-comic-statistic">
                     <span>Thống kê:</span>
