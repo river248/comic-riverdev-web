@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { fetchAllChapterOfComic } from 'actions/ApiCall'
+import { fetchAllChapterOfComic } from 'actions/ApiCall/chapterAPI'
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { convertDate } from 'utils/convertDate'
@@ -22,7 +22,7 @@ function ListChapter({ comic }) {
             { chapters.map(chapter => (
                 <div key={chapter._id}>
                     <div  className="chapter-title">
-                        <span onClick={() => history.push(`/reading/${chapter._id}`)}>Chương {chapter.chap}</span>
+                        <span onClick={() => history.push(`/reading?comic=${comic._id}&chap=${chapter.chap}`)}>Chương {chapter.chap}</span>
                         <span>{convertDate(chapter.createAt)}</span>
                     </div>
                     <hr/>

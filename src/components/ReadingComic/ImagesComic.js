@@ -13,7 +13,7 @@ function ImagesComic({comicNumber, chap, image}) {
             .then((url) => setImg(url))
             .catch((error) => console.log(error))
         
-    }, [])
+    }, [chap])
 
     return (
         <>

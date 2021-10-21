@@ -1,4 +1,4 @@
-import { fetchAllTag } from 'actions/ApiCall'
+import { fetchAllTag } from 'actions/ApiCall/tagAPI'
 import React, { useEffect, useState } from 'react'
 
 import './Categories.scss'

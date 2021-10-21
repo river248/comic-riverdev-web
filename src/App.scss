@@ -40,7 +40,8 @@ html {
   
   /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: $black; 
+  background: darken($yellow, $amount: 10);
+  border-radius: 2.5px;
 }
   
   /* Handle on hover */
