@@ -16,10 +16,10 @@
         border-radius: 50%;
         align-items: center;
         justify-content: center;
-        background-color: $yellow;
+        background-color: $yellow !important;
         border: none;
-        color: $black;
-        outline: none;
+        color: $black !important;
+        outline: solid 4px $lightblack !important;
         &:hover {
             background-color: darken($yellow, $amount: 10);
             color: $black;
@@ -28,7 +28,7 @@
 
 }
 
-.page-item:last-child, .page-item:first-child, .page-item:nth-child(2), .page-item:nth-child(6) {
+.page-item-last, .page-item-first, .page-item-third, .page-item-second {
 
     .page-link { 
         border-radius: 50% !important;

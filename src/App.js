@@ -28,8 +28,8 @@ function App() {
           <Switch>
             <Route exact path='/' component={HomePage}/>
             <Route exact path='/home' component={HomePage}/>
-            <Route path='/comic/:id' component={DetailPage}/>
-            <Route exact path='/reading' component={ReadingPage}/>
+            <Route path='/home/detail-comic/:id' component={DetailPage}/>
+            <Route path='/home/reading' component={ReadingPage}/>
             <Route path='/categories' component={CategoriesPage}/>
           </Switch>
         </ScrollToTop>

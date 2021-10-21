@@ -51,7 +51,7 @@ function DetailComic({ comic }) {
                     </div>
                 </div>
                 <div className="detail-comic-actions">
-                    <button onClick={() => history.push(`/reading?comic=${comic._id}&chap=1`)}><GiOpenBook/>Đọc từ đầu</button>
+                    <button onClick={() => history.push(`/home/reading?comic=${comic._id}&chap=1`)}><GiOpenBook/>Đọc từ đầu</button>
                     <button><FaHeart/> Theo dõi</button>
                     <button><AiFillLike/> Thích</button>
                 </div>
