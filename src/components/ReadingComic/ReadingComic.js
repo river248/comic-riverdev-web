@@ -1,41 +1,66 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { fetchFullChapter } from 'actions/ApiCall'
+import { fetchFullChapter, fetchQuantityChapter } from 'actions/ApiCall/chapterAPI'
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
+import { AiOutlineRollback } from 'react-icons/ai'
 import ImagesComic from './ImagesComic'
 
 import './ReadingComic.scss'
 
 function ReadingComic() {
 
-    const [chapter, setChapter] = useState({_id: '', comicID: '', chap: 0, image: [], number: 0, title: ''})
+    const [chapter, setChapter] = useState({_id: '', chap: 0, image: [], number: 0, title: ''})
+    const [quantity, setQuatity] = useState(0)
+    const history = useHistory()
 
-    const { chap } = useParams()
+    let query = new URLSearchParams(useLocation().search)
 
     useEffect(() => {
-        fetchFullChapter(chap).then(data => {
+        fetchFullChapter(query.get('comic'), query.get('chap')).then(data => {
             setChapter(data)
         })
-    }, [])
+        fetchQuantityChapter(query.get('comic')).then(data => {
+            setQuatity(data)
+        })
+    }, [query.get('chap')])
 
     return (
         <>
-        <h1 className="reading-comic-title">{chapter.title}</h1>
-        <div className="reading-comic-img">
-            {chapter.image.map((image, index) => (
-                <ImagesComic
-                    key={index}
-                    comicNumber={chapter.number}
-                    chap={chapter.chap}
-                    image={image}
-                />
-            ))}
-        </div>
-        <div className="reading-comic-chap">
-            { chapter.chap !==1 && <button>Chương trước</button> }
-            <span>Chương {chapter.chap}</span>
-            <button>Chương sau</button>
-        </div>
+        { chapter.chap !== 0 && <>
+            <h1 className="reading-comic-title">{chapter.title}</h1>
+            <div className="reading-header">
+                <button onClick={() => history.push(`/comic/${query.get('comic')}`)}>
+                    <AiOutlineRollback/>
+                    Quay lại
+                </button>
+                <span className="current-chapter">Chương {chapter.chap}</span>
+            </div>
+
+            <div className="reading-comic-img">
+                {chapter.image.map((image, index) => (
+                    <ImagesComic
+                        key={index}
+                        comicNumber={chapter.number}
+                        chap={chapter.chap}
+                        image={image}
+                    />
+                ))}
+            </div>
+            <div className="reading-comic-chap">
+                { chapter.chap !==1 &&
+                    <button onClick={() => history.push(`/reading?comic=${query.get('comic')}&chap=${chapter.chap-1}`)}>
+                        Chương trước
+                    </button> }
+
+                <span className="current-chapter">Chương {chapter.chap}</span>
+
+                { chapter.chap < quantity &&
+                    <button onClick={() => history.push(`/reading?comic=${query.get('comic')}&chap=${chapter.chap+1}`)}>
+                        Chương sau
+                    </button> }
+            </div>
+        </>}
+        
         </>
     )
 }

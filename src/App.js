@@ -17,6 +17,7 @@ import ReadingPage from "pages/ReadingPage/ReadingPage"
 import './App.scss'
 
 function App() {
+
   return (
     <Router>
       
@@ -26,8 +27,9 @@ function App() {
         <ScrollToTop>
           <Switch>
             <Route exact path='/' component={HomePage}/>
+            <Route exact path='/home' component={HomePage}/>
             <Route path='/comic/:id' component={DetailPage}/>
-            <Route path='/reading/:chap' component={ReadingPage}/>
+            <Route exact path='/reading' component={ReadingPage}/>
             <Route path='/categories' component={CategoriesPage}/>
           </Switch>
         </ScrollToTop>

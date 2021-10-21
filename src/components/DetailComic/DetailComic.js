@@ -6,12 +6,14 @@ import { GiOpenBook } from 'react-icons/gi'
 import { AiFillLike } from 'react-icons/ai'
 import { storage } from "firebase/index"
 import { ref, getDownloadURL } from 'firebase/storage'
+import { useHistory } from 'react-router-dom'
 
 import './DetailComic.scss'
 
 function DetailComic({ comic }) {
     
     const [image, setImage] = useState('')
+    const history = useHistory()
 
     useEffect(() => {
         if(comic.thumbnail !== undefined) {
@@ -49,7 +51,7 @@ function DetailComic({ comic }) {
                     </div>
                 </div>
                 <div className="detail-comic-actions">
-                    <button><GiOpenBook/>Đọc từ đầu</button>
+                    <button onClick={() => history.push(`/reading?comic=${comic._id}&chap=1`)}><GiOpenBook/>Đọc từ đầu</button>
                     <button><FaHeart/> Theo dõi</button>
                     <button><AiFillLike/> Thích</button>
                 </div>

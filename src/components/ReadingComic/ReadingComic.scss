@@ -9,24 +9,55 @@
     font-size: 3rem !important;
 }
 
+.current-chapter {
+    font-size: 1.2rem;
+    padding: 0 10px;
+    height: 38px;
+    display: flex;
+    background-color: $purple;
+    color: $white;
+    border-radius: 6px;
+    align-items: center;
+    font-weight: 600;
+    width: 125px !important;
+    justify-content: center;
+    box-shadow: 4px 6px 8px darken($black, $amount: 20);
+}
+
+.reading-header {
+    position: relative;
+
+    .current-chapter {
+        margin: 0 auto 20px auto;
+    }
+
+    button {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        height: 38px;
+        font-size: 1rem;
+        background-color: $yellow;
+        outline: none;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        box-shadow: 4px 6px 8px darken($black, $amount: 20);
+
+        svg { margin-right: 5px;}
+    }
+}
+
 .reading-comic-chap {
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
     margin-bottom: 20px;
     font-weight: 600;
 
-    span {
-        font-size: 1.2rem;
-        margin: 0 100px;
-        padding: 0 10px;
-        height: 38px;
-        display: flex;
-        align-items: center;
-        background-color: $purple;
-        color: $white;
-        border-radius: 6px;
+    .current-chapter {
+        margin: auto;
     }
+    
     button {
         height: 38px;
         background-color: $yellow;
@@ -35,6 +66,7 @@
         cursor: pointer;
         border-radius: 6px;
         font-size: 1rem;
+        box-shadow: 4px 6px 8px darken($black, $amount: 10);
     }
 }
 .reading-comic-img {

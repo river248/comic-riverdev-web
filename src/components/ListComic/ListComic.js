@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Comic from 'components/Comic/Comic'
-import { fetchAllComic } from 'actions/ApiCall'
+import { fetchAllComic } from 'actions/ApiCall/comicAPI'
 
 import './ListComic.scss'
 

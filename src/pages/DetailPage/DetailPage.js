@@ -7,7 +7,7 @@ import PostComment from 'components/PostComment/PostComment'
 import { Container, Row } from 'react-bootstrap'
 import { GiStarFormation } from 'react-icons/gi'
 import { FaComments } from 'react-icons/fa'
-import { fetchDetailComic } from 'actions/ApiCall'
+import { fetchDetailComic } from 'actions/ApiCall/comicAPI'
 import { useParams } from 'react-router-dom'
 import './DetailPage.scss'
 

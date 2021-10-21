@@ -31,8 +31,7 @@ function Comic({ comic }) {
                 { image && <ReactTimeAgo locale="en-US" date={comic.createAt}/>}
             </div>
             <div className="comic-info">
-                <span>{comic.title}</span>
-                <span>Chapter 1</span>
+                <span onClick={() => history.push(`/comic/${comic._id}`)}>{comic.title}</span>
             </div>
         </div>
     )
