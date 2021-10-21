@@ -23,7 +23,7 @@ function Comic({ comic }) {
     return (
         <div className="comic-container">
             <div className="comic-image">
-                { image ? <img src={image} alt={comic.title} onClick={() => history.push(`/comic/${comic._id}`)}/>: 
+                { image ? <img src={image} alt={comic.title} onClick={() => history.push(`/home/detail-comic/${comic._id}`)}/>: 
                     <div className="loading">
                         <img src={loading} alt="loading"/>
                     </div> 
@@ -31,7 +31,7 @@ function Comic({ comic }) {
                 { image && <ReactTimeAgo locale="en-US" date={comic.createAt}/>}
             </div>
             <div className="comic-info">
-                <span onClick={() => history.push(`/comic/${comic._id}`)}>{comic.title}</span>
+                <span onClick={() => history.push(`/home/detail-comic/${comic._id}`)}>{comic.title}</span>
             </div>
         </div>
     )

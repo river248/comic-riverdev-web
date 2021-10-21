@@ -29,7 +29,7 @@ function ReadingComic() {
         { chapter.chap !== 0 && <>
             <h1 className="reading-comic-title">{chapter.title}</h1>
             <div className="reading-header">
-                <button onClick={() => history.push(`/comic/${query.get('comic')}`)}>
+                <button onClick={() => history.push(`/home/detail-comic/${query.get('comic')}`)}>
                     <AiOutlineRollback/>
                     Quay lại
                 </button>
@@ -48,14 +48,14 @@ function ReadingComic() {
             </div>
             <div className="reading-comic-chap">
                 { chapter.chap !==1 &&
-                    <button onClick={() => history.push(`/reading?comic=${query.get('comic')}&chap=${chapter.chap-1}`)}>
+                    <button onClick={() => history.push(`/home/reading?comic=${query.get('comic')}&chap=${chapter.chap-1}`)}>
                         Chương trước
                     </button> }
 
                 <span className="current-chapter">Chương {chapter.chap}</span>
 
                 { chapter.chap < quantity &&
-                    <button onClick={() => history.push(`/reading?comic=${query.get('comic')}&chap=${chapter.chap+1}`)}>
+                    <button onClick={() => history.push(`/home/reading?comic=${query.get('comic')}&chap=${chapter.chap+1}`)}>
                         Chương sau
                     </button> }
             </div>
