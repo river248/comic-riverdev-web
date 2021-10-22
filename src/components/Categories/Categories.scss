@@ -3,9 +3,12 @@
 .categories-container {
     padding: 10px;
     display: flex;
+    height: inherit;
     flex-direction: column;
     border-right: 2px dashed $purple;
     border-bottom: 2px dashed $purple;
+    border-radius: 0 0 10px 0;
+    position: relative;
 
     .category-container {
 
@@ -13,11 +16,23 @@
         height: 30px;
         justify-content: flex-start;
         align-items: center;
-        font-size: 1.1rem;
-        color: $purple;
-        
-        input { margin-right: 10px; margin-top: 5px;}
+        padding-left: 10px;
+        text-shadow: 2px 2px 2px darken($black, $amount: 20);
 
-        span { cursor: pointer;}
+        a {
+            font-size: 1.1rem;
+            color: $purple;
+            text-decoration: none;
+
+            &:hover { color: $yellow;}
+        }
+    }
+
+    img {
+        position: absolute;
+        width: 300px;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
     }
 }

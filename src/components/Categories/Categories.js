@@ -1,5 +1,7 @@
-import { fetchAllTag } from 'actions/ApiCall/tagAPI'
 import React, { useEffect, useState } from 'react'
+import sasuke from 'resources/sasuke.png'
+import { fetchAllTag } from 'actions/ApiCall/tagAPI'
+import { Link } from 'react-router-dom'
 
 import './Categories.scss'
 
@@ -17,9 +19,9 @@ function Categories() {
         <div className="categories-container">
             { categories.map(category => (
                 <div key={category._id} className="category-container">
-                    <input type="checkbox"/>
-                    <span>{category.name}</span>
+                    <Link to={`/category?tag=${category._id}&page=${1}`}>{category.name}</Link>
                 </div> ))}
+            <img src={sasuke} alt='sasuke'/>
         </div>
     )
 }

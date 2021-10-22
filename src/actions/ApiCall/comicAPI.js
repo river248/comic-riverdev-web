@@ -11,8 +11,15 @@ export const fetchDetailComic = async (id) => {
     return request.data
 }
 
-export const fetchQuantityPage = async () => {
-    const request = await axios.get(`${API_ROOT}/v1/comics/quantity-page`)
+export const fetchQuantityPage = async (query) => {
+    let request = null
+    if(query === '')
+        request = await axios.get(`${API_ROOT}/v1/comics/quantity-page`)
+    else
+        if(query === null)
+            request = await axios.get(`${API_ROOT}/v1/comics/quantity-page?tagID=0`)
+        else
+            request = await axios.get(`${API_ROOT}/v1/comics/quantity-page?tagID=${query}`)
     return request.data
 }
 export const fetchAllComicOfTag = async (tagID, page) => {

@@ -22,7 +22,7 @@ function Navigation() {
                         <AiFillHome/>
                         <span>Trang chủ</span>
                 </NavLink>}
-                <NavLink to="/categories" activeClassName="navbar-active" className="navbar-item">
+                <NavLink to="/category" activeClassName="navbar-active" className="navbar-item">
                         <MdCategory/>
                         <span>Thể loại</span>
                 </NavLink>
