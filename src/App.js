@@ -30,7 +30,7 @@ function App() {
             <Route exact path='/home' component={HomePage}/>
             <Route path='/home/detail-comic/:id' component={DetailPage}/>
             <Route path='/home/reading' component={ReadingPage}/>
-            <Route path='/categories' component={CategoriesPage}/>
+            <Route path='/category' component={CategoriesPage}/>
           </Switch>
         </ScrollToTop>
         <ToTop/>

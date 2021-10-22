@@ -1,5 +1,9 @@
 @import '_setting.scss';
 
+.container-fluid {
+    position: relative;
+}
+
 .all-categories {
     background-color: $purple;
     margin-top: 5px;
@@ -7,6 +11,12 @@
     padding: 5px 0;
     color: $white;
     margin-bottom: 10px;
+    border-radius: 0 10px 0 0;
+}
+
+.category-image {
+    position: absolute;
+    bottom: 5%;
 }
 
 .category-title {
@@ -18,4 +28,8 @@
     justify-content: center;
 
     svg { margin-right: 10px;}
+}
+
+@media screen and (max-width: 768px) {
+    .category-image { display: none; }
 }
