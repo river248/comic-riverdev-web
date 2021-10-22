@@ -2,17 +2,6 @@
 
 .new-comic-container {
 
-    .new-comic-container-title {
-        background-color: $purple;
-        color: $white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: 600;
-        height: 30px;
-        margin-bottom: 10px;
-    }
-
     .new-comic-container-item {
         display: flex;
         
@@ -31,6 +20,7 @@
                 width: 100%;
                 height: 100%;
                 border-radius: 8px;
+                cursor: pointer;
             }
 
         }
@@ -58,7 +48,16 @@
                         text-overflow: ellipsis;
                         white-space: nowrap;
                         overflow: hidden;
+                        cursor: pointer;
+
+                        &:hover { color: $purple; }
                     }
+
+                    &:last-child {
+                        cursor: pointer;
+                        &:hover { color: $purple; }
+                    }
+
                 }
             }
 

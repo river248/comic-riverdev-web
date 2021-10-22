@@ -2,4 +2,16 @@
 
 .container-fluid {
     padding: 15px;
+
+    .new-comic-title {
+        background-color: $purple;
+        color: $white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+        height: 30px;
+        margin-bottom: 10px;
+    }
+
 }
