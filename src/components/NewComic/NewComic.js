@@ -1,66 +1,40 @@
 import React, { useEffect, useState } from 'react'
 import ReactTimeAgo from 'react-time-ago'
-import loading from 'resources/loading.png'
-import { storage } from "firebase/index"
-import { ref, getDownloadURL } from 'firebase/storage'
+import { useHistory } from 'react-router-dom'
+import { fetchNewComics } from 'actions/ApiCall/comicAPI'
+import ImageNewComic from './ImageNewComic'
 
 import './NewComic.scss'
 
 function NewComic() {
 
-    const [image, setImage] = useState('')
+    const [comics, setComics] = useState([])
+    const history = useHistory()
 
     useEffect(() => {
-        getDownloadURL(ref(storage, 'comics/truyen1/thumbnail.jpg'))
-        .then((url) => setImage(url))
-        .catch((error) => console.log(error))
+        fetchNewComics().then(data => {
+            setComics(data)
+        })
     }, [])
 
 
     return (
         <div className="new-comic-container">
 
-            <div className="new-comic-container-title">MỚI CẬP NHẬT</div>
-
-            <div className="new-comic-container-item">
-                <div className="new-comic-image">
-                    { image ? <img src={image} alt=""/> : 
-                        <div className="loading">
-                            <img src={loading} alt="loading"/>
-                        </div> 
-                    }
-                </div>
+            { comics.map(comic => (
+            <div key={comic._id} className="new-comic-container-item">
+                <ImageNewComic comicID={comic._id} number={comic.number} chap={comic.chapter[0].chap} title={comic.title}/>
                 <div className="new-comic-info">
                     <div>
-                        <span>Phục Thiên Thánh Chủ 123123123</span>
-                        <span>Tác giả: đang cập nhập</span>
-                        <span>Chapter 1</span>
+                        <span onClick={() => history.push(`home/detail-comic/${comic._id}`)}>{comic.title}</span>
+                        <span>Tác giả: {comic.author}</span>
+                        <span onClick={() => history.push(`home/reading?comic=${comic._id}&chap=${comic.chapter[0].chap}`)}>Chương {comic.chapter[0].chap}</span>
                     </div>
                     <span className="comic-time-post">
-                        <ReactTimeAgo locale="en-US" date={1630341258225}/>
+                        <ReactTimeAgo locale="en-US" date={comic.updateAt}/>
                     </span>
                 </div>
-            </div>
-
-            <div className="new-comic-container-item">
-                <div className="new-comic-image">
-                    { image ? <img src={image} alt=""/> : 
-                        <div className="loading">
-                            <img src={loading} alt="loading"/>
-                        </div> 
-                    }
-                </div>
-                <div className="new-comic-info">
-                    <div>
-                        <span>Phục Thiên Thánh Chủ 123123123</span>
-                        <span>Tác giả: đang cập nhập</span>
-                        <span>Chapter 1</span>
-                    </div>
-                    <span className="comic-time-post">
-                        <ReactTimeAgo locale="en-US" date={1630341258225}/>
-                    </span>
-                </div>
-            </div>
+            </div>))}
             
         </div>
     )

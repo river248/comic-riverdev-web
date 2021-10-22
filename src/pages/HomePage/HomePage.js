@@ -17,6 +17,7 @@ function HomePage() {
                     <Pagina/>
                 </Col>
                 <Col lg={3} md={4} sm={12}>
+                    <div className="new-comic-title">MỚI CẬP NHẬT</div>
                     <NewComic/>
                 </Col>
             </Row>
