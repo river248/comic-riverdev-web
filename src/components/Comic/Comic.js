@@ -19,7 +19,6 @@ function Comic({ comic }) {
         .catch((error) => console.log(error))
     }, [])
 
-
     return (
         <div className="comic-container">
             <div className="comic-image">
@@ -37,4 +36,4 @@ function Comic({ comic }) {
     )
 }
 
-export default Comic
+export default React.memo(Comic)

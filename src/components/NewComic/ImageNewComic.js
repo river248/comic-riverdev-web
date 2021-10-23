@@ -14,7 +14,9 @@ function ImageNewComic({comicID, number, chap, title}) {
         getDownloadURL(ref(storage, `comics/truyen${number}/thumbnail.jpg`))
         .then((url) => setImage(url))
         .catch((error) => console.log(error))
-    }, [])
+
+        return () => setImage('')
+    }, [comicID, chap])
 
     return (
         <div className="new-comic-image">
@@ -27,4 +29,4 @@ function ImageNewComic({comicID, number, chap, title}) {
     )
 }
 
-export default ImageNewComic
+export default React.memo(ImageNewComic)

@@ -13,6 +13,7 @@ function ImagesComic({comicNumber, chap, image}) {
             .then((url) => setImg(url))
             .catch((error) => console.log(error))
         
+        return () => setImg('')
     }, [chap])
 
     return (
@@ -26,4 +27,4 @@ function ImagesComic({comicNumber, chap, image}) {
     )
 }
 
-export default ImagesComic
+export default React.memo(ImagesComic)
