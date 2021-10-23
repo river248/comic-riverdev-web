@@ -51,6 +51,9 @@ function Pagina() {
                 setPages([...clone])
 
                 switch (location.pathname) {
+                    case '/':
+                        history.push(`/home?page=${query.get('page')*1+1}`)
+                        break
                     case '/home':
                         history.push(`/home?page=${query.get('page')*1+1}`)
                         break
@@ -64,6 +67,9 @@ function Pagina() {
             }
             if(query.get('page')*1 < pages[2]) {
                 switch (location.pathname) {
+                    case '/':
+                        history.push(`/home?page=${query.get('page')*1+1}`)
+                        break
                     case '/home':
                         history.push(`/home?page=${query.get('page')*1+1}`)
                         break
@@ -76,6 +82,9 @@ function Pagina() {
             }
         } else {
             switch (location.pathname) {
+                case '/':
+                    history.push('/home?page=2')
+                    break
                 case '/home':
                     history.push('/home?page=2')
                     break
@@ -99,6 +108,9 @@ function Pagina() {
                 setPages([...clone])
 
                 switch (location.pathname) {
+                    case '/':
+                        history.push(`/home?page=${query.get('page')*1-1}`)
+                        break
                     case '/home':
                         history.push(`/home?page=${query.get('page')*1-1}`)
                         break
@@ -111,6 +123,9 @@ function Pagina() {
             }
             if(query.get('page')*1 <= pages[2] && query.get('page')*1 > pages[0]) {
                 switch (location.pathname) {
+                    case '/':
+                        history.push(`/home?page=${query.get('page')*1-1}`)
+                        break
                     case '/home':
                         history.push(`/home?page=${query.get('page')*1-1}`)
                         break
@@ -130,6 +145,9 @@ function Pagina() {
     const handleThisPage= (value) => {
 
         switch (location.pathname) {
+            case '/':
+                history.push(`/home?page=${value}`)
+                break
             case '/home':
                 history.push(`/home?page=${value}`)
                 break

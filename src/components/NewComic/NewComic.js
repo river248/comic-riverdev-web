@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactTimeAgo from 'react-time-ago'
 import { useHistory } from 'react-router-dom'
-import { fetchNewComics } from 'actions/ApiCall/comicAPI'
+import { fetchNewComics } from 'actions/ApiCall/chapterAPI'
 import ImageNewComic from './ImageNewComic'
 
 import './NewComic.scss'
@@ -23,15 +23,15 @@ function NewComic() {
 
             { comics.map(comic => (
             <div key={comic._id} className="new-comic-container-item">
-                <ImageNewComic comicID={comic._id} number={comic.number} chap={comic.chapter[0].chap} title={comic.title}/>
+                <ImageNewComic comicID={comic.comicID} number={comic.comicInfo.number} chap={comic.chap} title={comic.comicInfo.title}/>
                 <div className="new-comic-info">
                     <div>
-                        <span onClick={() => history.push(`home/detail-comic/${comic._id}`)}>{comic.title}</span>
-                        <span>Tác giả: {comic.author}</span>
-                        <span onClick={() => history.push(`home/reading?comic=${comic._id}&chap=${comic.chapter[0].chap}`)}>Chương {comic.chapter[0].chap}</span>
+                        <span onClick={() => history.push(`home/detail-comic/${comic.comicID}`)}>{comic.comicInfo.title}</span>
+                        <span>Tác giả: {comic.comicInfo.author}</span>
+                        <span onClick={() => history.push(`home/reading?comic=${comic.comicID}&chap=${comic.chap}`)}>Chương {comic.chap}</span>
                     </div>
                     <span className="comic-time-post">
-                        <ReactTimeAgo locale="en-US" date={comic.updateAt}/>
+                        <ReactTimeAgo locale="en-US" date={comic.createAt}/>
                     </span>
                 </div>
             </div>))}
