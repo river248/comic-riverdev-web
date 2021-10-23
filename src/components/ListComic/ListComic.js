@@ -5,13 +5,18 @@ import { useLocation  } from 'react-router-dom'
 import { fetchAllComic, fetchAllComicOfTag } from 'actions/ApiCall/comicAPI'
 
 import './ListComic.scss'
+import useQuery from 'utils/useQuery'
+import { useDispatch } from 'react-redux'
+import { getHeightChange } from 'actions/getHeight'
 
-function ListComic({id}) {
+function ListComic() {
 
     const [comics, setComics] = useState([])
     
-    let query = new URLSearchParams(useLocation().search)
+    let query = useQuery()
     const location = useLocation()
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if(location.pathname === '/home') {
@@ -35,8 +40,27 @@ function ListComic({id}) {
         }
     }, [location.search, query.get('page')])
     
+    useEffect(() => {
+
+        const action = getHeightChange(document.getElementById("category-height").scrollHeight)
+        dispatch(action)
+
+    }, [comics])
+    
+    useEffect(() => {
+
+        const handleResize = () => {
+            const action = getHeightChange(document.getElementById("category-height").scrollHeight)
+            dispatch(action)
+        }
+        window.addEventListener('resize', handleResize)
+
+        return () => window.removeEventListener('resize', handleResize)
+
+    }, [])
+
     return (
-        <div id={id} className="list-comic-container">
+        <div id='category-height' className="list-comic-container">
             { comics.map(comic => (
             <div key={comic._id} className="comic-item">
                 <Comic comic={comic}/>
@@ -45,4 +69,4 @@ function ListComic({id}) {
     )
 }
 
-export default ListComic
+export default React.memo(ListComic)

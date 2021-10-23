@@ -16,13 +16,15 @@ function Categories() {
     }, [])
 
     return (
-        <div className="categories-container">
+        <>
+        {categories.length > 0 && <div className="categories-container">
             { categories.map(category => (
                 <div key={category._id} className="category-container">
                     <Link to={`/category?tag=${category._id}&page=${1}`}>{category.name}</Link>
                 </div> ))}
             <img src={sasuke} alt='sasuke'/>
-        </div>
+        </div>}
+        </>
     )
 }
 

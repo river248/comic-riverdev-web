@@ -17,7 +17,8 @@ function NewComic() {
         })
     }, [])
 
-
+    console.log('new')
+    
     return (
         <div className="new-comic-container">
 

@@ -5,6 +5,7 @@ import { Pagination } from 'react-bootstrap'
 
 import './Pagina.scss'
 import { fetchQuantityPage } from 'actions/ApiCall/comicAPI'
+import useQuery from 'utils/useQuery'
 
 function Pagina() {
 
@@ -13,7 +14,7 @@ function Pagina() {
 
     const location = useLocation()
     const history = useHistory()
-    let query = new URLSearchParams(useLocation().search)
+    let query = useQuery()
 
     useEffect(() => {
         if(location.pathname === '/home' || location.pathname === '/')

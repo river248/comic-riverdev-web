@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { fetchFullChapter, fetchQuantityChapter } from 'actions/ApiCall/chapterAPI'
 import React, { useState, useEffect } from 'react'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { AiOutlineRollback } from 'react-icons/ai'
 import ImagesComic from './ImagesComic'
+import useQuery from 'utils/useQuery'
 
 import './ReadingComic.scss'
 
@@ -13,7 +14,7 @@ function ReadingComic() {
     const [quantity, setQuatity] = useState(0)
     const history = useHistory()
 
-    let query = new URLSearchParams(useLocation().search)
+    let query = useQuery()
 
     useEffect(() => {
         fetchFullChapter(query.get('comic'), query.get('chap')).then(data => {
