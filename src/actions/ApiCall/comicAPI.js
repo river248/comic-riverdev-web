@@ -27,8 +27,3 @@ export const fetchAllComicOfTag = async (tagID, page) => {
     const request = await axios.get(`${API_ROOT}/v1/comics/tag?tagID=${tagID}&page=${page}`)
     return request.data
 }
-
-export const fetchNewComics = async () => {
-    const request = await axios.get(`${API_ROOT}/v1/comics/new-comics`)
-    return request.data
-}

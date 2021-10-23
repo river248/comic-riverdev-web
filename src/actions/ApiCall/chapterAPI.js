@@ -15,3 +15,8 @@ export const fetchQuantityChapter = async (comicID) => {
     const request = await axios.get(`${API_ROOT}/v1/chapters/quantity/${comicID}`)
     return request.data
 }
+
+export const fetchNewComics = async () => {
+    const request = await axios.get(`${API_ROOT}/v1/chapters/new-comics`)
+    return request.data
+}
