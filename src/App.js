@@ -15,6 +15,7 @@ import CategoriesPage from "pages/CategoriesPage/CategoriesPage"
 import ScrollToTop from "utils/ScrollToTop"
 import ReadingPage from "pages/ReadingPage/ReadingPage"
 import './App.scss'
+import Login from "pages/AccountPage/Login"
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
             <Route path='/home/detail-comic/:id' component={DetailPage}/>
             <Route path='/home/reading' component={ReadingPage}/>
             <Route path='/category' component={CategoriesPage}/>
+            <Route path='/login' component={Login}/>
           </Switch>
         </ScrollToTop>
         <ToTop/>
