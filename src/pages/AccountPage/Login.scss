@@ -1,0 +1,240 @@
+@import '_setting.scss';
+
+.login-page-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba($black, $alpha: 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: slideUp 0.8s ease-out;
+
+    .fake-container {
+        position: absolute;
+        width: inherit;
+        height: inherit;
+        z-index: -1;
+    }
+
+    .login-box {
+        width: 350px;
+        height: 400px;
+        border-radius: 15px;
+        box-shadow: 8px 6px 14px $purple;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0;
+        animation: slideDown 0.8s ease-out 0.8s forwards;
+
+        span {
+            font-size: 2rem;
+            font-weight: bold;
+            color: $purple;
+            text-shadow: 0px 0px 6px $purple;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+
+        .user-box {
+            position: relative;
+            width: 100%;
+            width: 300px;
+            z-index: 1;
+            margin: 0 auto;
+
+            input {
+                padding: 10px 0;
+                font-size: 1rem;
+                color: $purple;
+                margin-bottom: 30px;
+                border: none;
+                border-bottom: 1px solid $purple;
+                outline: none;
+                width: inherit;
+                background: transparent;
+
+                &:focus ~ label, &:valid ~ label {
+                    top: -20px;
+                    left: 0;
+                    color: $purple;
+                    font-weight: 600;
+                    font-size: 0.8rem;
+                }
+            }
+
+            label {
+                position: absolute;
+                top:0;
+                left: 0;
+                padding: 10px 0;
+                font-size: 1rem;
+                color: $purple;
+                pointer-events: none;
+                transition: .5s;
+            }
+            
+            svg {
+                color: $purple;
+                position: absolute;
+                right: 10px;
+                top: 15px;
+                font-size: 1.2rem;
+                cursor: pointer;
+            }
+        }
+
+        .login-error {
+            font-size: 1rem;
+        }
+
+        button {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $purple;
+            font-size: 1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 600;
+            overflow: hidden;
+            transition: .5s;
+            margin-top: 40px;
+            width: 100px;
+            height: 40px;
+            outline: none;
+            border: none;
+            cursor: pointer;
+            background-color: transparent;
+
+            &:hover {
+                background: $purple;
+                color: $white;
+                border-radius: 5px;
+                box-shadow: 0 0 5px $purple,
+                            0 0 25px $purple,
+                            0 0 50px $purple,
+                            0 0 100px $purple;
+            }
+
+            span {
+                display: block;
+                position: absolute;
+
+                &:nth-child(1) {
+                    top: -10px;
+                    left: -100%;
+                    width: 100%;
+                    height: 2px;
+                    background: linear-gradient(90deg, transparent, $purple);
+                    animation: btn-anim1 1s linear infinite;
+                }
+
+                &:nth-child(2) {
+                    top: -100%;
+                    right: 0;
+                    width: 2px;
+                    height: 100%;
+                    background: linear-gradient(180deg, transparent, $purple);
+                    animation: btn-anim2 1s linear infinite;
+                    animation-delay: 0.25s
+                }
+
+                &:nth-child(3) {
+                    bottom: -20px;
+                    right: -100%;
+                    width: 100%;
+                    height: 2px;
+                    background: linear-gradient(270deg, transparent, $purple);
+                    animation: btn-anim3 1s linear infinite;
+                    animation-delay: .5s
+                }
+
+                &:nth-child(4) {
+                    bottom: -100%;
+                    left: 0;
+                    width: 2px;
+                    height: 100%;
+                    background: linear-gradient(360deg, transparent, $purple);
+                    animation: btn-anim4 1s linear infinite;
+                    animation-delay: .75s
+                  }
+            }
+        }
+    }
+
+    .image-naruto {
+        width: 300px;
+        position: absolute;
+        left: calc(30% - 300px);
+        opacity: 0;
+        animation: slideLTR 0.8s ease-out 1s forwards;
+    }
+
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(100%); }
+    to { opacity: 1; transform: translateY(0%); }
+}
+
+@keyframes slideDown {
+    from { 
+        opacity: 0;
+        transform: translateY(-100%); }
+    to { 
+        opacity: 1;
+        transform: translateY(0%); }
+}
+
+@keyframes slideLTR {
+    from { 
+        opacity: 0;
+        transform: translateX(-100%); }
+    to { 
+        opacity: 1;
+        transform: translateX(0%); }
+}
+
+@keyframes slideUpDisappear {
+    from {
+        opacity: 1; 
+        transform: translateY(0%);
+    }
+    to { 
+        opacity: 0;
+        transform: translateY(-100%); 
+    }
+}
+
+@keyframes slideDownDisappear {
+    from { opacity: 1; transform: translateY(0%); }
+    to { opacity: 0; transform: translateY(100%); }
+}
+
+@keyframes btn-anim1 {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+}
+
+@keyframes btn-anim2 {
+    0% { top: -100%; }
+    50% { top: 100%; }
+    100% { top: 100%; }
+}
+
+@keyframes btn-anim3 {
+    0% { right: -100%; }
+    50% { right: 100%; }
+    100% { right: 100%; }
+}
+
+@keyframes btn-anim4 {
+    0% { bottom: -100%; }
+    50% { bottom: 100%; }
+    100% { bottom: 100%; }
+}

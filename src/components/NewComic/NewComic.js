@@ -12,12 +12,13 @@ function NewComic() {
     const history = useHistory()
 
     useEffect(() => {
+        let isSubsribed = true
         fetchNewComics().then(data => {
-            setComics(data)
+            if(isSubsribed)
+                setComics(data)
         })
+        return () => isSubsribed = false
     }, [])
-
-    console.log('new')
     
     return (
         <div className="new-comic-container">

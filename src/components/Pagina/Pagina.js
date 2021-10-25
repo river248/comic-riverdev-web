@@ -17,15 +17,21 @@ function Pagina() {
     let query = useQuery()
 
     useEffect(() => {
+        let isSubsribed = true
         if(location.pathname === '/home' || location.pathname === '/')
             fetchQuantityPage('').then(quantity => {
-                setQuantityPage(quantity)
+                if(isSubsribed)
+                    setQuantityPage(quantity)
             })
         if(location.pathname === '/category') {
             fetchQuantityPage(query.get('tag')).then(quantity => {
-                setQuantityPage(quantity)   
+                if(isSubsribed)
+                    setQuantityPage(quantity)   
             })
         }
+        
+        return () => isSubsribed = false
+        
     }, [location.search, location.pathname])
 
     useEffect(() => {

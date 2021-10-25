@@ -10,9 +10,14 @@ function Categories() {
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
+        let isSubsribed = true
+
         fetchAllTag().then(categories => {
-            setCategories(categories)
+            if(isSubsribed)
+                setCategories(categories)
         })
+
+        return () => isSubsribed = false
     }, [])
 
     return (

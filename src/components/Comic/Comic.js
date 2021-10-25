@@ -17,7 +17,9 @@ function Comic({ comic }) {
         getDownloadURL(ref(storage, `comics/${comic.thumbnail}`))
         .then((url) => setImage(url))
         .catch((error) => console.log(error))
-    }, [])
+
+        return () => setImage('')
+    }, [comic])
 
     return (
         <div className="comic-container">

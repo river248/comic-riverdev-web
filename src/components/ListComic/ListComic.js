@@ -19,25 +19,49 @@ function ListComic() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if(location.pathname === '/home') {
-            if(query.get('page') !== null)
-                fetchAllComic(query.get('page')).then(comics => {
-                    setComics(comics)
+        let isSubsribed = true
+        switch (location.pathname) {
+            case '/':
+                if(query.get('page') !== null)
+                    fetchAllComic(query.get('page')).then(comics => {
+                        if(isSubsribed)
+                            setComics(comics)
+                    })
+                else
+                    fetchAllComic(1).then(comics => {
+                        if(isSubsribed)
+                            setComics(comics)
+                    })
+                break
+            case '/home':
+                if(query.get('page') !== null)
+                    fetchAllComic(query.get('page')).then(comics => {
+                        if(isSubsribed)
+                            setComics(comics)
+                    })
+                else
+                    fetchAllComic(1).then(comics => {
+                        if(isSubsribed)
+                            setComics(comics)
+                    })
+                break
+            case '/category':
+                if(query.get('page') !== null)
+                fetchAllComicOfTag(query.get('tag'), query.get('page')).then(comics => {
+                    if(isSubsribed)
+                        setComics(comics)
                 })
-            else
-                fetchAllComic(1).then(comics => {
-                    setComics(comics)
-                })
-        } else {
-            if(query.get('page') !== null)
-            fetchAllComicOfTag(query.get('tag'), query.get('page')).then(comics => {
-                setComics(comics)
-            })
-            else
-                fetchAllComicOfTag('616af71268f59ad44354b30f', 1).then(comics => {
-                    setComics(comics)
-                })
+                else
+                    fetchAllComicOfTag('616af71268f59ad44354b30f', 1).then(comics => {
+                        if(isSubsribed)
+                            setComics(comics)
+                    })
+                break
+            default:
+                break
         }
+        return () => isSubsribed = false
+
     }, [location.search, query.get('page')])
     
     useEffect(() => {
