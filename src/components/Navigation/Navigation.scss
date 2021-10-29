@@ -18,6 +18,7 @@
             display: flex;
             align-items: center;
             padding: 0 20px;
+            cursor: pointer;
             &:hover {
                 background-color: darken($yellow, $amount: 5);
             }
@@ -33,6 +34,12 @@
                 font-size: 1.1rem;
                 color: $black;
                 font-weight: bold;
+            }
+
+            img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
             }
         }
     }
@@ -50,6 +57,17 @@
 
         &:hover {
             background-color: darken($yellow, $amount: 5);
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .navigation-container {
+        .navigation-left-container, .navigation-right-container {
+            .navbar-item {
+                svg {margin: 0;}
+                span { display: none;}
+            }
         }
     }
 }

@@ -8,14 +8,14 @@ function Comments() {
         <div className="comments-container">
             <img src="https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg" alt="avatar"/>
             <div className="comment">
-                Dcmm
+                Hello
             </div>
         </div>
 
         <div className="comments-container">
             <img src="https://vnn-imgs-a1.vgcloud.vn/image1.ictnews.vn/_Files/2020/03/17/trend-avatar-1.jpg" alt="avatar"/>
             <div className="comment">
-                Dcmm
+                Hello
             </div>
         </div>
         </>
