@@ -1,14 +1,20 @@
 import React, { useState, useRef } from 'react'
-import { useHistory } from 'react-router'
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
+import { useHistory } from 'react-router-dom'
 import naruto from 'resources/naruto.png'
 
 import './Login.scss'
+import { fetchGoogleLogin, fetchLogin } from 'actions/ApiCall/userAPI'
+import { setUserSession } from 'utils/common'
+import { Spinner } from 'react-bootstrap'
+import GoogleLogin from 'react-google-login'
+
 function Login(props) {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const emailInputRef = useRef(null)
     const loginContainerRef = useRef(null)
@@ -18,19 +24,32 @@ function Login(props) {
     const history = useHistory()
 
     const handleSubmit = () => {
-        if(email === '' || password === '') {
-            setError({status: true, message: 'Please fill in this form!'})
-        } else
-            if (password.length < 8) setError({status: true, message: 'Pasword must least 8 characters!'})
-            else {
 
-                loginBoxRef.current.style.setProperty('animation', 'slideUpDisappear 0.5s ease-in forwards')
-                loginContainerRef.current.style.setProperty('animation', 'slideDownDisappear 0.5s ease-in 0.5s forwards')
-                setTimeout(() => {
-                    props.history.push('/home')
-                }, 1400)
+        const data = {email: email, password: password}
+        setLoading(true)
+        fetchLogin(data).then(response => {
 
-            }
+            setUserSession(response.accessToken, response.refreshToken)
+            loginBoxRef.current.style.setProperty('animation', 'slideUpDisappear 0.5s ease-in forwards')
+            loginContainerRef.current.style.setProperty('animation', 'slideDownDisappear 0.5s ease-in 0.5s forwards')
+            setTimeout(() => {
+                props.history.push('/')
+                // window.location.reload()
+            }, 1500)
+            setLoading(false)
+        }).catch(error => {
+            setLoading(false)
+            if(error.response.status === 401 || error.response.status === 400)
+                setError({
+                    status: true,
+                    message: error.response.data.message
+                })
+            else
+                setError({
+                    status: true,
+                    message: 'Something went wrong. Please try again later.'
+                })
+        })
 
     }
 
@@ -39,7 +58,40 @@ function Login(props) {
         loginContainerRef.current.style.setProperty('animation', 'slideDownDisappear 0.5s ease-in 0.5s forwards')
         setTimeout(() => {
             history.goBack()
-        }, 1000)
+        }, 1500)
+    }
+
+    const handleSuccessGoogleLogin = (res) => {
+        const tokenId = res.tokenId
+        const data = {tokenId: tokenId}
+        setLoading(true)
+        fetchGoogleLogin(data).then(response => {
+
+            setUserSession(response.accessToken, response.refreshToken)
+            loginBoxRef.current.style.setProperty('animation', 'slideUpDisappear 0.5s ease-in forwards')
+            loginContainerRef.current.style.setProperty('animation', 'slideDownDisappear 0.5s ease-in 0.5s forwards')
+            setTimeout(() => {
+                props.history.push('/')
+            }, 1500)
+            setLoading(false)
+        }).catch(error => {
+            setLoading(false)
+            if(error.response.status === 401 || error.response.status === 400)
+                setError({
+                    status: true,
+                    message: error.response.data.message
+                })
+            else
+                setError({
+                    status: true,
+                    message: 'Something went wrong. Please try again later.'
+                })
+        })
+
+    }
+
+    const handleFailureGoogleLogin = () => {
+        alert("Some errors were occur when login")
     }
 
     return (
@@ -49,23 +101,30 @@ function Login(props) {
             <div className="login-box" ref={loginBoxRef}>
                 <span>Login</span>
                 <div className="user-box">
-                    <input type="email" ref={emailInputRef} value={email} onChange={e => setEmail(e.target.value)}/>
+                    <input type="email" ref={emailInputRef} value={email} onChange={e => setEmail(e.target.value)} required/>
                     <label>Username</label>
                 </div>
                 <div className="user-box">
-                    <input type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)}/>
+                    <input type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} required/>
                     <label>Password</label>
                     { (!showPassword && password) && <BsFillEyeFill onClick={() => setShowPassword(true)}/> }
                     { showPassword && <BsFillEyeSlashFill onClick={() => setShowPassword(false)}/>}
                 </div>
                 { error.status && <span className="login-error">{error.message}</span> }
-                <button onClick={handleSubmit}>
+                { !loading && <button className="login-btn" onClick={handleSubmit}>
                     <span/>
                     <span/>
                     <span/>
                     <span/>
                     Login
-                </button>
+                </button> }
+                <GoogleLogin
+                    clientId='630055118244-ct9llftpn800j7g70nlprjibbe2ea0la.apps.googleusercontent.com'
+                    onSuccess={handleSuccessGoogleLogin}
+                    onFailure={handleFailureGoogleLogin}
+                    cookiePolicy={'single_host_origin'}
+                    className="google-login-btn"/>
+                { loading && <Spinner animation="border" variant="warning"/>}
             </div>
         </div>
     )

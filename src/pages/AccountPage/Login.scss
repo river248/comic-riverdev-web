@@ -10,6 +10,7 @@
     align-items: center;
     justify-content: center;
     animation: slideUp 0.8s ease-out;
+    z-index: 10;
 
     .fake-container {
         position: absolute;
@@ -28,6 +29,8 @@
         align-items: center;
         opacity: 0;
         animation: slideDown 0.8s ease-out 0.8s forwards;
+        position: relative;
+        padding-top: 40px;
 
         span {
             font-size: 2rem;
@@ -90,7 +93,7 @@
             font-size: 1rem;
         }
 
-        button {
+        .login-btn {
             position: relative;
             display: flex;
             align-items: center;
@@ -164,6 +167,27 @@
                   }
             }
         }
+
+        .google-login-btn {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            justify-content: center;
+            background-color: transparent !important;
+            box-shadow: 0 0 6px $purple !important;
+            border-radius: 8px !important;
+            top: -25px;
+            right: 30px;
+            
+            div {
+                margin: 0 !important;
+                background-color: transparent !important;
+            }
+
+            span { display: none;}
+        }
+
+        .spinner-border { color: $purple;}
     }
 
     .image-naruto {

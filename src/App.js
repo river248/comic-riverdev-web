@@ -1,28 +1,32 @@
-import React from "react"
+import React from 'react'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-} from "react-router-dom"
+} from 'react-router-dom'
 
-import Header from "components/Header/Header"
-import Navigation from "components/Navigation/Navigation"
-import HomePage from "pages/HomePage/HomePage"
-import ToTop from "components/ToTop/ToTop"
-import Footer from "components/Footer/Footer"
-import DetailPage from "pages/DetailPage/DetailPage"
-import CategoriesPage from "pages/CategoriesPage/CategoriesPage"
-import ScrollToTop from "utils/ScrollToTop"
-import ReadingPage from "pages/ReadingPage/ReadingPage"
+import Header from 'components/Header/Header'
+import Navigation from 'components/Navigation/Navigation'
+import HomePage from 'pages/HomePage/HomePage'
+import ToTop from 'components/ToTop/ToTop'
+import Footer from 'components/Footer/Footer'
+import DetailPage from 'pages/DetailPage/DetailPage'
+import CategoriesPage from 'pages/CategoriesPage/CategoriesPage'
+import ScrollToTop from 'utils/ScrollToTop'
+import ReadingPage from 'pages/ReadingPage/ReadingPage'
+import Login from 'pages/AccountPage/Login'
+import NotFound from 'pages/NotFound/NotFound'
 import './App.scss'
-import Login from "pages/AccountPage/Login"
+import UserPage from 'pages/UserPage/UserPage'
+import PrivateRoute from 'utils/PrivateRoute'
+import PublicRoute from 'utils/PublicRoute'
 
 function App() {
 
   return (
     <Router>
       
-    <div className="app">
+    <div className='app'>
         <Header/>
         <Navigation/>
         <ScrollToTop>
@@ -32,7 +36,9 @@ function App() {
             <Route path='/home/detail-comic/:id' component={DetailPage}/>
             <Route path='/home/reading' component={ReadingPage}/>
             <Route path='/category' component={CategoriesPage}/>
-            <Route path='/login' component={Login}/>
+            <PrivateRoute path='/user' component={UserPage}/>
+            <PublicRoute path='/login' component={Login}/>
+            <Route exact component={NotFound}/>
           </Switch>
         </ScrollToTop>
         <ToTop/>

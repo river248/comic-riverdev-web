@@ -1,14 +1,38 @@
-import React from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { AiFillHome } from 'react-icons/ai'
 import { MdEmail, MdCategory } from 'react-icons/md'
 import { FaUserCircle } from 'react-icons/fa'
-
+import { RiHistoryFill } from 'react-icons/ri'
+import { useDispatch } from 'react-redux'
 import './Navigation.scss'
+import { getToken } from 'utils/common'
+import { login } from 'actions/login'
+import { fetchFullUser } from 'actions/ApiCall/userAPI'
+import jwtDecode from 'jwt-decode'
 
 function Navigation() {
 
     const location = useLocation()
+    const dispatch = useDispatch()
+    const [avatar, setAvatar] = useState(null)
+    const token = getToken()
+    
+    const handleShowLogin = () => {
+        const action = login(true)
+        dispatch(action)
+    }
+
+    useEffect(() => {
+
+        if(token !== null) {
+            const userData = jwtDecode(token)
+            fetchFullUser(userData.data._id, token).then(userInfo => {
+                setAvatar(userInfo.avatar)
+            })
+        }
+    }, [token])
 
     return (
         <div className="navigation-container">
@@ -32,10 +56,17 @@ function Navigation() {
                 </NavLink>
             </div>
             <div className="navigation-right-container">
-                <Link to="/login" className="navbar-item">
+                {getToken() && <NavLink to='/history' activeClassName="navbar-active" className="navbar-item">
+                    <RiHistoryFill/>
+                    <span>Lịch sử</span>
+                </NavLink>}
+                {!getToken() && <Link to='/login' className="navbar-item" onClick={handleShowLogin}>
                         <FaUserCircle/>
                         <span>Tài khoản</span>
-                </Link>
+                </Link>}
+                {getToken() && <Link to="/user" className="navbar-item">
+                        <img src={avatar} alt='avatar'/>
+                </Link>}
             </div>
         </div>
     )

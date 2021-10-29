@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import Comic from 'components/Comic/Comic'
 import { useLocation  } from 'react-router-dom'
 import { fetchAllComic, fetchAllComicOfTag } from 'actions/ApiCall/comicAPI'
@@ -64,7 +64,7 @@ function ListComic() {
 
     }, [location.search, query.get('page')])
     
-    useEffect(() => {
+    useLayoutEffect(() => {
 
         const action = getHeightChange(document.getElementById("category-height").scrollHeight)
         dispatch(action)
