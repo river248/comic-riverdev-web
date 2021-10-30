@@ -11,9 +11,10 @@ function ImageNewComic({comicID, number, chap, title}) {
     const history = useHistory()
     
     useEffect(() => {
-        getDownloadURL(ref(storage, `comics/truyen${number}/thumbnail.jpg`))
-        .then((url) => setImage(url))
-        .catch((error) => console.log(error))
+        if(number)
+            getDownloadURL(ref(storage, `comics/truyen${number}/thumbnail.jpg`))
+            .then((url) => setImage(url))
+            .catch((error) => console.log(error))
 
         return () => setImage('')
     }, [comicID, chap])

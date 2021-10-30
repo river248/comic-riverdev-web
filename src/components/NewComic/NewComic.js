@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react'
 import ReactTimeAgo from 'react-time-ago'
 import { useHistory } from 'react-router-dom'
-import { fetchNewComics } from 'actions/ApiCall/chapterAPI'
 import ImageNewComic from './ImageNewComic'
 
 import './NewComic.scss'
+import { useDispatch, useSelector } from 'react-redux'
+import { actFetchNewComics } from 'actions/comicAction'
 
 function NewComic() {
 
-    const [comics, setComics] = useState([])
+    const comics = useSelector(state => state.comic.newComics)
     const history = useHistory()
-
+    const dispatch = useDispatch()
     useEffect(() => {
-        let isSubsribed = true
-        fetchNewComics().then(data => {
-            if(isSubsribed)
-                setComics(data)
-        })
-        return () => isSubsribed = false
+        dispatch(actFetchNewComics())
     }, [])
     
     return (
@@ -25,7 +22,12 @@ function NewComic() {
 
             { comics.map(comic => (
             <div key={comic._id} className="new-comic-container-item">
-                <ImageNewComic comicID={comic.comicID} number={comic.comicInfo.number} chap={comic.chap} title={comic.comicInfo.title}/>
+                <ImageNewComic
+                    comicID={comic.comicID}
+                    number={comic.comicInfo.number}
+                    chap={comic.chap}
+                    title={comic.comicInfo.title}
+                />
                 <div className="new-comic-info">
                     <div>
                         <span onClick={() => history.push(`home/detail-comic/${comic.comicID}`)}>{comic.comicInfo.title}</span>
@@ -42,4 +44,4 @@ function NewComic() {
     )
 }
 
-export default NewComic
+export default React.memo(NewComic)

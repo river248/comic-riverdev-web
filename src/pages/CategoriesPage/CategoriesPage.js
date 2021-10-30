@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import ListComic from 'components/ListComic/ListComic'
 import { GiStarSwirl } from 'react-icons/gi'
 import { Col, Container, Row } from 'react-bootstrap'
@@ -8,21 +8,22 @@ import naruto from 'resources/naruto.png'
 import './CategoriesPage.scss'
 import Categories from 'components/Categories/Categories'
 import Pagina from 'components/Pagina/Pagina'
-import { fetchDetailTag } from 'actions/ApiCall/tagAPI'
 import useQuery from 'utils/useQuery'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { actFetchDetailTag } from 'actions/comicAction'
 
 function CategoriesPage() {
 
-    const [tagName, setTagName] = useState({name: 'Ngôn tình'})
+    const tagName = useSelector(state => state.comic.tag)
     const heightComponent = useSelector(state => state.getHeight)
+
+    const dispatch = useDispatch()
+
     let query = useQuery()
 
     useEffect(() => {
         if(query.get('tag') !== null)
-            fetchDetailTag(query.get('tag')).then(tag => {
-                setTagName(tag)
-            })
+            dispatch(actFetchDetailTag(query.get('tag')))
     }, [query.get('tag')])
 
     return (

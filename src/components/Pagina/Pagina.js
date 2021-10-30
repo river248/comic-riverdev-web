@@ -4,33 +4,27 @@ import { useLocation, useHistory } from 'react-router-dom'
 import { Pagination } from 'react-bootstrap'
 
 import './Pagina.scss'
-import { fetchQuantityPage } from 'actions/ApiCall/comicAPI'
 import useQuery from 'utils/useQuery'
+import { useDispatch, useSelector } from 'react-redux'
+import { actFetchQuantityPage } from 'actions/comicAction'
 
 function Pagina() {
 
-    const [quantityPage, setQuantityPage] = useState(0)
+    const quantityPage = useSelector(state => state.comic.quantityPage)
     const [pages, setPages] = useState([])
 
     const location = useLocation()
     const history = useHistory()
+    const dispatch = useDispatch()
     let query = useQuery()
 
     useEffect(() => {
-        let isSubsribed = true
+
         if(location.pathname === '/home' || location.pathname === '/')
-            fetchQuantityPage('').then(quantity => {
-                if(isSubsribed)
-                    setQuantityPage(quantity)
-            })
+            dispatch(actFetchQuantityPage(''))
         if(location.pathname === '/category') {
-            fetchQuantityPage(query.get('tag')).then(quantity => {
-                if(isSubsribed)
-                    setQuantityPage(quantity)   
-            })
+            dispatch(actFetchQuantityPage(query.get('tag')))
         }
-        
-        return () => isSubsribed = false
         
     }, [location.search, location.pathname])
 

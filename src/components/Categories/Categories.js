@@ -1,23 +1,19 @@
-import React, { useEffect, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react'
 import sasuke from 'resources/sasuke.png'
-import { fetchAllTag } from 'actions/ApiCall/tagAPI'
 import { Link } from 'react-router-dom'
 
 import './Categories.scss'
+import { useDispatch, useSelector } from 'react-redux'
+import { actFetchAllTag } from 'actions/comicAction'
 
 function Categories() {
 
-    const [categories, setCategories] = useState([])
+    const categories = useSelector(state => state.comic.tags)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        let isSubsribed = true
-
-        fetchAllTag().then(categories => {
-            if(isSubsribed)
-                setCategories(categories)
-        })
-
-        return () => isSubsribed = false
+        dispatch(actFetchAllTag())
     }, [])
 
     return (

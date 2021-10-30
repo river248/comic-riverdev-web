@@ -13,12 +13,9 @@ export const fetchGoogleLogin = async (data) => {
     return request.data
 }
 
-export const fetchFullUser = async (id, token) => {
-    const request = await axios.get(`${API_ROOT}/v1/user/${id}`, {
+export const fetchFullUser = async (id, token) => await axios.get(`${API_ROOT}/v1/user/${id}`, {
         headers: {'x-access-token': token}
     })
-    return request.data
-}
 
 export const fetchLogout = async () => {
     const request = await axios.get(`${API_ROOT}/v1/user/logout`)

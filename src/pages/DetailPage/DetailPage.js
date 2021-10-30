@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import DetailComic from 'components/DetailComic/DetailComic'
 import ListChapter from 'components/ListChapter/ListChapter'
 import Comments from 'components/Comments/Comments'
@@ -7,19 +7,21 @@ import PostComment from 'components/PostComment/PostComment'
 import { Container, Row } from 'react-bootstrap'
 import { GiStarFormation } from 'react-icons/gi'
 import { FaComments } from 'react-icons/fa'
-import { fetchDetailComic } from 'actions/ApiCall/comicAPI'
 import { useParams } from 'react-router-dom'
 import './DetailPage.scss'
+import { useDispatch, useSelector } from 'react-redux'
+import { actFetchDetailComic } from 'actions/comicAction'
 
 function DetailPage() {
 
-    const [comic, setComic] = useState({})
+    const comic = useSelector(state => state.comic.comic)
+
+    const dispatch = useDispatch()
+
     let { id } = useParams()
 
     useEffect(() => {
-        fetchDetailComic(id).then(comic => {
-            setComic(comic)
-        })
+        dispatch(actFetchDetailComic(id))
     }, [])
 
     return (

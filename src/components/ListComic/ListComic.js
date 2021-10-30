@@ -1,17 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import Comic from 'components/Comic/Comic'
 import { useLocation  } from 'react-router-dom'
-import { fetchAllComic, fetchAllComicOfTag } from 'actions/ApiCall/comicAPI'
 
 import './ListComic.scss'
 import useQuery from 'utils/useQuery'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getHeightChange } from 'actions/getHeight'
+import { actFetchAllComic, actFetchAllComicOfTag, clearComics } from 'actions/comicAction'
 
 function ListComic() {
 
-    const [comics, setComics] = useState([])
+    const comics = useSelector(state => state.comic.comics)
     
     let query = useQuery()
     const location = useLocation()
@@ -19,50 +19,31 @@ function ListComic() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        let isSubsribed = true
         switch (location.pathname) {
             case '/':
                 if(query.get('page') !== null)
-                    fetchAllComic(query.get('page')).then(comics => {
-                        if(isSubsribed)
-                            setComics(comics)
-                    })
+                    dispatch(actFetchAllComic(query.get('page')))
                 else
-                    fetchAllComic(1).then(comics => {
-                        if(isSubsribed)
-                            setComics(comics)
-                    })
+                    dispatch(actFetchAllComic(1))
                 break
             case '/home':
                 if(query.get('page') !== null)
-                    fetchAllComic(query.get('page')).then(comics => {
-                        if(isSubsribed)
-                            setComics(comics)
-                    })
+                    dispatch(actFetchAllComic(query.get('page')))
                 else
-                    fetchAllComic(1).then(comics => {
-                        if(isSubsribed)
-                            setComics(comics)
-                    })
+                    dispatch(actFetchAllComic(1))
                 break
             case '/category':
                 if(query.get('page') !== null)
-                fetchAllComicOfTag(query.get('tag'), query.get('page')).then(comics => {
-                    if(isSubsribed)
-                        setComics(comics)
-                })
+                    dispatch(actFetchAllComicOfTag(query.get('tag'), query.get('page')))
                 else
-                    fetchAllComicOfTag('616af71268f59ad44354b30f', 1).then(comics => {
-                        if(isSubsribed)
-                            setComics(comics)
-                    })
+                    dispatch(actFetchAllComicOfTag('616af71268f59ad44354b30f', 1))
                 break
             default:
                 break
         }
-        return () => isSubsribed = false
 
-    }, [location.search, query.get('page')])
+        return () => dispatch(clearComics([]))
+    }, [location.search])
     
     useLayoutEffect(() => {
 
