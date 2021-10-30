@@ -6,7 +6,7 @@ import { Pagination } from 'react-bootstrap'
 import './Pagina.scss'
 import useQuery from 'utils/useQuery'
 import { useDispatch, useSelector } from 'react-redux'
-import { actFetchQuantityPage } from 'actions/comicAction'
+import { actFetchQuantityPage, getQuantityPage } from 'actions/comicAction'
 
 function Pagina() {
 
@@ -26,6 +26,7 @@ function Pagina() {
             dispatch(actFetchQuantityPage(query.get('tag')))
         }
         
+        return () => dispatch(getQuantityPage(0))
     }, [location.search, location.pathname])
 
     useEffect(() => {

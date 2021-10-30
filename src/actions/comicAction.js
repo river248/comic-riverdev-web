@@ -8,6 +8,7 @@ import {
     GET_NEW_COMICS,
     GET_QUANTITY_CHAPTER,
     GET_QUANTITY_PAGE,
+    GET_TAG,
     GET_TAGS
 } from "utils/constants"
 
@@ -174,7 +175,7 @@ export const actFetchDetailTag = (id) => {
 
 export const getDetailTag = (tags) => {
     return {
-        type: GET_TAGS,
+        type: GET_TAG,
         payload: tags
     }
 }
