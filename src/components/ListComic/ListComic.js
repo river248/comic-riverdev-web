@@ -8,6 +8,7 @@ import useQuery from 'utils/useQuery'
 import { useDispatch, useSelector } from 'react-redux'
 import { getHeightChange } from 'actions/getHeight'
 import { actFetchAllComic, actFetchAllComicOfTag, clearComics } from 'actions/comicAction'
+import { loadingComic } from 'actions/loading'
 
 function ListComic() {
 
@@ -21,22 +22,34 @@ function ListComic() {
     useEffect(() => {
         switch (location.pathname) {
             case '/':
-                if(query.get('page') !== null)
+                if(query.get('page') !== null) {
+                    dispatch(loadingComic(true))
                     dispatch(actFetchAllComic(query.get('page')))
-                else
+                }
+                else {
+                    dispatch(loadingComic(true))
                     dispatch(actFetchAllComic(1))
+                }
                 break
             case '/home':
-                if(query.get('page') !== null)
+                if(query.get('page') !== null) {
+                    dispatch(loadingComic(true))
                     dispatch(actFetchAllComic(query.get('page')))
-                else
+                }
+                else {
+                    dispatch(loadingComic(true))
                     dispatch(actFetchAllComic(1))
+                }
                 break
             case '/category':
-                if(query.get('page') !== null)
+                if(query.get('page') !== null) {
+                    dispatch(loadingComic(true))
                     dispatch(actFetchAllComicOfTag(query.get('tag'), query.get('page')))
-                else
+                }
+                else {
+                    dispatch(loadingComic(true))
                     dispatch(actFetchAllComicOfTag('616af71268f59ad44354b30f', 1))
+                }
                 break
             default:
                 break

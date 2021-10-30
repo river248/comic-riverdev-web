@@ -7,15 +7,21 @@ import { useHistory } from 'react-router-dom'
 import { ref, getDownloadURL } from 'firebase/storage'
 
 import './Comic.scss'
+import { useDispatch } from 'react-redux'
+import { loadingComic } from 'actions/loading'
 
 function Comic({ comic }) {
 
     const [image, setImage] = useState('')
+    const dispatch = useDispatch()
     const history = useHistory()
 
     useEffect(() => {
         getDownloadURL(ref(storage, `comics/${comic.thumbnail}`))
-        .then((url) => setImage(url))
+        .then(url => {
+            setImage(url)
+            dispatch(loadingComic(false))
+        })
         .catch((error) => console.log(error))
 
         return () => setImage('')

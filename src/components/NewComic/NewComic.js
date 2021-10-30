@@ -7,6 +7,7 @@ import ImageNewComic from './ImageNewComic'
 import './NewComic.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { actFetchNewComics } from 'actions/comicAction'
+import { loadingNewComic } from 'actions/loading'
 
 function NewComic() {
 
@@ -14,6 +15,7 @@ function NewComic() {
     const history = useHistory()
     const dispatch = useDispatch()
     useEffect(() => {
+        dispatch(loadingNewComic(true))
         dispatch(actFetchNewComics())
     }, [])
     
