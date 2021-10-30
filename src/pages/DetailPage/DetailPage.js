@@ -10,7 +10,8 @@ import { FaComments } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
 import './DetailPage.scss'
 import { useDispatch, useSelector } from 'react-redux'
-import { actFetchDetailComic } from 'actions/comicAction'
+import { actFetchDetailComic, clearDetailComic } from 'actions/comicAction'
+import { loadingChapter, loadingComic } from 'actions/loading'
 
 function DetailPage() {
 
@@ -21,7 +22,12 @@ function DetailPage() {
     let { id } = useParams()
 
     useEffect(() => {
+        dispatch(loadingComic(true))
+        dispatch(loadingChapter(true))
         dispatch(actFetchDetailComic(id))
+
+        return () => dispatch(clearDetailComic())
+
     }, [])
 
     return (
@@ -43,4 +49,4 @@ function DetailPage() {
     )
 }
 
-export default DetailPage
+export default React.memo(DetailPage)

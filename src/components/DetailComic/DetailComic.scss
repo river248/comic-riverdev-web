@@ -57,6 +57,29 @@
             }
         }
 
+        .detail-comic-tag {
+            display: flex;
+            color: $purple;
+            font-weight: 600;
+
+            .detail-comic-tag-item {
+                padding: 10px 20px;
+                border: 2px solid $purple;
+                border-radius: 8px;
+                cursor: pointer;
+                
+                &:not(:last-child) {
+                    margin-right: 10px;
+                }
+
+                &:hover {
+                    background-color: $purple;
+                    box-shadow: 0 0 25px $purple;
+                    color: $white;
+                }
+            }
+        }
+
         .detail-comic-actions {
             width: 400px;
             display: flex;

@@ -1,5 +1,5 @@
 import {
-    CLEAR_COMICS, GET_CHAPTER, GET_CHAPTERS, GET_COMIC,
+    CLEAR_COMICS, CLEAR_DETAIL_COMIC, GET_CHAPTER, GET_CHAPTERS, GET_COMIC,
     GET_COMICS,
     GET_COMICS_OF_TAG,
     GET_NEW_COMICS,
@@ -12,7 +12,7 @@ import {
 const initialState = {
     comics: [],
     newComics: [],
-    comic: {},
+    comic: { tags: []},
     chapters: [],
     chapter: {_id: '', title: '', chap: 0, number: 0, image: []},
     tags: [],
@@ -45,6 +45,8 @@ const comicReducer = (state = initialState, action) => {
             return { ...state, tags: action.payload }
         case GET_TAG:
             return { ...state, tag: action.payload }
+        case CLEAR_DETAIL_COMIC:
+            return { ...state, comic: {thumbnail: undefined, tags: []} }
         default:
             return state
     }

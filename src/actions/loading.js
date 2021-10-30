@@ -1,4 +1,4 @@
-import { LOADING_COMIC, LOADING_NEW_COMIC } from "utils/constants"
+import { LOADING_CHAPTER, LOADING_COMIC, LOADING_NEW_COMIC } from "utils/constants"
 
 export const loadingComic = (status) => {
     return {
@@ -10,6 +10,13 @@ export const loadingComic = (status) => {
 export const loadingNewComic = (status) => {
     return {
         type: LOADING_NEW_COMIC,
+        payload: status
+    }
+}
+
+export const loadingChapter = (status) => {
+    return {
+        type: LOADING_CHAPTER,
         payload: status
     }
 }
