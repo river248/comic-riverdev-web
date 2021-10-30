@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom'
 import { convertDate } from 'utils/convertDate'
 
 import './ListChapter.scss'
+import { loadingChapter } from 'actions/loading'
 
 function ListChapter({ comic }) {
 
@@ -15,6 +16,7 @@ function ListChapter({ comic }) {
 
     useEffect(() => {
         dispatch(actFetchAllChapterOfComic(comic._id))
+        dispatch(loadingChapter(false))
     }, [comic])
     
     return (

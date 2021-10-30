@@ -9,18 +9,25 @@ import { ref, getDownloadURL } from 'firebase/storage'
 import { useHistory } from 'react-router-dom'
 
 import './DetailComic.scss'
+import { useDispatch } from 'react-redux'
+import { loadingComic } from 'actions/loading'
 
 function DetailComic({ comic }) {
     
     const [image, setImage] = useState('')
+    const dispatch = useDispatch()
     const history = useHistory()
 
     useEffect(() => {
         if(comic.thumbnail !== undefined) {
             getDownloadURL(ref(storage, `comics/${comic.thumbnail}`))
-            .then((url) => setImage(url))
+            .then(url => {
+                setImage(url)
+                dispatch(loadingComic(false))
+            })
             .catch((error) => console.log(error))
         }
+
     }, [comic])
 
     return (
@@ -46,9 +53,12 @@ function DetailComic({ comic }) {
                     <span><FaEye/> 387,465</span>
                 </div>
                 <div className="detail-comic-tag">
-                    <div className="detail-comic-tag-item">
-                        Action
-                    </div>
+                    { comic.tags.map(tag => (
+                        <div key={tag._id} className="detail-comic-tag-item" onClick={() => history.push(`/category?tag=${tag._id}&page=1`)}>
+                            {tag.name}
+                        </div>
+                    )) }
+
                 </div>
                 <div className="detail-comic-actions">
                     <button onClick={() => history.push(`/home/reading?comic=${comic._id}&chap=1`)}><GiOpenBook/>Đọc từ đầu</button>
@@ -60,4 +70,4 @@ function DetailComic({ comic }) {
     )
 }
 
-export default DetailComic
+export default React.memo(DetailComic)

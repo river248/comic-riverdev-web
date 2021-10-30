@@ -8,6 +8,7 @@ import useQuery from 'utils/useQuery'
 import './ReadingComic.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { actFetchFullChapter, actFetchQuantityChapter } from 'actions/comicAction'
+import { loadingChapter } from 'actions/loading'
 
 function ReadingComic() {
 
@@ -20,6 +21,7 @@ function ReadingComic() {
     let query = useQuery()
 
     useEffect(() => {
+        dispatch(loadingChapter(true))
         dispatch(actFetchFullChapter(query.get('comic'), query.get('chap')))
         dispatch(actFetchQuantityChapter(query.get('comic')))
     }, [query.get('chap')])

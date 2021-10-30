@@ -45,7 +45,7 @@ function App() {
             <Route exact component={NotFound}/>
           </Switch>
         </ScrollToTop>
-        {(loading.comicLoading || loading.newComicLoading) && <Loading/>}
+        {(loading.comicLoading || loading.newComicLoading || loading.chapterLoading) && <Loading/>}
         <ToTop/>
         <Footer/>
     </div>

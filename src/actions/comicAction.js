@@ -1,5 +1,6 @@
 import {
     CLEAR_COMICS,
+    CLEAR_DETAIL_COMIC,
     GET_CHAPTER,
     GET_CHAPTERS,
     GET_COMIC,
@@ -185,5 +186,11 @@ export const clearComics = (comics) => {
     return {
         type: CLEAR_COMICS,
         payload: comics
+    }
+}
+
+export const clearDetailComic = () => {
+    return {
+        type: CLEAR_DETAIL_COMIC,
     }
 }

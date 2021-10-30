@@ -1,8 +1,9 @@
-import { LOADING_COMIC, LOADING_NEW_COMIC } from 'utils/constants'
+import { LOADING_CHAPTER, LOADING_COMIC, LOADING_NEW_COMIC } from 'utils/constants'
 
 const initialState = {
     comicLoading: false,
-    newComicLoading: false
+    newComicLoading: false,
+    chapterLoading: false
 }
 
 const loadingReducer = (state = initialState, action) => {
@@ -11,6 +12,8 @@ const loadingReducer = (state = initialState, action) => {
             return {...state, comicLoading: action.payload}
         case LOADING_NEW_COMIC:
             return {...state, newComicLoading: action.payload}
+        case LOADING_CHAPTER:
+            return {...state, chapterLoading: action.payload}
         default:
             return state
     }
