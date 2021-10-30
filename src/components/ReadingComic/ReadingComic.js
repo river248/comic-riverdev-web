@@ -1,28 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { fetchFullChapter, fetchQuantityChapter } from 'actions/ApiCall/chapterAPI'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { AiOutlineRollback } from 'react-icons/ai'
 import ImagesComic from './ImagesComic'
 import useQuery from 'utils/useQuery'
 
 import './ReadingComic.scss'
+import { useDispatch, useSelector } from 'react-redux'
+import { actFetchFullChapter, actFetchQuantityChapter } from 'actions/comicAction'
 
 function ReadingComic() {
 
-    const [chapter, setChapter] = useState({_id: '', chap: 0, image: [], number: 0, title: ''})
-    const [quantity, setQuatity] = useState(0)
+    const chapter = useSelector(state => state.comic.chapter)
+    const quantityChapter = useSelector(state => state.comic.quantityChapter)
+
     const history = useHistory()
+    const dispatch = useDispatch()
 
     let query = useQuery()
 
     useEffect(() => {
-        fetchFullChapter(query.get('comic'), query.get('chap')).then(data => {
-            setChapter(data)
-        })
-        fetchQuantityChapter(query.get('comic')).then(data => {
-            setQuatity(data)
-        })
+        dispatch(actFetchFullChapter(query.get('comic'), query.get('chap')))
+        dispatch(actFetchQuantityChapter(query.get('comic')))
     }, [query.get('chap')])
 
     return (
@@ -55,7 +54,7 @@ function ReadingComic() {
 
                 <span className="current-chapter">Chương {chapter.chap}</span>
 
-                { chapter.chap < quantity &&
+                { chapter.chap < quantityChapter &&
                     <button onClick={() => history.push(`/home/reading?comic=${query.get('comic')}&chap=${chapter.chap+1}`)}>
                         Chương sau
                     </button> }

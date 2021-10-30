@@ -3,12 +3,6 @@ import { API_ROOT } from 'utils/constants'
 
 axios.defaults.withCredentials = true
 
-export const fetchAllTag = async () => {
-    const request = await axios.get(`${API_ROOT}/v1/tags`)
-    return request.data
-}
+export const fetchAllTag = async () => await axios.get(`${API_ROOT}/v1/tags`)
 
-export const fetchDetailTag = async (id) => {
-    const request = await axios.get(`${API_ROOT}/v1/tags/${id}`)
-    return request.data
-}
+export const fetchDetailTag = async (id) => await axios.get(`${API_ROOT}/v1/tags/${id}`)

@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux'
+import comicReducer from './comicReducer'
 import getHeightReducer from './getHeight'
-import loginReducer from './login'
+import userReducer from './userReducer'
 
 
 const rootReducer = combineReducers({
     getHeight: getHeightReducer,
-    login: loginReducer
+    comic: comicReducer,
+    user: userReducer
 })
 
 export default rootReducer

@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { fetchAllChapterOfComic } from 'actions/ApiCall/chapterAPI'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { actFetchAllChapterOfComic } from 'actions/comicAction'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { convertDate } from 'utils/convertDate'
 
@@ -8,13 +9,12 @@ import './ListChapter.scss'
 
 function ListChapter({ comic }) {
 
-    const [chapters, setChapters] = useState([])
+    const chapters = useSelector(state => state.comic.chapters)
     const history = useHistory()
-    
+    const dispatch = useDispatch()
+
     useEffect(() => {
-        fetchAllChapterOfComic(comic._id).then(chapters => {
-            setChapters(chapters)
-        })
+        dispatch(actFetchAllChapterOfComic(comic._id))
     }, [comic])
     
     return (

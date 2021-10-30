@@ -3,22 +3,11 @@ import { API_ROOT } from 'utils/constants'
 
 axios.defaults.withCredentials = true
 
-export const fetchAllChapterOfComic = async (comicID) => {
-    const request = await axios.get(`${API_ROOT}/v1/chapters/comic/${comicID}`)
-    return request.data
-}
+export const fetchAllChapterOfComic = async (comicID) => await axios.get(`${API_ROOT}/v1/chapters/comic/${comicID}`)
 
-export const fetchFullChapter = async (comicID, chap) => {
-    const request = await axios.get(`${API_ROOT}/v1/chapters?comicID=${comicID}&chap=${chap}`)
-    return request.data
-}
+export const fetchFullChapter = async (comicID, chap) => await axios.get(`${API_ROOT}/v1/chapters?comicID=${comicID}&chap=${chap}`)
 
-export const fetchQuantityChapter = async (comicID) => {
-    const request = await axios.get(`${API_ROOT}/v1/chapters/quantity/${comicID}`)
-    return request.data
-}
+export const fetchQuantityChapter = async (comicID) => await axios.get(`${API_ROOT}/v1/chapters/quantity/${comicID}`)
 
-export const fetchNewComics = async () => {
-    const request = await axios.get(`${API_ROOT}/v1/chapters/new-comics`)
-    return request.data
-}
+
+export const fetchNewComics = async () => await axios.get(`${API_ROOT}/v1/chapters/new-comics`)
