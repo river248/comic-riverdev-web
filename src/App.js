@@ -20,8 +20,12 @@ import './App.scss'
 import UserPage from 'pages/UserPage/UserPage'
 import PrivateRoute from 'utils/PrivateRoute'
 import PublicRoute from 'utils/PublicRoute'
+import Loading from 'components/Loading/Loading'
+import { useSelector } from 'react-redux'
 
 function App() {
+
+  const loading = useSelector(state => state.loading)
 
   return (
     <Router>
@@ -41,6 +45,7 @@ function App() {
             <Route exact component={NotFound}/>
           </Switch>
         </ScrollToTop>
+        {(loading.comicLoading || loading.newComicLoading) && <Loading/>}
         <ToTop/>
         <Footer/>
     </div>
