@@ -6,6 +6,7 @@ import {
     GET_COMIC,
     GET_COMICS,
     GET_COMICS_OF_TAG,
+    GET_COMMENTS,
     GET_NEW_COMICS,
     GET_QUANTITY_CHAPTER,
     GET_QUANTITY_PAGE,
@@ -23,6 +24,7 @@ import {
 import {
     fetchAllComic,
     fetchAllComicOfTag,
+    fetchAllCommentOfComic,
     fetchDetailComic,
     fetchQuantityPage
 } from "./ApiCall/comicAPI"
@@ -178,6 +180,23 @@ export const getDetailTag = (tags) => {
     return {
         type: GET_TAG,
         payload: tags
+    }
+}
+
+// -------------------- Comments ---------------------
+
+export const actComments = (comicID, page) => {
+    return (dispatch) => {
+        return fetchAllCommentOfComic(comicID, page).then(res => {
+            dispatch(getComments(res.data))
+        })
+    }
+}
+
+export const getComments = (comments) => {
+    return {
+        type: GET_COMMENTS,
+        payload: comments
     }
 }
 //-------Clear func ----------------------------

@@ -41,9 +41,9 @@ function DetailPage() {
             </Row>
             <Row>
                 <h1><FaComments/> Bình luận (174)</h1>
-                <Comments/>
+                <Comments comic={comic}/>
                 <h3>Vui lòng đăng nhập để có thể bình luận!</h3>
-                <PostComment/>
+                <PostComment comic={comic}/>
             </Row>
         </Container>
     )

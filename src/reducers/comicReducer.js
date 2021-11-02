@@ -2,6 +2,7 @@ import {
     CLEAR_COMICS, CLEAR_DETAIL_COMIC, GET_CHAPTER, GET_CHAPTERS, GET_COMIC,
     GET_COMICS,
     GET_COMICS_OF_TAG,
+    GET_COMMENTS,
     GET_NEW_COMICS,
     GET_QUANTITY_CHAPTER,
     GET_QUANTITY_PAGE,
@@ -18,7 +19,8 @@ const initialState = {
     tags: [],
     tag: {name: 'Ngôn Tình'},
     quantityPage: 0,
-    quantityChapter: 0
+    quantityChapter: 0,
+    comments: []
 }
 
 const comicReducer = (state = initialState, action) => {
@@ -47,6 +49,8 @@ const comicReducer = (state = initialState, action) => {
             return { ...state, tag: action.payload }
         case CLEAR_DETAIL_COMIC:
             return { ...state, comic: {thumbnail: undefined, tags: []} }
+        case GET_COMMENTS:
+            return { ...state, comments: action.payload }
         default:
             return state
     }
