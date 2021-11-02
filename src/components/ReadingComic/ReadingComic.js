@@ -9,11 +9,14 @@ import './ReadingComic.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { actFetchFullChapter, actFetchQuantityChapter } from 'actions/comicAction'
 import { loadingChapter } from 'actions/loading'
+import { addHistory } from 'actions/ApiCall/userAPI'
+import { getToken } from 'utils/common'
 
 function ReadingComic() {
 
     const chapter = useSelector(state => state.comic.chapter)
     const quantityChapter = useSelector(state => state.comic.quantityChapter)
+    const user = useSelector(state => state.user.user)
 
     const history = useHistory()
     const dispatch = useDispatch()
@@ -24,6 +27,21 @@ function ReadingComic() {
         dispatch(loadingChapter(true))
         dispatch(actFetchFullChapter(query.get('comic'), query.get('chap')))
         dispatch(actFetchQuantityChapter(query.get('comic')))
+
+        if(getToken() && user._id) {
+        
+            const timer = setTimeout(() => {
+                const data = {
+                    userID: user._id,
+                    comicID: query.get('comic'),
+                    chap: query.get('chap')
+                }
+                addHistory(data, getToken()).then()
+              }, 5000);
+
+            return () => clearTimeout(timer);
+        }
+
     }, [query.get('chap')])
 
     return (

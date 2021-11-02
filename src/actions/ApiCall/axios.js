@@ -37,7 +37,7 @@ instance.interceptors.response.use(
           const rs = await instance.post(`/v1/user/refresh-token?refreshToken=${refreshToken}`)
           
           const { accessToken } = rs.data
-          sessionStorage.setItem('accessToken', accessToken)
+          localStorage.setItem('accessToken', accessToken)
           instance.defaults.headers.common["x-access-token"] = accessToken;
 
           return instance(originalConfig);

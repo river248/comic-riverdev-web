@@ -20,3 +20,5 @@ export const fetchQuantityPage = async (query) => {
 }
 
 export const fetchAllComicOfTag = async (tagID, page) => await axios.get(`${API_ROOT}/v1/comics/tag?tagID=${tagID}&page=${page}`)
+
+export const fetchAllCommentOfComic = async (comicID, page) => await axios.get(`${API_ROOT}/v1/comics/comments?comicID=${comicID}&page=${page}`)
