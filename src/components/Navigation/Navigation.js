@@ -1,19 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { Link, NavLink, useLocation, useHistory } from 'react-router-dom'
 import { AiFillHome } from 'react-icons/ai'
 import { MdEmail, MdCategory } from 'react-icons/md'
 import { FaUserCircle } from 'react-icons/fa'
-import { RiHistoryFill } from 'react-icons/ri'
 import { useDispatch, useSelector } from 'react-redux'
 import './Navigation.scss'
-import { getToken } from 'utils/common'
+import { getToken, removeUserSession } from 'utils/common'
 import jwtDecode from 'jwt-decode'
 import { actFetchFullUser } from 'actions/userAction'
+import { fetchLogout } from 'actions/ApiCall/userAPI'
 
 function Navigation() {
 
     const location = useLocation()
+    const history = useHistory()
     const dispatch = useDispatch()
     const user = useSelector(state => state.user.user)
     const token = getToken()
@@ -25,6 +26,15 @@ function Navigation() {
             dispatch(actFetchFullUser(userData.data._id, token))
         }
     }, [token])
+
+    const hanldeLogout = () => {
+        fetchLogout().then(response => {
+            history.replace('/')
+            removeUserSession()
+            window.location.reload()
+            alert(response.message)
+        })
+    }
 
     return (
         <div className="navigation-container">
@@ -48,17 +58,19 @@ function Navigation() {
                 </NavLink>
             </div>
             <div className="navigation-right-container">
-                {getToken() && <NavLink to='/history' activeClassName="navbar-active" className="navbar-item">
-                    <RiHistoryFill/>
-                    <span>Lịch sử</span>
-                </NavLink>}
                 {!getToken() && <Link to='/login' className="navbar-item">
                         <FaUserCircle/>
                         <span>Tài khoản</span>
                 </Link>}
-                {getToken() && <Link to="/user" className="navbar-item">
+                {getToken() && <div className="user-avatar">
+                        <span className="username">{user.name}</span>
                         <img src={user.avatar} alt='avatar'/>
-                </Link>}
+                        <div className="user-dropdown">
+                        <span onClick={() => history.push('/user')}>Thông tin</span>
+                        <span onClick={() => history.push('/history/read')}>Lịch sử</span>
+                        <span onClick={hanldeLogout}>Đăng xuất</span>
+                    </div>
+                </div>}
             </div>
         </div>
     )

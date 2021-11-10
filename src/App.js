@@ -22,6 +22,7 @@ import PrivateRoute from 'utils/PrivateRoute'
 import PublicRoute from 'utils/PublicRoute'
 import Loading from 'components/Loading/Loading'
 import { useSelector } from 'react-redux'
+import HistoryPage from 'pages/HistoryPage/HistoryPage'
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
             <Route path='/home/reading' component={ReadingPage}/>
             <Route path='/category' component={CategoriesPage}/>
             <PrivateRoute path='/user' component={UserPage}/>
+            <Route path='/history/:id' component={HistoryPage}/>
             <PublicRoute path='/login' component={Login}/>
             <Route exact component={NotFound}/>
           </Switch>

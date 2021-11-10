@@ -4,7 +4,7 @@
     width: 100%;
     height: 50px;
     background-color: $yellow;
-    padding: 0 20px 0 40px;
+    padding: 0 0 0 20px;
     display: flex;
     justify-content: space-between;
     position: relative;
@@ -12,7 +12,7 @@
     .navigation-right-container, .navigation-left-container {
 
         display: flex;
-        .navbar-item {
+        .navbar-item, .user-avatar {
             text-decoration: none;
             height: inherit;
             display: flex;
@@ -52,11 +52,53 @@
         }
     }
 
-    .dropdown-btn {
-        cursor: pointer;
+    .navigation-right-container {
+        position: relative;
 
-        &:hover {
-            background-color: darken($yellow, $amount: 5);
+        .user-dropdown {
+            position: absolute;
+            background-color: $yellow;
+            display: none;
+            flex-direction: column;
+            top: 110%;
+            width: 200px;
+            right: 0;
+            z-index: 1;
+            padding: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 6px 10px $black;
+
+            span {
+                padding: 5px 10px;
+
+                &:hover {
+                    color: $purple;
+                }
+            }
+        }
+
+        .user-avatar {
+            position: relative;
+
+            .username {
+                margin-right: 10px;
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                width: 200px;
+                right: 0;
+                height: 15px;
+                z-index: 1;
+                top: 100%;
+            }
+            &:hover .user-dropdown {
+                display: flex;
+            }
         }
     }
 }

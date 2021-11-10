@@ -22,12 +22,9 @@ export const fetchLogout = async () => {
     return request.data
 }
 
-export const likeComic = async (userID, comicID, token) => {
-    const request = await axios.put(`${API_ROOT}/v1/user/like?userID=${userID}&comicID=${comicID}`, {
+export const likeComic = async (userID, comicID, token) => await axios.put(`${API_ROOT}/v1/user/like?userID=${userID}&comicID=${comicID}`, {
         headers: {'x-access-token': token}
     })
-    return request.data
-}
 
 export const fetchLikeStatus = async (userID, comicID, token) => await axios.get(
     `${API_ROOT}/v1/user/like?userID=${userID}&comicID=${comicID}`,
@@ -60,3 +57,13 @@ export const updateComment = async (id, data, token) => {
 }
 
 export const addHistory = async (data, token) => await axios.post(`${API_ROOT}/v1/user/history`, data, { headers: {'x-access-token': token}})
+
+export const fetchLikedComics = async (userID, page, token) => await axios.get(`${API_ROOT}/v1/user/comics/liked?userID=${userID}&page=${page}`, { headers: { 'x-access-token': token}})
+
+export const fetchQuantityPageLikedComics = async (userID, token) => await axios.get(`${API_ROOT}/v1/user/comics/quantity-page-liked?userID=${userID}`, { headers: { 'x-access-token': token}})
+
+export const fetchFollowedComics = async (userID, page, token) => await axios.get(`${API_ROOT}/v1/user/comics/followed?userID=${userID}&page=${page}`, { headers: { 'x-access-token': token}})
+
+export const fetchQuantityPageFollowedComics = async (userID, token) => await axios.get(`${API_ROOT}/v1/user/comics/quantity-page-followed?userID=${userID}`, { headers: { 'x-access-token': token}})
+
+export const fetchReadComics = async (userID, page, token) => await axios.get(`${API_ROOT}/v1/user/history?userID=${userID}&page=${page}`, { headers: { 'x-access-token': token}})

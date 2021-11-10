@@ -2,7 +2,7 @@ import axios from 'axios'
 import { getRefreshToken, getToken, removeUserSession } from 'utils/common'
 
 const instance = axios.create({
-  baseURL: process.env.NODE_ENV === 'production' ? 'https://comic-riverdev-api.herokuapp.com/' : 'http://localhost:8080/'
+  baseURL: /*process.env.NODE_ENV === 'production' ? 'https://comic-riverdev-api.herokuapp.com/' : */'http://localhost:8080/'
 })
 
 instance.interceptors.request.use(
@@ -50,7 +50,7 @@ instance.interceptors.response.use(
         }
       }
 
-      if (err.response.status === 403 && err.response.data) {
+      if (err.response.status === 403) {
         removeUserSession()
         window.location.reload()
         return Promise.reject(err.response.data);

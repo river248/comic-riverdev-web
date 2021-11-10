@@ -6,30 +6,53 @@ import { Pagination } from 'react-bootstrap'
 import './Pagina.scss'
 import useQuery from 'utils/useQuery'
 import { useDispatch, useSelector } from 'react-redux'
-import { actFetchQuantityPage, getQuantityPage } from 'actions/comicAction'
+import { actFetchQuantityPage, clearQuantityPage } from 'actions/comicAction'
+import { actFetchQuantityFollowedComics, actFetchQuantityLikedComics } from 'actions/userAction'
+import { getToken } from 'utils/common'
+import { loadingComic } from 'actions/loading'
 
 function Pagina() {
 
     const quantityPage = useSelector(state => state.comic.quantityPage)
+    const user = useSelector(state => state.user.user)
+
     const [pages, setPages] = useState([])
 
     const location = useLocation()
     const history = useHistory()
     const dispatch = useDispatch()
     let query = useQuery()
-
+    
     useEffect(() => {
 
-        if(location.pathname === '/home' || location.pathname === '/')
-            dispatch(actFetchQuantityPage(''))
-        if(location.pathname === '/category') {
-            dispatch(actFetchQuantityPage(query.get('tag')))
+        switch (location.pathname) {
+            case '/':
+                dispatch(actFetchQuantityPage(''))
+                break
+            case '/home':
+                dispatch(actFetchQuantityPage(''))
+                break
+            case '/category':    
+                dispatch(actFetchQuantityPage(query.get('tag')))
+                break
+            case '/history/liked':
+                if(user._id)
+                    dispatch(actFetchQuantityLikedComics(user._id, getToken()))
+                break
+            case '/history/followed':
+                if(user._id)
+                    dispatch(actFetchQuantityFollowedComics(user._id, getToken()))
+                break
+            default:
+                break
         }
         
-        return () => dispatch(getQuantityPage(0))
-    }, [location.search, location.pathname])
+        return () => dispatch(clearQuantityPage(-1))
+        
+    }, [location.search, location.pathname, user])
 
     useEffect(() => {
+
         if(location.search === '' || query.get('page')*1 < 4) {
             if(quantityPage >= 3) setPages([1, 2, 3])
             if(quantityPage === 2) setPages([1, 2])
@@ -38,6 +61,18 @@ function Pagina() {
             for(let i = 2; i > -1; i--)
                 clone.push(query.get('page')*1 - i)
             setPages([...clone])
+        }
+        if(quantityPage === 0 && (
+            location.pathname === '/history/liked' ||
+            location.pathname === '/history/followed' ||
+            location.pathname === '/history/read') ) {
+            dispatch(loadingComic(false))
+        }
+        if(quantityPage === -1 && (
+            location.pathname === '/history/liked' ||
+            location.pathname === '/history/followed' ||
+            location.pathname === '/history/read') ) {
+            dispatch(loadingComic(true))
         }
 
     }, [quantityPage])
@@ -219,4 +254,4 @@ function Pagina() {
     )
 }
 
-export default Pagina
+export default React.memo(Pagina)
