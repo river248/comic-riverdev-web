@@ -29,7 +29,6 @@ function ListReadComics() {
                 dispatch(actFetchReadComics(user._id, query.get('page'), token))
             }
             else {
-                console.log('hello')
                 dispatch(loadingComic(true))
                 dispatch(actFetchReadComics(user._id, 1, token))
             }
