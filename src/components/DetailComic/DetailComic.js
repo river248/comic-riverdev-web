@@ -19,6 +19,8 @@ import { actFetchInteractions } from 'actions/comicAction'
 function DetailComic({ comic, interactions }) {
     
     const [image, setImage] = useState('')
+    const [loadingLike, setLoadingLike] = useState(false)
+    const [loadingFollow, setLoadingFollow] = useState(false)
     const user = useSelector(state => state.user.user)
     const likeStatus = useSelector(state => state.user.likeStatus)
     const followStatus = useSelector(state => state.user.followStatus)
@@ -44,9 +46,11 @@ function DetailComic({ comic, interactions }) {
 
     const handleFollow = () => {
         if(getToken()) {
+            setLoadingFollow(true)
             followComic(user._id, comic._id, token).then(() =>{
                 dispatch(actFetchFollowStatus(user._id, comic._id, token))
                 dispatch(actFetchInteractions(comic._id))
+                setLoadingFollow(false)
             })
         }
         else
@@ -55,10 +59,12 @@ function DetailComic({ comic, interactions }) {
 
     const handleLike = () => {
         if(token) {
-                likeComic(user._id, comic._id, token).then(res => {
-                    dispatch(actFetchLikeStatus(user._id, comic._id, token))
-                    dispatch(actFetchInteractions(comic._id))
-                })
+            setLoadingLike(true)
+            likeComic(user._id, comic._id, token).then(res => {
+                dispatch(actFetchLikeStatus(user._id, comic._id, token))
+                dispatch(actFetchInteractions(comic._id))
+                setLoadingLike(false)
+            })
         }
         else
             alert(`Please login!`)
@@ -97,9 +103,15 @@ function DetailComic({ comic, interactions }) {
                 <div className="detail-comic-actions">
                     <button onClick={() => history.push(`/home/reading?comic=${comic._id}&chap=1`)}><GiOpenBook/>Đọc từ đầu</button>
                     <input id="follow" type="checkbox" checked={followStatus} readOnly/>
-                    <button id="follow-btn" onClick={handleFollow}><FaHeart/> {followStatus? 'Hủy theo dõi' : 'Theo dõi'}</button >
+                    <button id="follow-btn" onClick={handleFollow}>
+                        { !loadingFollow ? <><FaHeart/> {followStatus? 'Hủy theo dõi' : 'Theo dõi'}</> :
+                        <div className="spinner-border spinner-border-sm text-warning" role="status"/> }
+                    </button >
                     <input id="like" type="checkbox" checked={likeStatus} readOnly/>
-                    <button id="like-btn" onClick={handleLike}><AiFillLike/> {likeStatus? 'Bỏ thích' : 'Thích'}</button>
+                    <button id="like-btn" onClick={handleLike}>
+                        { !loadingLike ? <><AiFillLike/> {likeStatus? 'Bỏ thích' : 'Thích'}</> :
+                        <div className="spinner-border spinner-border-sm text-warning" role="status"/>}
+                    </button>
                 </div>
             </div>
         </div>

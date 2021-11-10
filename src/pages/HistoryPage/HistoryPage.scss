@@ -29,3 +29,15 @@
         }
     }
 }
+
+.remove-all-read-comics {
+    padding: 10px 20px;
+    width: auto;
+    margin: 0 auto 20px auto;
+    color: $white;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 4px 4px 6px $black;
+    background-color: darken($purple, $amount: 10);
+}

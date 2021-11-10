@@ -67,3 +67,6 @@ export const fetchFollowedComics = async (userID, page, token) => await axios.ge
 export const fetchQuantityPageFollowedComics = async (userID, token) => await axios.get(`${API_ROOT}/v1/user/comics/quantity-page-followed?userID=${userID}`, { headers: { 'x-access-token': token}})
 
 export const fetchReadComics = async (userID, page, token) => await axios.get(`${API_ROOT}/v1/user/history?userID=${userID}&page=${page}`, { headers: { 'x-access-token': token}})
+
+export const removeReadComic = async (userID, comicID, chap, token) => await axios.delete(`${API_ROOT}/v1/user/remove-history?userID=${userID}&comicID=${comicID}&chap=${chap}`, { headers: { 'x-access-token': token}})
+export const removeAllReadComic = async (userID, token) => await axios.delete(`${API_ROOT}/v1/user/remove-all-history?userID=${userID}`, { headers: { 'x-access-token': token}})
