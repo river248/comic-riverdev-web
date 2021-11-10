@@ -3,6 +3,9 @@ import { fetchFullUser, fetchLogout } from 'actions/ApiCall/userAPI'
 import jwtDecode from 'jwt-decode'
 import { getToken, removeUserSession } from 'utils/common'
 import { useHistory } from 'react-router-dom'
+import { Container, Row } from 'react-bootstrap'
+
+import './UserPage.scss'
 
 function UserPage() {
 
@@ -26,10 +29,29 @@ function UserPage() {
         })
     }
     return (
-        <div>
-            <button onClick={hanldeLogout}>Logout</button>
-            {userInfo.name}
-        </div>
+        <Container>
+            <Row>
+                <h1 className="user-page-title">Thông Tin Người Dùng</h1>
+            </Row>
+            <Row>
+                <div className="user-page-user-info">
+                    <span>Tên người dùng: </span>
+                    <span>Tên người dùng: </span>
+                </div>
+            </Row>
+            <Row>
+                <div className="user-page-user-info">
+                    <span>Email: </span>
+                    <span>Tên người dùng: </span>
+                </div>
+            </Row>
+            <Row>
+                <div className="user-page-user-info">
+                    <span>Tên người dùng: </span>
+                    <span>Tên người dùng: </span>
+                </div>
+            </Row>
+        </Container>
     )
 }
 

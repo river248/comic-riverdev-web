@@ -9,11 +9,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getHeightChange } from 'actions/getHeight'
 import { actFetchAllComic, actFetchAllComicOfTag, clearComics } from 'actions/comicAction'
 import { loadingComic } from 'actions/loading'
+import { actFetchFollowedComics, actFetchLikedComics } from 'actions/userAction'
 
 function ListComic() {
 
     const comics = useSelector(state => state.comic.comics)
-    
+    const user = useSelector(state => state.user.user)
+    const quantityPage = useSelector(state => state.comic.quantityPage)
+
     let query = useQuery()
     const location = useLocation()
 
@@ -51,12 +54,35 @@ function ListComic() {
                     dispatch(actFetchAllComicOfTag('616af71268f59ad44354b30f', 1))
                 }
                 break
+            case '/history/liked':
+                if(query.get('page') !== null && user._id !== undefined) {
+                    dispatch(loadingComic(true))
+                    dispatch(actFetchLikedComics(user?._id, query.get('page')))
+                }
+                else
+                    if (user._id !== undefined) {
+                        dispatch(loadingComic(true))
+                        dispatch(actFetchLikedComics(user._id, 1))
+                    }
+                break
+            case '/history/followed':
+                if(query.get('page') !== null && user._id !== undefined) {
+                    dispatch(loadingComic(true))
+                    dispatch(actFetchFollowedComics(user._id, query.get('page')))
+                }
+                else
+                    if (user._id !== undefined) {
+                        dispatch(loadingComic(true))
+                        dispatch(actFetchFollowedComics(user._id, 1))
+                    }
+                break
             default:
                 break
         }
 
         return () => dispatch(clearComics([]))
-    }, [location.search])
+
+    }, [location.search, location.pathname, user])
     
     useLayoutEffect(() => {
 
@@ -64,7 +90,7 @@ function ListComic() {
         dispatch(action)
 
     }, [comics])
-    
+
     useEffect(() => {
 
         const handleResize = () => {
@@ -79,10 +105,15 @@ function ListComic() {
 
     return (
         <div id='category-height' className="list-comic-container">
-            { comics.map(comic => (
+            { quantityPage > 0 && comics.map(comic => (
             <div key={comic._id} className="comic-item">
                 <Comic comic={comic}/>
-            </div>)) }
+            </div>))}
+            { quantityPage === 0 &&
+            <div className="no-result">
+                Chưa có truyện!
+            </div>
+            }
         </div>
     )
 }

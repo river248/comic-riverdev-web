@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from 'react'
-import { actComments } from 'actions/comicAction'
+import { actComments, actFetchInteractions } from 'actions/comicAction'
 import { useDispatch, useSelector } from 'react-redux'
 import ReactTimeAgo from 'react-time-ago'
 import { FiMoreHorizontal } from 'react-icons/fi'
@@ -36,6 +36,7 @@ function Comments({ comic }) {
         }
         updateComment(value, data, getToken()).then(res => {
             dispatch(actComments(comic._id, page))
+            dispatch(actFetchInteractions(comic._id))
             setShow(false)
         })
     }
@@ -43,6 +44,7 @@ function Comments({ comic }) {
     const handleRemoveComment = (value) => {
         removeComment(value, getToken()).then(res => {
             dispatch(actComments(comic._id, page))
+            dispatch(actFetchInteractions(comic._id))
         })
     }
 
@@ -59,7 +61,7 @@ function Comments({ comic }) {
             { !show && <div className="comment-content">
                 <div className="user-info">
                     <span>{comment.user.name} - </span>
-                    <ReactTimeAgo locale="en-US" date={comment.updateAt}/>
+                    <ReactTimeAgo locale="en-US" date={comment.createAt}/>
                 </div>
                 <span className="content">{comment.content}</span>
             </div>}

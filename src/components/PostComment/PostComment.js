@@ -1,5 +1,5 @@
 import { postComment } from 'actions/ApiCall/userAPI'
-import { actComments } from 'actions/comicAction'
+import { actComments, actFetchInteractions } from 'actions/comicAction'
 import React, { useState } from 'react'
 import { RiSendPlaneFill } from 'react-icons/ri'
 import { useDispatch, useSelector } from 'react-redux'
@@ -26,6 +26,7 @@ function PostComment({ comic }) {
                     content: content
                 }
                 postComment(data, getToken()).then(res => {
+                    dispatch(actFetchInteractions(comic._id))
                     dispatch(actComments(comic._id, 1))
                 })
             }                       

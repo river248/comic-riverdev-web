@@ -7,11 +7,13 @@ import {
     GET_COMICS,
     GET_COMICS_OF_TAG,
     GET_COMMENTS,
+    GET_INTERACTIONS,
     GET_NEW_COMICS,
     GET_QUANTITY_CHAPTER,
     GET_QUANTITY_PAGE,
     GET_TAG,
-    GET_TAGS
+    GET_TAGS,
+    CLEAR_QUANTITY_PAGE
 } from "utils/constants"
 
 import {
@@ -26,6 +28,7 @@ import {
     fetchAllComicOfTag,
     fetchAllCommentOfComic,
     fetchDetailComic,
+    fetchInteractions,
     fetchQuantityPage
 } from "./ApiCall/comicAPI"
 import { fetchAllTag, fetchDetailTag } from "./ApiCall/tagAPI"
@@ -103,6 +106,21 @@ export const getDetailComic = (comic) => {
     return {
         type: GET_COMIC,
         payload: comic
+    }
+}
+
+export const actFetchInteractions = (comicID) => {
+    return (dispatch) => {
+        return fetchInteractions(comicID).then(res => {
+            dispatch(getInteractions(res.data))
+        })
+    }
+}
+
+export const getInteractions = (interactions) => {
+    return {
+        type: GET_INTERACTIONS,
+        payload: interactions
     }
 }
 
@@ -211,5 +229,12 @@ export const clearComics = (comics) => {
 export const clearDetailComic = () => {
     return {
         type: CLEAR_DETAIL_COMIC,
+    }
+}
+
+export const clearQuantityPage = (quantityPage) => {
+    return {
+        type: CLEAR_QUANTITY_PAGE,
+        payload: quantityPage
     }
 }

@@ -14,14 +14,15 @@ import { loadingComic } from 'actions/loading'
 import { getToken } from 'utils/common'
 import { followComic, likeComic } from 'actions/ApiCall/userAPI'
 import { actFetchFollowStatus, actFetchLikeStatus } from 'actions/userAction'
+import { actFetchInteractions } from 'actions/comicAction'
 
-function DetailComic({ comic }) {
+function DetailComic({ comic, interactions }) {
     
     const [image, setImage] = useState('')
     const user = useSelector(state => state.user.user)
     const likeStatus = useSelector(state => state.user.likeStatus)
     const followStatus = useSelector(state => state.user.followStatus)
-
+    
     const token = getToken()
     const dispatch = useDispatch()
     const history = useHistory()
@@ -43,8 +44,9 @@ function DetailComic({ comic }) {
 
     const handleFollow = () => {
         if(getToken()) {
-            followComic(user._id, comic._id, token).then(res => {
+            followComic(user._id, comic._id, token).then(() =>{
                 dispatch(actFetchFollowStatus(user._id, comic._id, token))
+                dispatch(actFetchInteractions(comic._id))
             })
         }
         else
@@ -53,9 +55,10 @@ function DetailComic({ comic }) {
 
     const handleLike = () => {
         if(token) {
-            likeComic(user._id, comic._id, token).then(res => {
-                dispatch(actFetchLikeStatus(user._id, comic._id, token))
-            })
+                likeComic(user._id, comic._id, token).then(res => {
+                    dispatch(actFetchLikeStatus(user._id, comic._id, token))
+                    dispatch(actFetchInteractions(comic._id))
+                })
         }
         else
             alert(`Please login!`)
@@ -79,9 +82,9 @@ function DetailComic({ comic }) {
                 </span>
                 <div className="detail-comic-statistic">
                     <span>Thống kê:</span>
-                    <span><AiFillLike/> 569</span>
-                    <span><FaHeart/> 2,804</span>
-                    <span><FaEye/> 387,465</span>
+                    <span><AiFillLike/> {interactions.likes}</span>
+                    <span><FaHeart/> {interactions.follows}</span>
+                    <span><FaEye/> {comic.views}</span>
                 </div>
                 <div className="detail-comic-tag">
                     { comic.tags.map(tag => (

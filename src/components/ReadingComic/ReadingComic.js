@@ -11,10 +11,12 @@ import { actFetchFullChapter, actFetchQuantityChapter } from 'actions/comicActio
 import { loadingChapter } from 'actions/loading'
 import { addHistory } from 'actions/ApiCall/userAPI'
 import { getToken } from 'utils/common'
+import { updateComics } from 'actions/ApiCall/comicAPI'
 
 function ReadingComic() {
 
     const chapter = useSelector(state => state.comic.chapter)
+    const comic = useSelector(state => state.comic.comic)
     const quantityChapter = useSelector(state => state.comic.quantityChapter)
     const user = useSelector(state => state.user.user)
 
@@ -28,7 +30,7 @@ function ReadingComic() {
         dispatch(actFetchFullChapter(query.get('comic'), query.get('chap')))
         dispatch(actFetchQuantityChapter(query.get('comic')))
 
-        if(getToken() && user._id) {
+        if(getToken() && user._id && comic._id) {
         
             const timer = setTimeout(() => {
                 const data = {
@@ -37,12 +39,14 @@ function ReadingComic() {
                     chap: query.get('chap')
                 }
                 addHistory(data, getToken()).then()
+
+                updateComics(comic._id, {views: comic.views+1})
               }, 5000);
 
             return () => clearTimeout(timer);
         }
 
-    }, [query.get('chap')])
+    }, [query.get('chap'), comic])
 
     return (
         <>
@@ -85,4 +89,4 @@ function ReadingComic() {
     )
 }
 
-export default ReadingComic
+export default React.memo(ReadingComic)
