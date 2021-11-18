@@ -10,7 +10,7 @@ import Pagina from 'components/Pagina/Pagina'
 function HomePage() {
     return (
         <Container fluid>
-            <Row>
+            <Row className="header-page-row">
                 <Col lg={9} md={8} sm={12}>
                     <SlideShow/>
                     <ListComic/>

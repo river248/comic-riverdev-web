@@ -200,6 +200,24 @@
 
 }
 
+@media screen and (max-width: 768px) {
+    .login-page-container {
+        .image-naruto {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .login-page-container {
+        .login-box {
+            width: 300px;
+
+            .user-box { width: 250px;}
+        }
+    }
+}
+
 @keyframes slideUp {
     from { opacity: 0; transform: translateY(100%); }
     to { opacity: 1; transform: translateY(0%); }

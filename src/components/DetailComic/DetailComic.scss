@@ -137,3 +137,51 @@
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+    .detail-comic-container {
+        flex-direction: column;
+        align-items: center;
+
+        .detail-comic-info {
+            width: 90%;
+            
+            span {
+                margin-bottom: 10px;
+            }
+
+            div {
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 520px) {
+    .detail-comic-container {
+
+        .detail-comic-info {
+            width: 100%;
+
+            .detail-comic-tag {
+                flex-direction: column;
+                text-align: center;
+                
+                .detail-comic-tag-item {
+                    margin-right: 0;
+                    width: 100%;
+                }
+            }
+
+            .detail-comic-actions {
+                flex-direction: column;
+
+                button {
+                    width: 100%;
+
+                    &:not(:last-child) { margin-bottom: 10px; }
+                }
+            }
+        }
+    }
+}
