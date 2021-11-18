@@ -18,7 +18,7 @@ function Navigation() {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user.user)
     const token = getToken()
-    
+
     useEffect(() => {
 
         if(token !== null) {
@@ -52,10 +52,10 @@ function Navigation() {
                         <MdCategory/>
                         <span>Thể loại</span>
                 </NavLink>
-                <NavLink to="/contact" activeClassName="navbar-active" className="navbar-item">
+                {/* <NavLink to="/contact" activeClassName="navbar-active" className="navbar-item">
                         <MdEmail/>
                         <span>Liên hệ</span>
-                </NavLink>
+                </NavLink> */}
             </div>
             <div className="navigation-right-container">
                 {!getToken() && <Link to='/login' className="navbar-item">
@@ -66,9 +66,10 @@ function Navigation() {
                         <span className="username">{user.name}</span>
                         <img src={user.avatar} alt='avatar'/>
                         <div className="user-dropdown">
-                        <span onClick={() => history.push('/user')}>Thông tin</span>
-                        <span onClick={() => history.push('/history/read')}>Lịch sử</span>
-                        <span onClick={hanldeLogout}>Đăng xuất</span>
+                            { user.isAdmin && <span onClick={() => history.push('/admin/new-comic')}>Quản lý truyện</span>}
+                            <span onClick={() => history.push('/user')}>Thông tin</span>
+                            <span onClick={() => history.push('/history/read')}>Lịch sử</span>
+                            <span onClick={hanldeLogout}>Đăng xuất</span>
                     </div>
                 </div>}
             </div>
@@ -76,4 +77,4 @@ function Navigation() {
     )
 }
 
-export default Navigation
+export default React.memo(Navigation)

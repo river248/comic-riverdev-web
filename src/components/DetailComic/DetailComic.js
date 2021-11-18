@@ -31,7 +31,7 @@ function DetailComic({ comic, interactions }) {
 
     useEffect(() => {
         if(comic.thumbnail !== undefined) {
-            getDownloadURL(ref(storage, `comics/${comic.thumbnail}`))
+            getDownloadURL(ref(storage, `comics/truyen${comic.number}/${comic.thumbnail}`))
             .then(url => {
                 setImage(url)
                 dispatch(loadingComic(false))

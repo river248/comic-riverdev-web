@@ -12,7 +12,7 @@ function ImagesComic({comicNumber, chap, image}) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-            getDownloadURL(ref(storage, `comics/truyen${comicNumber}/chap${chap}/${image}.jpg`))
+            getDownloadURL(ref(storage, `comics/truyen${comicNumber}/chap${chap}/${image}`))
             .then(url => {
                 setImg(url)
                 dispatch(loadingChapter(false))

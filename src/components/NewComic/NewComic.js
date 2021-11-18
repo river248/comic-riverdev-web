@@ -14,6 +14,7 @@ function NewComic() {
     const comics = useSelector(state => state.comic.newComics)
     const history = useHistory()
     const dispatch = useDispatch()
+
     useEffect(() => {
         dispatch(loadingNewComic(true))
         dispatch(actFetchNewComics())
@@ -29,6 +30,7 @@ function NewComic() {
                     number={comic.comicInfo.number}
                     chap={comic.chap}
                     title={comic.comicInfo.title}
+                    thumbnail={comic.comicInfo.thumbnail}
                 />
                 <div className="new-comic-info">
                     <div>
