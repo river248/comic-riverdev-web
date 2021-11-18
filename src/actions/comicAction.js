@@ -13,7 +13,10 @@ import {
     GET_QUANTITY_PAGE,
     GET_TAG,
     GET_TAGS,
-    CLEAR_QUANTITY_PAGE
+    CLEAR_QUANTITY_PAGE,
+    GET_QUANTITY_COMIC,
+    GET_UNFINISHED_COMIC,
+    SEARCH
 } from "utils/constants"
 
 import {
@@ -29,7 +32,9 @@ import {
     fetchAllCommentOfComic,
     fetchDetailComic,
     fetchInteractions,
-    fetchQuantityPage
+    fetchQuantityPage,
+    fetchUnfinishedComic,
+    searchComic
 } from "./ApiCall/comicAPI"
 import { fetchAllTag, fetchDetailTag } from "./ApiCall/tagAPI"
 
@@ -37,7 +42,7 @@ import { fetchAllTag, fetchDetailTag } from "./ApiCall/tagAPI"
 export const actFetchAllComic = (page) => {
     return (dispatch) => {
         return fetchAllComic(page).then(res => {
-            dispatch(getComics(res.data))
+            dispatch(getComics(res.data.comics))
         })
     }
 }
@@ -121,6 +126,51 @@ export const getInteractions = (interactions) => {
     return {
         type: GET_INTERACTIONS,
         payload: interactions
+    }
+}
+
+export const actFetchQuantityComic = () => {
+    return (dispatch) => {
+        return fetchAllComic(1).then(res => {
+            dispatch(getQuantityComics(res.data.quantityComic))
+        })
+    }
+}
+
+export const getQuantityComics = (quantity) => {
+    return {
+        type: GET_QUANTITY_COMIC,
+        payload: quantity
+    }
+}
+
+export const actFetchUnfinishedComic = () => {
+    return (dispatch) => {
+        return fetchUnfinishedComic().then(res => {
+            dispatch(getUnfinishedComics(res.data))
+        })
+    }
+}
+
+export const getUnfinishedComics = (comics) => {
+    return {
+        type: GET_UNFINISHED_COMIC,
+        payload: comics
+    }
+}
+
+export const actSearchComic = (key, page) => {
+    return (dispatch) => {
+        return searchComic(key, page).then(res => {
+            dispatch(getSearchComics(res.data))
+        })
+    }
+}
+
+export const getSearchComics = (data) => {
+    return {
+        type: SEARCH,
+        payload: data
     }
 }
 

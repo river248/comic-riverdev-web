@@ -65,6 +65,23 @@
             }
         }
     }
+
+    .remove-comic {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: darken($purple, $amount: 15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: $yellow;
+        font-size: 20px;
+        box-shadow: 2px 2px 4px $black;
+        bottom: 10px;
+        right: 10px;
+    }
 }
 
 @media screen and (max-width: 1280px) {

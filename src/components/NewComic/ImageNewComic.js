@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { loadingNewComic } from 'actions/loading'
 
-function ImageNewComic({comicID, number, chap, title}) {
+function ImageNewComic({comicID, number, chap, title, thumbnail}) {
 
     const [image, setImage] = useState('')
     const dispatch = useDispatch()
@@ -15,7 +15,7 @@ function ImageNewComic({comicID, number, chap, title}) {
     
     useEffect(() => {
         if(number)
-            getDownloadURL(ref(storage, `comics/truyen${number}/thumbnail.jpg`))
+            getDownloadURL(ref(storage, `comics/truyen${number}/${thumbnail}`))
             .then(url => {
                 setImage(url)
                 dispatch(loadingNewComic(false))

@@ -16,16 +16,16 @@
         text-decoration: none;
         font-size: 1rem;
         font-weight: 600;
-        color: $white;
-        background-color: darken($purple, $amount: 20);
+        background-color: $yellow,;
+        color: $black;
     }
 
     .history-nav-active {
-        background-color: $yellow,;
-        color: $black;
+        color: $white;
+        background-color: darken($purple, $amount: 20);
 
         &:hover {
-            background-color: $yellow !important;
+            background-color: darken($purple, $amount: 20);
         }
     }
 }

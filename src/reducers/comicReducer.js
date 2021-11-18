@@ -13,12 +13,15 @@ import {
     GET_LIKED_COMICS,
     GET_NEW_COMICS,
     GET_QUANTITY_CHAPTER,
+    GET_QUANTITY_COMIC,
     GET_QUANTITY_PAGE,
     GET_QUANTITY_PAGE_FOLLOWED_COMICS,
     GET_QUANTITY_PAGE_LIKED_COMICS,
     GET_READ_COMICS,
     GET_TAG,
-    GET_TAGS
+    GET_TAGS,
+    GET_UNFINISHED_COMIC,
+    SEARCH
 } from "utils/constants"
 
 const initialState = {
@@ -32,7 +35,10 @@ const initialState = {
     quantityPage: -1,
     quantityChapter: -1,
     comments: [],
-    interactions: {}
+    interactions: {},
+    quantityComics: 0,
+    searchComics: [],
+    quantitySearchPage: 0
 }
 
 const comicReducer = (state = initialState, action) => {
@@ -77,6 +83,12 @@ const comicReducer = (state = initialState, action) => {
             return { ...state, quantityPage: action.payload.quatitypage }
         case CLEAR_QUANTITY_PAGE:
             return { ...state, quantityPage: action.payload }
+        case GET_QUANTITY_COMIC:
+            return { ...state, quantityComics: action.payload }
+        case GET_UNFINISHED_COMIC:
+            return { ...state, comics: action.payload}
+        case SEARCH:
+            return { ...state, searchComics: action.payload.comics, quantitySearchPage: action.payload.quantitypage }
         default:
             return state
     }
