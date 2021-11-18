@@ -28,7 +28,7 @@ function CategoriesPage() {
 
     return (
         <Container fluid>
-            <Row>
+            <Row className="category-page-row">
                 <Col lg={3} md={4} sm={12}>
                     <h2 className="all-categories">Tất cả</h2>
                     <Categories/>
