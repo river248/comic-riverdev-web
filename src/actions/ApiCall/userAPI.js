@@ -15,10 +15,25 @@ export const fetchGoogleLogin = async (data) => {
 
 export const fetchFullUser = async (id, token) => await axios.get(`${API_ROOT}/v1/user/${id}`, {
         headers: {'x-access-token': token}
-    })
+})
 
 export const fetchLogout = async () => {
     const request = await axios.get(`${API_ROOT}/v1/user/logout`)
+    return request.data
+}
+
+export const fetchRegister = async (data) => {
+    const request = await axios.post(`${API_ROOT}/v1/user/register`, data)
+    return request.data
+}
+
+export const fetchForgotPassword = async (data) => {
+    const request = await axios.post(`${API_ROOT}/v1/user/forgot-password`, data)
+    return request.data
+}
+
+export const fetchResetPassword = async (id, data, token) => {
+    const request = await axios.put(`${API_ROOT}/v1/user/reset-password/${id}`, data, {headers: {'x-access-token': token}})
     return request.data
 }
 
@@ -70,3 +85,5 @@ export const fetchReadComics = async (userID, page, token) => await axios.get(`$
 
 export const removeReadComic = async (userID, comicID, chap, token) => await axios.delete(`${API_ROOT}/v1/user/remove-history?userID=${userID}&comicID=${comicID}&chap=${chap}`, { headers: { 'x-access-token': token}})
 export const removeAllReadComic = async (userID, token) => await axios.delete(`${API_ROOT}/v1/user/remove-all-history?userID=${userID}`, { headers: { 'x-access-token': token}})
+
+export const updateUser = async (userID, token, data) => await axios.put(`${API_ROOT}/v1/user/${userID}`, data, { headers: { 'x-access-token': token}})

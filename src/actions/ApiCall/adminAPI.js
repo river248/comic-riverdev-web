@@ -9,8 +9,8 @@ export const createNewComic = async (data, role, token) => await axios.post(
     { headers: {'x-access-token': token}}
 )
 
-export const updateAndSoftRemoveComic = async (id, data, role, token) => await axios.put(
-    `${API_ROOT}/v1/comics/update-remove/${id}?role=${role}`,
+export const softRemoveComic = async (id, data, role, token) => await axios.put(
+    `${API_ROOT}/v1/comics/soft-remove/${id}?role=${role}`,
     data,
     { headers: {'x-access-token': token}}
 )
@@ -36,7 +36,7 @@ export const createNewChapter = async (data, role, token) => await axios.post(
     { headers: {'x-access-token': token}}
 )
 
-export const updateChapter = async (id, data, role, token) => await axios.post(
+export const updateChapter = async (id, data, role, token) => await axios.put(
     `${API_ROOT}/v1/chapters/${id}?role=${role}`,
     data,
     { headers: {'x-access-token': token}}

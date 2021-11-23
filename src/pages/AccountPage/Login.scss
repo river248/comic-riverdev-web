@@ -21,7 +21,7 @@
 
     .login-box {
         width: 350px;
-        height: 400px;
+        height: 420px;
         border-radius: 15px;
         box-shadow: 8px 6px 14px $purple;
         display: flex;
@@ -30,7 +30,7 @@
         opacity: 0;
         animation: slideDown 0.8s ease-out 0.8s forwards;
         position: relative;
-        padding-top: 40px;
+        padding-top: 10px;
 
         span {
             font-size: 2rem;
@@ -39,6 +39,17 @@
             text-shadow: 0px 0px 6px $purple;
             margin-bottom: 20px;
             margin-top: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: $purple;
+            margin-bottom: 5px;
+
+            &:hover {
+                font-style: italic;
+                text-decoration: underline;
+            }
         }
 
         .user-box {
@@ -187,7 +198,7 @@
             span { display: none;}
         }
 
-        .spinner-border { color: $purple;}
+        .spinner-border { color: $purple; margin-top: 40px;}
     }
 
     .image-naruto {
@@ -216,45 +227,6 @@
             .user-box { width: 250px;}
         }
     }
-}
-
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(100%); }
-    to { opacity: 1; transform: translateY(0%); }
-}
-
-@keyframes slideDown {
-    from { 
-        opacity: 0;
-        transform: translateY(-100%); }
-    to { 
-        opacity: 1;
-        transform: translateY(0%); }
-}
-
-@keyframes slideLTR {
-    from { 
-        opacity: 0;
-        transform: translateX(-100%); }
-    to { 
-        opacity: 1;
-        transform: translateX(0%); }
-}
-
-@keyframes slideUpDisappear {
-    from {
-        opacity: 1; 
-        transform: translateY(0%);
-    }
-    to { 
-        opacity: 0;
-        transform: translateY(-100%); 
-    }
-}
-
-@keyframes slideDownDisappear {
-    from { opacity: 1; transform: translateY(0%); }
-    to { opacity: 0; transform: translateY(100%); }
 }
 
 @keyframes btn-anim1 {

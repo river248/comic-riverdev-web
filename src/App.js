@@ -24,6 +24,8 @@ import Loading from 'components/Loading/Loading'
 import { useSelector } from 'react-redux'
 import HistoryPage from 'pages/HistoryPage/HistoryPage'
 import AdminPage from 'pages/AdminPage/AdminPage'
+import Signup from 'pages/AccountPage/Signup'
+import ForgotPassword from 'pages/AccountPage/ForgotPassword'
 
 function App() {
 
@@ -44,7 +46,9 @@ function App() {
             <Route path='/category' component={CategoriesPage}/>
             <PrivateRoute path='/user' component={UserPage}/>
             <PrivateRoute path='/history/:id' component={HistoryPage}/>
+            <PublicRoute path='/register' component={Signup}/>
             <PublicRoute path='/login' component={Login}/>
+            <PublicRoute path='/forgot-password' component={ForgotPassword}/>
             <PrivateRoute path='/admin/:id' component={AdminPage}/>
             <Route exact component={NotFound}/>
           </Switch>

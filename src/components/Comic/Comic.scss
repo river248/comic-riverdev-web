@@ -71,12 +71,12 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background-color: darken($purple, $amount: 15);
+        background-color: $yellow;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        color: $yellow;
+        color: darken($purple, $amount: 15);
         font-size: 20px;
         box-shadow: 2px 2px 4px $black;
         bottom: 10px;
@@ -107,5 +107,31 @@
                 }
             }
         }
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .comic-container {
+
+        width: 158.4px;
+        height: 260px;
+    
+        .comic-image {
+            height: 201.6px;
+        }
+    
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .comic-container {
+
+        width: 126.72px;
+        height: 260px;
+    
+        .comic-image {
+            height: 161.28px;
+        }
+    
     }
 }

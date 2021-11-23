@@ -1,0 +1,115 @@
+@import '_setting.scss';
+
+.register-page-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba($black, $alpha: 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: slideUp 0.8s ease-out;
+    z-index: 10;
+
+    .fake-container {
+        position: absolute;
+        width: inherit;
+        height: inherit;
+        z-index: -1;
+    }
+
+    .register-box {
+        width: 350px;
+        height: 500px;
+        border-radius: 15px;
+        box-shadow: 8px 6px 14px $purple;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0;
+        animation: slideDown 0.8s ease-out 0.8s forwards;
+        position: relative;
+        padding: 10px 30px 0 30px;
+
+        span {
+            font-size: 2rem;
+            font-weight: bold;
+            color: $purple;
+            text-shadow: 0px 0px 6px $purple;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            height: 40px;
+            padding: 0 10px;
+            border: none;
+            font-size: 1rem;
+            color: $purple;
+            border-bottom: 1px solid $purple;
+            outline: none;
+            background: transparent;
+            &::placeholder {color: $purple;}
+            margin-bottom: 20px;
+        }
+
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: $purple;
+            font-size: 1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 20px;
+            width: 100%;
+            height: 40px;
+            outline: none;
+            border: 1px solid $purple;
+            cursor: pointer;
+            background-color: transparent;
+            border-radius: 6px;
+
+            &:hover {
+                background: $purple;
+                color: $white;
+                border-radius: 5px;
+                box-shadow: 0 0 5px $purple,
+                            0 0 25px $purple,
+                            0 0 50px $purple,
+                            0 0 100px $purple;
+            }
+        }
+
+        .register-error {
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: $purple;
+            margin-bottom: 5px;
+
+            &:hover {
+                font-style: italic;
+                text-decoration: underline;
+            }
+        }
+
+        .spinner-border {
+            margin-top: 20px;
+            color: $purple;
+        }
+    }
+
+    .reset-password-box {
+        height: 380px;
+    }
+
+    .forgot-password-box {
+        height: 300px;
+    }
+}

@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef } from 'react'
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import naruto from 'resources/naruto.png'
 
 import './Login.scss'
@@ -8,6 +9,7 @@ import { fetchGoogleLogin, fetchLogin } from 'actions/ApiCall/userAPI'
 import { setUserSession } from 'utils/common'
 import { Spinner } from 'react-bootstrap'
 import GoogleLogin from 'react-google-login'
+import { validateEmail } from 'utils/validateEmail'
 
 function Login(props) {
 
@@ -25,31 +27,40 @@ function Login(props) {
 
     const handleSubmit = () => {
 
-        const data = {email: email, password: password}
+        const validate = validateEmail(email)
         setLoading(true)
-        fetchLogin(data).then(response => {
+        if (!validate) {
+            setError({
+                status: true,
+                message: 'Invalid Email!'
+            })
+            setLoading(false)
+        } else {
+            const data = {email: email, password: password}
+            fetchLogin(data).then(response => {
 
-            setUserSession(response.accessToken, response.refreshToken)
-            loginBoxRef.current.style.setProperty('animation', 'slideUpDisappear 0.5s ease-in forwards')
-            loginContainerRef.current.style.setProperty('animation', 'slideDownDisappear 0.5s ease-in 0.5s forwards')
-            setTimeout(() => {
-                props.history.push('/')
-                // window.location.reload()
-            }, 1500)
-            setLoading(false)
-        }).catch(error => {
-            setLoading(false)
-            if(error.response.status === 401 || error.response.status === 400)
-                setError({
-                    status: true,
-                    message: error.response.data.message
-                })
-            else
-                setError({
-                    status: true,
-                    message: 'Something went wrong. Please try again later.'
-                })
-        })
+                setUserSession(response.accessToken, response.refreshToken)
+                loginBoxRef.current.style.setProperty('animation', 'slideUpDisappear 0.5s ease-in forwards')
+                loginContainerRef.current.style.setProperty('animation', 'slideDownDisappear 0.5s ease-in 0.5s forwards')
+                setTimeout(() => {
+                    props.history.push('/')
+                    // window.location.reload()
+                }, 1500)
+                setLoading(false)
+            }).catch(error => {
+                setLoading(false)
+                if(error.response.status === 401 || error.response.status === 400)
+                    setError({
+                        status: true,
+                        message: error.response.data.message
+                    })
+                else
+                    setError({
+                        status: true,
+                        message: 'Something went wrong. Please try again later.'
+                    })
+            })
+        }
 
     }
 
@@ -57,7 +68,7 @@ function Login(props) {
         loginBoxRef.current.style.setProperty('animation', 'slideUpDisappear 0.5s ease-in forwards')
         loginContainerRef.current.style.setProperty('animation', 'slideDownDisappear 0.5s ease-in 0.5s forwards')
         setTimeout(() => {
-            history.goBack()
+            history.push('/')
         }, 1500)
     }
 
@@ -99,10 +110,10 @@ function Login(props) {
             <div className="fake-container" onClick={handleGoBack}/>
             <img src={naruto} alt='naruto' className="image-naruto"/>
             <div className="login-box" ref={loginBoxRef}>
-                <span>Login</span>
+                <span>Log in</span>
                 <div className="user-box">
-                    <input type="email" ref={emailInputRef} value={email} onChange={e => setEmail(e.target.value)} required/>
-                    <label>Username</label>
+                    <input ref={emailInputRef} value={email} onChange={e => setEmail(e.target.value)} required/>
+                    <label>Email</label>
                 </div>
                 <div className="user-box">
                     <input type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} required/>
@@ -111,12 +122,11 @@ function Login(props) {
                     { showPassword && <BsFillEyeSlashFill onClick={() => setShowPassword(false)}/>}
                 </div>
                 { error.status && <span className="login-error">{error.message}</span> }
+                <Link to="/forgot-password">Forgot password?</Link>
+                <Link to="/register">Don't have account? Sign Up</Link>
                 { !loading && <button className="login-btn" onClick={handleSubmit}>
-                    <span/>
-                    <span/>
-                    <span/>
-                    <span/>
-                    Login
+                    <span/><span/><span/><span/>
+                    Log in
                 </button> }
                 <GoogleLogin
                     clientId='630055118244-ct9llftpn800j7g70nlprjibbe2ea0la.apps.googleusercontent.com'
