@@ -7,6 +7,7 @@ function Footer() {
     return (
         <div className="footer-container">
             <span>HiGiCo - Gì Cũng Có</span>
+            <span>Liên hệ: springriver248@gmail.com</span>
             <span>Copyright &copy; 2021</span>
         </div>
     )

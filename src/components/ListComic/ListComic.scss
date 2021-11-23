@@ -32,13 +32,6 @@
     .list-comic-container {
         .comic-item {
             height: 282px;
-        }
-    }
-}
-
-@media screen and (max-width: 1280px) {
-    .list-comic-container {
-        .comic-item {
             width: 33.33%;
         }
     }
@@ -48,6 +41,24 @@
     .list-comic-container {
         .comic-item {
             width: 50%;
+        }
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .list-comic-container {
+        .comic-item {
+            height: 262px;
+            margin-bottom: 10px;
+        }
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .list-comic-container {
+        .comic-item {
+            height: 222px;
+            margin-bottom: 0;
         }
     }
 }

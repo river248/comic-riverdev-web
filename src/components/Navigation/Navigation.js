@@ -31,8 +31,6 @@ function Navigation() {
         fetchLogout().then(response => {
             history.replace('/')
             removeUserSession()
-            window.location.reload()
-            alert(response.message)
         })
     }
 

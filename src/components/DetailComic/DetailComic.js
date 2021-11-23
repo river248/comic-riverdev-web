@@ -15,16 +15,20 @@ import { getToken } from 'utils/common'
 import { followComic, likeComic } from 'actions/ApiCall/userAPI'
 import { actFetchFollowStatus, actFetchLikeStatus } from 'actions/userAction'
 import { actFetchInteractions } from 'actions/comicAction'
+import Alert from 'components/Alert/Alert'
 
 function DetailComic({ comic, interactions }) {
     
     const [image, setImage] = useState('')
     const [loadingLike, setLoadingLike] = useState(false)
     const [loadingFollow, setLoadingFollow] = useState(false)
+    const [alert, setAlert] = useState({ show: false, message: ''})
+
     const user = useSelector(state => state.user.user)
     const likeStatus = useSelector(state => state.user.likeStatus)
     const followStatus = useSelector(state => state.user.followStatus)
-    
+    const chapters = useSelector(state => state.comic.chapters)
+
     const token = getToken()
     const dispatch = useDispatch()
     const history = useHistory()
@@ -45,6 +49,7 @@ function DetailComic({ comic, interactions }) {
     }, [comic])
 
     const handleFollow = () => {
+        setAlert({show: false, message: ''})
         if(getToken()) {
             setLoadingFollow(true)
             followComic(user._id, comic._id, token).then(() =>{
@@ -54,10 +59,11 @@ function DetailComic({ comic, interactions }) {
             })
         }
         else
-            alert(`Please login!`)
+            setAlert({show: true, message: 'Vui lòng đăng nhập để sử dụng tính năng này!'})
     }
 
     const handleLike = () => {
+        setAlert({show: false, message: ''})
         if(token) {
             setLoadingLike(true)
             likeComic(user._id, comic._id, token).then(res => {
@@ -67,10 +73,12 @@ function DetailComic({ comic, interactions }) {
             })
         }
         else
-            alert(`Please login!`)
+            setAlert({show: true, message: 'Vui lòng đăng nhập để sử dụng tính năng này!'})
     }
 
     return (
+        <>
+        <Alert status={alert.show} message={alert.message}/>
         <div className="detail-comic-container">
             <div className="detail-comic-image">
                 { image ? <img src={image} alt=""/> : 
@@ -101,7 +109,7 @@ function DetailComic({ comic, interactions }) {
 
                 </div>
                 <div className="detail-comic-actions">
-                    <button onClick={() => history.push(`/home/reading?comic=${comic._id}&chap=1`)}><GiOpenBook/>Đọc từ đầu</button>
+                    { chapters.length > 0 && <button onClick={() => history.push(`/home/reading?comic=${comic._id}&chap=1`)}><GiOpenBook/>Đọc từ đầu</button> }
                     <input id="follow" type="checkbox" checked={followStatus} readOnly/>
                     <button id="follow-btn" onClick={handleFollow}>
                         { !loadingFollow ? <><FaHeart/> {followStatus? 'Hủy theo dõi' : 'Theo dõi'}</> :
@@ -115,6 +123,7 @@ function DetailComic({ comic, interactions }) {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 

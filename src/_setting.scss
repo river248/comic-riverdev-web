@@ -25,3 +25,42 @@ $blue: #07BAE8;
     from {transform: rotate(0deg);}
     to {transform: rotate(360deg);}
 }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(100%); }
+    to { opacity: 1; transform: translateY(0%); }
+}
+
+@keyframes slideDown {
+    from { 
+        opacity: 0;
+        transform: translateY(-100%); }
+    to { 
+        opacity: 1;
+        transform: translateY(0%); }
+}
+
+@keyframes slideLTR {
+    from { 
+        opacity: 0;
+        transform: translateX(-100%); }
+    to { 
+        opacity: 1;
+        transform: translateX(0%); }
+}
+
+@keyframes slideUpDisappear {
+    from {
+        opacity: 1; 
+        transform: translateY(0%);
+    }
+    to { 
+        opacity: 0;
+        transform: translateY(-100%); 
+    }
+}
+
+@keyframes slideDownDisappear {
+    from { opacity: 1; transform: translateY(0%); }
+    to { opacity: 0; transform: translateY(100%); }
+}
