@@ -29,7 +29,7 @@ function DetailPage() {
         dispatch(actFetchInteractions(id))
         return () => dispatch(clearDetailComic())
 
-    }, [])
+    }, [id])
 
     return (
         <Container fluid="md">

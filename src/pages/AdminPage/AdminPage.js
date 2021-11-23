@@ -43,9 +43,9 @@ function AdminPage() {
                 <Col className='admin-nav-col'>
                     <NavLink to="/admin/new-chapter" activeClassName="admin-nav-active" className="admin-nav">Thêm chương</NavLink>
                 </Col>
-                <Col className='admin-nav-col'>
+                {/* <Col className='admin-nav-col'>
                     <NavLink to="/admin/new-tag" activeClassName="admin-nav-active" className="admin-nav">Thêm thể loại</NavLink>
-                </Col>
+                </Col> */}
             </Row>
             <Row>
                 { id === 'new-comic' && <AddComicForm nextComic={quantityComics + 1}/>}
