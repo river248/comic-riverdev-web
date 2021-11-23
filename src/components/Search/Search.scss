@@ -20,8 +20,16 @@
         background-color: rgba($black, $alpha: 0.8);
         padding-left: 10px;
         color: $white;
+        padding-right: 40px;
 
         &::placeholder { color: $white; }
+
+        // &:focus-visible {
+        //     ~ .search-result {
+        //         display: block;
+        //     }
+        // }
+
     }
 
     svg {
@@ -32,8 +40,98 @@
         right: 10px;
         cursor: pointer;
     }
+
+    .search-result {
+        // display: none;
+        flex-direction: column;
+        left: 0;
+        width: 500px;
+        overflow: auto;
+        max-height: 300px;
+        position: absolute;
+        background-color: rgba($black, $alpha: 0.8);
+        top: 90%;
+        z-index: 3;
+        border-radius: 6px;
+        box-shadow: 0 0 15px $purple;
+
+        .search-result-item {
+            height: 100px;
+            color: $purple;
+            font-weight: bold;
+            padding: 0 10px;
+            border-bottom: 1px solid $purple;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            .image-search-item, .load-image {
+                width: 70px;
+                height: 91px;
+                margin-right: 10px;
+                border-radius: 6px;
+                padding: 0;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 6px;
+                }
+    
+            }
+
+            &:hover {
+                background-color: $black;
+            }
+
+            span {
+                overflow: hidden;
+                font-size: 1.1rem;
+                width: calc(100% - 80px);
+                -webkit-line-clamp: 2;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+            }
+            
+
+            .load-image {
+                background-color: $black;
+                box-shadow: 2px 2px 4px darken($black, $amount: 20);
+            }
+        }
+
+        button {
+            width: 100px;
+            height: 40px;
+            border-radius: 6px;
+            background-color: transparent;
+            color: $purple;
+            font-weight: bold;
+            outline: none;
+            border: 1px solid $purple;
+            margin: 10px 0;
+            cursor: pointer;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+
+            &:hover {
+                background-color: $purple;
+                box-shadow: 0 0 25px $purple;
+                color: $white;
+            }
+        }
+    }
 }
 
+@media screen and (max-width: 530px) {
+    .search-container {
+        .search-result {
+            width: 300px;
+        }
+    }
+}
 @media screen and (max-width: 425px) {
     .search-container {
         bottom: 0;

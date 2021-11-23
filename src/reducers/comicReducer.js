@@ -88,7 +88,7 @@ const comicReducer = (state = initialState, action) => {
         case GET_UNFINISHED_COMIC:
             return { ...state, comics: action.payload}
         case SEARCH:
-            return { ...state, searchComics: action.payload.comics, quantitySearchPage: action.payload.quantitypage }
+            return { ...state, searchComics: action.payload.comics, quantitySearchPage: action.payload.quantityPage }
         default:
             return state
     }
