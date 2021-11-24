@@ -132,10 +132,17 @@
         }
     }
 }
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 529px) {
     .search-container {
+        width: 80%;
         bottom: 0;
         left: 50%;
         transform: translateX(-50%);
+        z-index: 2;
+        position: absolute;
+
+        .search-result {
+            width: 100%;
+        }
     }
 }
