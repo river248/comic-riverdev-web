@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import './Navigation.scss'
 import { getToken, removeUserSession } from 'utils/common'
 import jwtDecode from 'jwt-decode'
-import { actFetchFullUser } from 'actions/userAction'
+import { actFetchFullUser, getFullUser } from 'actions/userAction'
 import { fetchLogout } from 'actions/ApiCall/userAPI'
 
 function Navigation() {
@@ -25,6 +25,9 @@ function Navigation() {
             const userData = jwtDecode(token)
             dispatch(actFetchFullUser(userData.data._id, token))
         }
+
+        return () => dispatch(getFullUser({}))
+
     }, [token])
 
     const hanldeLogout = () => {

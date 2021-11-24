@@ -12,12 +12,28 @@
         align-items: center;
         justify-content: center;
         border-radius: 12px;
+        position: relative;
 
         img {
             width: 100%;
             height: 100%;
             border-radius: 12px;
             box-shadow: 6px 6px 10px darken($black, $amount: 20);
+        }
+
+        .edit-thumnail-icon {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 35px;
+            color: $purple;
+            cursor: pointer;
+            background-color: $yellow;
+            border-radius: 6px;
+
+            &:hover {
+                background-color: $white;
+            }
         }
     }
 
@@ -35,6 +51,18 @@
                 font-size: 1.5rem;
                 font-weight: 600;
                 color: $yellow;
+            }
+
+            .edit-icon {
+                font-size: 25px;
+                margin-left: 5px;
+                color: $purple;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: $white;
+                    border-radius: 2px;
+                }
             }
         }
 

@@ -8,6 +8,7 @@ import { ref, uploadBytes } from 'firebase/storage'
 import { loadingComic } from 'actions/loading'
 import { getToken } from 'utils/common'
 import { createNewComic } from 'actions/ApiCall/adminAPI'
+import Alert from 'components/Alert/Alert'
 
 function AddComicForm({ nextComic }) {
 
@@ -18,6 +19,7 @@ function AddComicForm({ nextComic }) {
     const [author, setAuthor] = useState('')
     const [description, setDescription] = useState('')
     const [loading, setLoading] = useState(false)
+    const [alert, setAlert] = useState({ show: false, message: ''})
 
     const categories = useSelector(state => state.comic.tags)
     const user = useSelector(state => state.user.user)
@@ -38,6 +40,7 @@ function AddComicForm({ nextComic }) {
     }
 
     const handleSubmit = () => {
+        setAlert({show: false, message: ''})
         setLoading(true)
         if(thumbnail && title && (tags.length > 0)) {
             setThumbnail(null)
@@ -60,8 +63,7 @@ function AddComicForm({ nextComic }) {
         setLoading(true)
         const storageRef = ref(storage, `comics/truyen${nextComic}/${thumbnail.name}`)
         uploadBytes(storageRef, thumbnail).then((snapshot) => {
-            console.log('Uploaded a blob or file!')
-            alert('Đã thêm truyện mới!')
+            setAlert({show: true, message: 'Đã thêm truyện mới!'})
             setLoading(false)
         })
     }
@@ -78,6 +80,8 @@ function AddComicForm({ nextComic }) {
     }
     
     return (
+        <>
+        <Alert status={alert.show} message={alert.message}/>
         <div className="add-comic">
             <div className="input-item">
                 <label>Tên truyện :</label>
@@ -111,6 +115,7 @@ function AddComicForm({ nextComic }) {
                 <div className="spinner-border spinner-border-sm text-warning" role="status"/> }
             </button>
         </div>
+        </>
     )
 }
 

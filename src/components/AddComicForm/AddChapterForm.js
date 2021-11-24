@@ -9,6 +9,7 @@ import loadingImage from 'resources/loading.png'
 import { getToken } from 'utils/common'
 import { createNewChapter } from 'actions/ApiCall/adminAPI'
 import { updateComics } from 'actions/ApiCall/comicAPI'
+import Alert from 'components/Alert/Alert'
 
 function AddChapterForm() {
 
@@ -21,6 +22,7 @@ function AddChapterForm() {
     const [loading, setLoading] = useState({chapter: false, image: false})
     const [chapter, setChapter] = useState(0)
     const [status, setStatus] = useState({isFinished: false, name: 'Chưa hoàn thành'})
+    const [alert, setAlert] = useState({ show: false, message: ''})
 
     const chapters = useSelector(state => state.comic.quantityChapter)
     const comics = useSelector(state => state.comic.comics)
@@ -61,7 +63,7 @@ function AddChapterForm() {
     }
 
     const handleSubmit = () => {
-        
+        setAlert({show: false, message: ''})
         if (images.length > 0 && user.isAdmin) {
             setLoading({ chapter: true, image: true})
             const data = {
@@ -75,7 +77,7 @@ function AddChapterForm() {
                     dispatch(actFetchUnfinishedComic())
                     dispatch(loadingComic(true))
                     setImages([])
-                    alert('Đã thêm chương mới!')
+                    setAlert({show: true, message: 'Đã thêm chương mới'})
                 }).catch(error => console.log(error))
                 updateComics(data.comicID, {status: 'Đã hoàn thành'})
                 setStatus({isFinished: false, name: 'Chưa hoàn thành'})
@@ -86,7 +88,7 @@ function AddChapterForm() {
                     dispatch(actFetchUnfinishedComic())
                     dispatch(loadingComic(true))
                     setImages([])
-                    alert('Đã thêm chương mới!')
+                    setAlert({show: true, message: 'Đã thêm chương mới'})
                 }).catch(error => console.log(error))
                 setStatus({isFinished: false, name: 'Chưa hoàn thành'})
             }
@@ -127,6 +129,8 @@ function AddChapterForm() {
     }
 
     return (
+        <>
+        <Alert status={alert.show} message={alert.message}/>
         <div className="add-comic">
             <div className="image-current-comic">
                 { thumbnail ? <img src={thumbnail} alt="higico"/>: 
@@ -163,6 +167,7 @@ function AddChapterForm() {
                 <div className="spinner-border spinner-border-sm text-warning" role="status"/> }
             </button>
         </div>
+        </>
     )
 }
 

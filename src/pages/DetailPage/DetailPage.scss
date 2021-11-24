@@ -11,3 +11,21 @@ h1 {
 h3 {
     color: $purple;
 }
+
+.edit-detail-comic {
+    width: 300px !important;
+    margin: 0 auto 20px auto !important;
+    height: 40px;
+    font-size: 1rem;
+    color: $white;
+    font-weight: bold;
+    background-color: darken($purple, $amount: 20);
+    outline: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+        box-shadow: 0 0 25px $purple;
+    }
+}
