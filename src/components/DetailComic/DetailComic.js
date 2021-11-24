@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import loading from 'resources/loading.png'
 import { FaHeart, FaEye } from 'react-icons/fa'
 import { GiOpenBook } from 'react-icons/gi'
+import { MdModeEditOutline } from 'react-icons/md'
 import { AiFillLike } from 'react-icons/ai'
 import { storage } from "firebase/index"
 import { ref, getDownloadURL } from 'firebase/storage'
@@ -16,6 +17,7 @@ import { followComic, likeComic } from 'actions/ApiCall/userAPI'
 import { actFetchFollowStatus, actFetchLikeStatus } from 'actions/userAction'
 import { actFetchInteractions } from 'actions/comicAction'
 import Alert from 'components/Alert/Alert'
+import EditComic from 'components/Modal/EditComic'
 
 function DetailComic({ comic, interactions }) {
     
@@ -23,6 +25,9 @@ function DetailComic({ comic, interactions }) {
     const [loadingLike, setLoadingLike] = useState(false)
     const [loadingFollow, setLoadingFollow] = useState(false)
     const [alert, setAlert] = useState({ show: false, message: ''})
+    const [showBox, setShowBox] = useState(false)
+    const [content, setContent] = useState('')
+    const [value, setValue] = useState('')
 
     const user = useSelector(state => state.user.user)
     const likeStatus = useSelector(state => state.user.likeStatus)
@@ -76,23 +81,33 @@ function DetailComic({ comic, interactions }) {
             setAlert({show: true, message: 'Vui lòng đăng nhập để sử dụng tính năng này!'})
     }
 
+    const handleEdit = (val1, val2) => {
+        setContent(val1)
+        setValue(val2)
+        setShowBox(true)
+    }
+
     return (
         <>
         <Alert status={alert.show} message={alert.message}/>
+        {showBox && <EditComic comicID={comic._id} number={comic.number} setShowBox={setShowBox} content={content} valuePar={value}/>}
         <div className="detail-comic-container">
             <div className="detail-comic-image">
-                { image ? <img src={image} alt=""/> : 
+                { image ? <>
+                    <img src={image} alt=""/>
+                    <MdModeEditOutline onClick={() => handleEdit('Ảnh', '$%^')} className="edit-thumnail-icon"/>
+                    </>: 
                     <div className="loading">
                         <img src={loading} alt="loading"/>
                     </div> 
                 }
             </div>
             <div className="detail-comic-info">
-                <span>{comic.title}</span>
-                <span>Tác giả: {comic.author}</span>
-                <span>Tình trạng: {comic.status}</span>
+                <span>{comic.title} <MdModeEditOutline onClick={() => handleEdit('Tên truyện',comic.title)} className="edit-icon"/></span>
+                <span>Tác giả: {comic.author} <MdModeEditOutline onClick={() => handleEdit('Tác giả',comic.author)} className="edit-icon"/></span>
+                <span>Tình trạng: {comic.status} <MdModeEditOutline onClick={() => handleEdit('Trạng thái',comic.status)} className="edit-icon"/></span>
                 <span>
-                    Mô tả: {comic.description}
+                    Mô tả: {comic.description} <MdModeEditOutline onClick={() => handleEdit('Mô tả',comic.description)} className="edit-icon"/>
                 </span>
                 <div className="detail-comic-statistic">
                     <span>Thống kê:</span>

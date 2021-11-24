@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import DetailComic from 'components/DetailComic/DetailComic'
 import ListChapter from 'components/ListChapter/ListChapter'
 import Comments from 'components/Comments/Comments'
@@ -12,11 +12,14 @@ import './DetailPage.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { actFetchDetailComic, actFetchInteractions, clearDetailComic } from 'actions/comicAction'
 import { loadingChapter, loadingComic } from 'actions/loading'
+import Modal from 'components/Modal/Modal'
 
 function DetailPage() {
 
+    const [show, setShow] = useState(false)
     const comic = useSelector(state => state.comic.comic)
     const interactions = useSelector(state => state.comic.interactions)
+    const user = useSelector(state => state.user.user)
 
     const dispatch = useDispatch()
 
@@ -32,10 +35,15 @@ function DetailPage() {
     }, [id])
 
     return (
+        <>
+        { show && <Modal comicID={comic._id} setShow={setShow}/>}
         <Container fluid="md">
             <Row>
                 <DetailComic comic={comic} interactions={interactions}/>
             </Row>
+            { user.isAdmin && <Row>
+                <button className="edit-detail-comic" onClick={() => setShow(true)}>Chỉnh sửa thể loại</button>
+            </Row>}
             <Row>
                 <h1><GiStarFormation/> Danh sách chương</h1>
                 <ListChapter comic={comic}/>
@@ -47,6 +55,7 @@ function DetailPage() {
                 <PostComment comic={comic}/>
             </Row>
         </Container>
+        </>
     )
 }
 

@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 import './Footer.scss'
 
@@ -7,13 +8,18 @@ function Footer() {
 
     const [style, setStyle] = useState('footer-container')
 
+    const location = useLocation()
+
     useEffect(() => {
-        
-        if (document.documentElement.offsetHeight < 731)
-            setStyle('footer-container footer-position')
+
+        if(location.pathname === '/history/read' || location.pathname === '/history/liked' || location.pathname === '/history/followed')
+            if (document.documentElement.offsetHeight < 731)
+                setStyle('footer-container footer-position')
+            else
+                setStyle('footer-container')
         else
             setStyle('footer-container')
-    }, [document.documentElement.offsetHeight])
+    }, [document.documentElement.offsetHeight, location.pathname])
 
     return (
         <div className={style}>

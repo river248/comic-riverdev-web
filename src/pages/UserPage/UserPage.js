@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { fetchLogout, fetchResetPassword, updateUser } from 'actions/ApiCall/userAPI'
 import { getToken, removeUserSession } from 'utils/common'
 import { useHistory } from 'react-router-dom'
@@ -14,6 +14,7 @@ import './UserPage.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { actFetchFullUser } from 'actions/userAction'
 import Alert from 'components/Alert/Alert'
+import { loadingComic } from 'actions/loading'
 
 function UserPage() {
 
@@ -32,6 +33,13 @@ function UserPage() {
     const dispatch = useDispatch()
     const history = useHistory()
     const token = getToken()
+
+    useEffect(() => {
+        dispatch(loadingComic(true))
+        if (user._id && token)
+            dispatch(loadingComic(false))
+
+    }, [user])
 
     const hanldeLogout = () => {
         fetchLogout().then(response => {
