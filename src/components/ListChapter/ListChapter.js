@@ -42,8 +42,8 @@ function ListChapter({ comic }) {
                 <div key={chapter._id}>
                     <div  className="chapter-title">
                         <span onClick={() => history.push(`/home/reading?comic=${comic._id}&chap=${chapter.chap}`)}>Chương {chapter.chap}</span>
-                        { !loading ? <span onClick={() => handleRemoveChapter(chapter._id)}><ImBin/></span> :
-                        <div className="spinner-border spinner-border-sm text-warning" role="status"/>}
+                        { user.isAdmin && (!loading ? <span onClick={() => handleRemoveChapter(chapter._id)}><ImBin/></span> :
+                        <div className="spinner-border spinner-border-sm text-warning" role="status"/>)}
                         <span>{convertDate(chapter.createAt)}</span>
                     </div>
                     <hr/>

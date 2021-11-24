@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { updateComic } from 'actions/ApiCall/adminAPI'
 import { actFetchAllTag, actFetchDetailComic } from 'actions/comicAction'
 import React, { useEffect, useState } from 'react'

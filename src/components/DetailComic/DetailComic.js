@@ -95,7 +95,7 @@ function DetailComic({ comic, interactions }) {
             <div className="detail-comic-image">
                 { image ? <>
                     <img src={image} alt=""/>
-                    <MdModeEditOutline onClick={() => handleEdit('Ảnh', '$%^')} className="edit-thumnail-icon"/>
+                    {user.isAdmin && <MdModeEditOutline onClick={() => handleEdit('Ảnh', '$%^')} className="edit-thumnail-icon"/> }
                     </>: 
                     <div className="loading">
                         <img src={loading} alt="loading"/>
@@ -103,11 +103,11 @@ function DetailComic({ comic, interactions }) {
                 }
             </div>
             <div className="detail-comic-info">
-                <span>{comic.title} <MdModeEditOutline onClick={() => handleEdit('Tên truyện',comic.title)} className="edit-icon"/></span>
-                <span>Tác giả: {comic.author} <MdModeEditOutline onClick={() => handleEdit('Tác giả',comic.author)} className="edit-icon"/></span>
-                <span>Tình trạng: {comic.status} <MdModeEditOutline onClick={() => handleEdit('Trạng thái',comic.status)} className="edit-icon"/></span>
+                <span>{comic.title} {user.isAdmin && <MdModeEditOutline onClick={() => handleEdit('Tên truyện',comic.title)} className="edit-icon"/>}</span>
+                <span>Tác giả: {comic.author} {user.isAdmin && <MdModeEditOutline onClick={() => handleEdit('Tác giả',comic.author)} className="edit-icon"/>}</span>
+                <span>Tình trạng: {comic.status} {user.isAdmin && <MdModeEditOutline onClick={() => handleEdit('Trạng thái',comic.status)} className="edit-icon"/>}</span>
                 <span>
-                    Mô tả: {comic.description} <MdModeEditOutline onClick={() => handleEdit('Mô tả',comic.description)} className="edit-icon"/>
+                    Mô tả: {comic.description} {user.isAdmin && <MdModeEditOutline onClick={() => handleEdit('Mô tả',comic.description)} className="edit-icon"/>}
                 </span>
                 <div className="detail-comic-statistic">
                     <span>Thống kê:</span>
