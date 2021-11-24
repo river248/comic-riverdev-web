@@ -16,7 +16,6 @@ import { getToken } from 'utils/common'
 import { followComic, likeComic } from 'actions/ApiCall/userAPI'
 import { actFetchFollowStatus, actFetchLikeStatus } from 'actions/userAction'
 import { actFetchInteractions } from 'actions/comicAction'
-import Alert from 'components/Alert/Alert'
 import EditComic from 'components/Modal/EditComic'
 
 function DetailComic({ comic, interactions }) {
@@ -24,7 +23,6 @@ function DetailComic({ comic, interactions }) {
     const [image, setImage] = useState('')
     const [loadingLike, setLoadingLike] = useState(false)
     const [loadingFollow, setLoadingFollow] = useState(false)
-    const [alert, setAlert] = useState({ show: false, message: ''})
     const [showBox, setShowBox] = useState(false)
     const [content, setContent] = useState('')
     const [value, setValue] = useState('')
@@ -54,7 +52,6 @@ function DetailComic({ comic, interactions }) {
     }, [comic])
 
     const handleFollow = () => {
-        setAlert({show: false, message: ''})
         if(getToken()) {
             setLoadingFollow(true)
             followComic(user._id, comic._id, token).then(() =>{
@@ -64,11 +61,10 @@ function DetailComic({ comic, interactions }) {
             })
         }
         else
-            setAlert({show: true, message: 'Vui lòng đăng nhập để sử dụng tính năng này!'})
+            alert('Vui lòng đăng nhập để thực hiện tính năng này !')
     }
 
     const handleLike = () => {
-        setAlert({show: false, message: ''})
         if(token) {
             setLoadingLike(true)
             likeComic(user._id, comic._id, token).then(res => {
@@ -78,7 +74,7 @@ function DetailComic({ comic, interactions }) {
             })
         }
         else
-            setAlert({show: true, message: 'Vui lòng đăng nhập để sử dụng tính năng này!'})
+            alert('Vui lòng đăng nhập để thực hiện tính năng này !')
     }
 
     const handleEdit = (val1, val2) => {
@@ -89,7 +85,6 @@ function DetailComic({ comic, interactions }) {
 
     return (
         <>
-        <Alert status={alert.show} message={alert.message}/>
         {showBox && <EditComic comicID={comic._id} number={comic.number} setShowBox={setShowBox} content={content} valuePar={value}/>}
         <div className="detail-comic-container">
             <div className="detail-comic-image">
