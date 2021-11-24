@@ -95,3 +95,11 @@
         }
     }
 }
+
+@media screen and (max-width: 500px) {
+    .modal-container {
+        .modal-box {
+            width: 300px;
+        }
+    }
+}

@@ -99,3 +99,11 @@
         }
     }
 }
+
+@media screen and (max-width: 500px) {
+    .edit-comic-container {
+        .edit-comic-modal-box {
+            width: 300px;
+        }
+    }
+}

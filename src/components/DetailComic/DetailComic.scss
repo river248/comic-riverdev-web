@@ -210,6 +210,10 @@
                     &:not(:last-child) { margin-bottom: 10px; }
                 }
             }
+
+            .detail-comic-statistic {
+                width: 100%;
+            }
         }
     }
 }
