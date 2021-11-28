@@ -8,14 +8,19 @@ function ImageComic({comicID, number, thumbnail}) {
     const [url, setUrl] = useState('')
 
     useEffect(() => {
+        let isSubcribe = true
         if(comicID && number && thumbnail) {
             getDownloadURL(ref(storage, `comics/truyen${number}/${thumbnail}`))
                 .then(url => {
-                    setUrl(url)
+                    if(isSubcribe)
+                        setUrl(url)
                 })
                 .catch((error) => console.log(error))
         }
-        return () => setUrl('')
+        return () => {
+            setUrl('')
+            isSubcribe = false
+        }
     }, [comicID])
 
     return (

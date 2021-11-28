@@ -9,21 +9,21 @@ import './CategoriesPage.scss'
 import Categories from 'components/Categories/Categories'
 import Pagina from 'components/Pagina/Pagina'
 import useQuery from 'utils/useQuery'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { actFetchDetailTag } from 'actions/comicAction'
 
-function CategoriesPage() {
+function CategoriesPage(props) {
 
-    const tagName = useSelector(state => state.comic.tag)
-    const heightComponent = useSelector(state => state.getHeight)
-
-    const dispatch = useDispatch()
+    const {
+        tagName, heightComponent,
+        fetchDetailTag
+    } = props
 
     let query = useQuery()
 
     useEffect(() => {
         if(query.get('tag') !== null)
-            dispatch(actFetchDetailTag(query.get('tag')))
+            fetchDetailTag(query.get('tag'))
     }, [query.get('tag')])
 
     return (
@@ -45,4 +45,19 @@ function CategoriesPage() {
     )
 }
 
-export default CategoriesPage
+const mapStateToProps = (state) => {
+    return {
+        tagName: state.comic.tag,
+        heightComponent: state.getHeight
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchDetailTag : (page) => {
+            dispatch(actFetchDetailTag(page))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoriesPage)

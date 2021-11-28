@@ -8,34 +8,47 @@ import { ref, getDownloadURL } from 'firebase/storage'
 import { ImBin } from 'react-icons/im'
 
 import './Comic.scss'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { loadingComic, loadingNewComic } from 'actions/loading'
 import { getToken } from 'utils/common'
 import { softRemoveComic } from 'actions/ApiCall/adminAPI'
 import useQuery from 'utils/useQuery'
 import { actFetchAllComic, actFetchAllComicOfTag, actFetchNewComics } from 'actions/comicAction'
 
-function Comic({ comic }) {
+function Comic(props) {
+
+    const {
+        comic, user,
+        loadingComic,
+        loadingNewComic,
+        fetchNewComics,
+        fetchAllComics,
+        fetchAllComicsOfTag
+    } = props
 
     const [image, setImage] = useState('')
     const [loading, setLoading] = useState(false)
 
     let query = useQuery()
-    const dispatch = useDispatch()
+
     const history = useHistory()
     const location = useLocation()
-    const user = useSelector(state => state.user.user)
     const token = getToken()
 
     useEffect(() => {
+        let isSubcribe = true
         getDownloadURL(ref(storage, `comics/truyen${comic.number}/${comic.thumbnail}`))
         .then(url => {
-            setImage(url)
-            dispatch(loadingComic(false))
+            if(isSubcribe)
+                setImage(url)
+            loadingComic(false)
         })
         .catch((error) => console.log(error))
 
-        return () => setImage('')
+        return () => {
+            setImage('')
+            isSubcribe = false
+        }
     }, [comic])
 
     const handleRemoveThisComic = () => {
@@ -46,37 +59,37 @@ function Comic({ comic }) {
                 setLoading(false)
                 switch (location.pathname) {
                     case '/':
-                        dispatch(loadingNewComic(true))
-                        dispatch(actFetchNewComics())
+                        loadingNewComic(true)
+                        fetchNewComics()
                         if(query.get('page') !== null) {
-                            dispatch(loadingComic(true))
-                            dispatch(actFetchAllComic(query.get('page')))
+                            loadingComic(true)
+                            fetchAllComics(query.get('page'))
                         }
                         else {
-                            dispatch(loadingComic(true))
-                            dispatch(actFetchAllComic(1))
+                            loadingComic(true)
+                            fetchAllComics(1)
                         }
                         break
                     case '/home':
-                        dispatch(loadingNewComic(true))
-                        dispatch(actFetchNewComics())
+                        loadingNewComic(true)
+                        fetchNewComics()
                         if(query.get('page') !== null) {
-                            dispatch(loadingComic(true))
-                            dispatch(actFetchAllComic(query.get('page')))
+                            loadingComic(true)
+                            fetchAllComics(query.get('page'))
                         }
                         else {
-                            dispatch(loadingComic(true))
-                            dispatch(actFetchAllComic(1))
+                            loadingComic(true)
+                            fetchAllComics(1)
                         }
                         break
                     case '/category':
                         if(query.get('page') !== null) {
-                            dispatch(loadingComic(true))
-                            dispatch(actFetchAllComicOfTag(query.get('tag'), query.get('page')))
+                            loadingComic(true)
+                            fetchAllComicsOfTag(query.get('tag'), query.get('page'))
                         }
                         else {
-                            dispatch(loadingComic(true))
-                            dispatch(actFetchAllComicOfTag('616af71268f59ad44354b30f', 1))
+                            loadingComic(true)
+                            fetchAllComicsOfTag('616af71268f59ad44354b30f', 1)
                         }
                         break
                     default:
@@ -112,4 +125,30 @@ function Comic({ comic }) {
     )
 }
 
-export default React.memo(Comic)
+const mapStateToProps = (state) => {
+    return {
+        user: state.user.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadingComic : (status) => {
+            dispatch(loadingComic(status))
+        },
+        loadingNewComic : (status) => {
+            dispatch(loadingNewComic(status))
+        },
+        fetchNewComics : (comics) => {
+            dispatch(actFetchNewComics())
+        },
+        fetchAllComics : (page) => {
+            dispatch(actFetchAllComic(page))
+        },
+        fetchAllComicsOfTag : (tag, page) => {
+            dispatch(actFetchAllComicOfTag(tag, page))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Comic))

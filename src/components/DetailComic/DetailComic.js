@@ -10,7 +10,7 @@ import { ref, getDownloadURL } from 'firebase/storage'
 import { useHistory } from 'react-router-dom'
 
 import './DetailComic.scss'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { loadingComic } from 'actions/loading'
 import { getToken } from 'utils/common'
 import { followComic, likeComic } from 'actions/ApiCall/userAPI'
@@ -18,7 +18,16 @@ import { actFetchFollowStatus, actFetchLikeStatus } from 'actions/userAction'
 import { actFetchInteractions } from 'actions/comicAction'
 import EditComic from 'components/Modal/EditComic'
 
-function DetailComic({ comic, interactions }) {
+function DetailComic(props) {
+    
+    const {
+        comic, interactions,
+        user, likeStatus, followStatus, chapters,
+        loadingComic,
+        fetchLikeStatus,
+        fetchFollowStatus,
+        fetchInteractions
+    } = props
     
     const [image, setImage] = useState('')
     const [loadingLike, setLoadingLike] = useState(false)
@@ -27,27 +36,28 @@ function DetailComic({ comic, interactions }) {
     const [content, setContent] = useState('')
     const [value, setValue] = useState('')
 
-    const user = useSelector(state => state.user.user)
-    const likeStatus = useSelector(state => state.user.likeStatus)
-    const followStatus = useSelector(state => state.user.followStatus)
-    const chapters = useSelector(state => state.comic.chapters)
-
     const token = getToken()
-    const dispatch = useDispatch()
     const history = useHistory()
 
     useEffect(() => {
+        let isSubcribe = true
         if(comic.thumbnail !== undefined) {
             getDownloadURL(ref(storage, `comics/truyen${comic.number}/${comic.thumbnail}`))
             .then(url => {
-                setImage(url)
-                dispatch(loadingComic(false))
+                if(isSubcribe)
+                    setImage(url)
+                loadingComic(false)
             })
             .catch((error) => console.log(error))
         }
         if(user._id && comic._id) {
-            dispatch(actFetchFollowStatus(user._id, comic._id, token))
-            dispatch(actFetchLikeStatus(user._id, comic._id, token))
+            fetchFollowStatus(user._id, comic._id, token)
+            fetchLikeStatus(user._id, comic._id, token)
+        }
+
+        return () => {
+            isSubcribe = false
+            setImage('')
         }
     }, [comic])
 
@@ -55,8 +65,8 @@ function DetailComic({ comic, interactions }) {
         if(getToken()) {
             setLoadingFollow(true)
             followComic(user._id, comic._id, token).then(() =>{
-                dispatch(actFetchFollowStatus(user._id, comic._id, token))
-                dispatch(actFetchInteractions(comic._id))
+                fetchFollowStatus(user._id, comic._id, token)
+                fetchInteractions(comic._id)
                 setLoadingFollow(false)
             })
         }
@@ -68,8 +78,8 @@ function DetailComic({ comic, interactions }) {
         if(token) {
             setLoadingLike(true)
             likeComic(user._id, comic._id, token).then(res => {
-                dispatch(actFetchLikeStatus(user._id, comic._id, token))
-                dispatch(actFetchInteractions(comic._id))
+                fetchLikeStatus(user._id, comic._id, token)
+                fetchInteractions(comic._id)
                 setLoadingLike(false)
             })
         }
@@ -137,4 +147,30 @@ function DetailComic({ comic, interactions }) {
     )
 }
 
-export default React.memo(DetailComic)
+const mapStateToProps = (state) => {
+    return {
+        user: state.user.user,
+        likeStatus: state.user.likeStatus,
+        followStatus: state.user.followStatus,
+        chapters: state.comic.chapters
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadingComic : (status) => {
+            dispatch(loadingComic(status))
+        },
+        fetchLikeStatus : (userID, comicID, token) => {
+            dispatch(actFetchLikeStatus(userID, comicID, token))
+        },
+        fetchFollowStatus : (userID, comicID, token) => {
+            dispatch(actFetchFollowStatus(userID, comicID, token))
+        },
+        fetchInteractions : (comicID) => {
+            dispatch(actFetchInteractions(comicID))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(DetailComic))

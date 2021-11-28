@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { storage} from 'firebase/index'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { loadingComic } from 'actions/loading'
@@ -11,7 +11,12 @@ import { createNewChapter } from 'actions/ApiCall/adminAPI'
 import { updateComics } from 'actions/ApiCall/comicAPI'
 import Alert from 'components/Alert/Alert'
 
-function AddChapterForm() {
+function AddChapterForm(props) {
+
+    const {
+        chapters, comics, user,
+        loadingComic, fetchQuantityChapter, fetchUnfinishedComic
+    } = props
 
     const [error, setError] = useState (false)
     const [comicID, setComicID] = useState('')
@@ -24,22 +29,17 @@ function AddChapterForm() {
     const [status, setStatus] = useState({isFinished: false, name: 'Chưa hoàn thành'})
     const [alert, setAlert] = useState({ show: false, message: ''})
 
-    const chapters = useSelector(state => state.comic.quantityChapter)
-    const comics = useSelector(state => state.comic.comics)
-    const user = useSelector(state => state.user.user)
     const token = getToken()
-
-    const dispatch = useDispatch()
 
     useEffect(() => {
         if(comics.length > 0) {
-            dispatch(actFetchQuantityChapter(comics[0]._id))
+            fetchQuantityChapter(comics[0]._id)
             setNumber(comics[0].number)
             setComicID(comics[0]._id)
             getDownloadURL(ref(storage, `comics/truyen${comics[0].number}/${comics[0].thumbnail}`))
             .then(url => {
                 setThumbnail(url)
-                dispatch(loadingComic(false))
+                loadingComic(false)
             })
             .catch((error) => console.log(error))
         }
@@ -74,8 +74,8 @@ function AddChapterForm() {
             if(status.isFinished) {
                 createNewChapter(data, user.isAdmin, token).then( res => {
                     uploadImages()
-                    dispatch(actFetchUnfinishedComic())
-                    dispatch(loadingComic(true))
+                    fetchUnfinishedComic()
+                    loadingComic(true)
                     setImages([])
                     setAlert({show: true, message: 'Đã thêm chương mới'})
                 }).catch(error => console.log(error))
@@ -85,8 +85,8 @@ function AddChapterForm() {
                 setLoading({ chapter: true, image: true})
                 createNewChapter(data, user.isAdmin, token).then( res => {
                     uploadImages()
-                    dispatch(actFetchUnfinishedComic())
-                    dispatch(loadingComic(true))
+                    fetchUnfinishedComic()
+                    loadingComic(true)
                     setImages([])
                     setAlert({show: true, message: 'Đã thêm chương mới'})
                 }).catch(error => console.log(error))
@@ -125,7 +125,7 @@ function AddChapterForm() {
                     })
                     .catch((error) => console.log(error))
             }
-        dispatch(actFetchQuantityChapter(value))
+        fetchQuantityChapter(value)
     }
 
     return (
@@ -171,4 +171,26 @@ function AddChapterForm() {
     )
 }
 
-export default AddChapterForm
+const mapStateToProps = (state) => {
+    return {
+        chapters: state.comic.quantityChapter,
+        comics: state.comic.comics,
+        user: state.user.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadingComic : (status) => {
+            dispatch(loadingComic(status))
+        },
+        fetchQuantityChapter : (comicID) => {
+            dispatch(actFetchQuantityChapter(comicID))
+        },
+        fetchUnfinishedComic : () => {
+            dispatch(actFetchUnfinishedComic())
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddChapterForm)

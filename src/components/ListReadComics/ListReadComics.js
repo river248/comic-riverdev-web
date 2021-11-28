@@ -3,40 +3,44 @@ import { loadingComic } from 'actions/loading'
 import { actFetchReadComics, getReadComics } from 'actions/userAction'
 import ReadComic from 'components/ReadComic/ReadComic'
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { getToken } from 'utils/common'
 import useQuery from 'utils/useQuery'
 
 import './ListReadComics.scss'
 
-function ListReadComics() {
+function ListReadComics(props) {
 
-    const comics = useSelector(state => state.user.comics)
-    const user = useSelector(state => state.user.user)
-    const quantityPage = useSelector(state => state.comic.quantityPage)
+    const {
+        comics, user, quantityPage,
+        fetchReadComics,
+        loadingComic,
+        getReadComics
+
+    } = props
+
     const token = getToken()
 
     let query = useQuery()
     const location = useLocation()
-    const dispatch = useDispatch()
 
     useEffect(() => {
 
         if(user._id) {
             if(query.get('page')) {
-                dispatch(loadingComic(true))
-                dispatch(actFetchReadComics(user._id, query.get('page'), token))
+                loadingComic(true)
+                fetchReadComics(user._id, query.get('page'), token)
             }
             else {
-                dispatch(loadingComic(true))
-                dispatch(actFetchReadComics(user._id, 1, token))
+                loadingComic(true)
+                fetchReadComics(user._id, 1, token)
             }
         }
 
         return () => {
             const data = { comics: [], quatitypage: -1 }
-            dispatch(getReadComics(data))
+            getReadComics(data)
         }
 
     }, [location.search, user])
@@ -56,4 +60,26 @@ function ListReadComics() {
     )
 }
 
-export default ListReadComics
+const mapStateToProps = (state) => {
+    return {
+        comics: state.user.comics,
+        user: state.user.user,
+        quantityPage: state.comic.quantityPage
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchReadComics : (userID, page, token) => {
+            dispatch(actFetchReadComics(userID, page, token))
+        },
+        loadingComic : (status) => {
+            dispatch(loadingComic(status))
+        },
+        getReadComics : (data) => {
+            dispatch(getReadComics(data))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListReadComics)

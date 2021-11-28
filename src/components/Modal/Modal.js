@@ -2,25 +2,27 @@
 import { updateComic } from 'actions/ApiCall/adminAPI'
 import { actFetchAllTag, actFetchDetailComic } from 'actions/comicAction'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { getToken } from 'utils/common'
 
 import './Modal.scss'
 
-function Modal({comicID, setShow}) {
+function Modal(props) {
+
+    const {
+        comicID, setShow,
+        user, categories,
+        fetchAllTags, fetchDetailComic
+    } = props
 
     const [tags, setTags] = useState([])
-    const user = useSelector(state => state.user.user)
     const token = getToken()
-    const categories = useSelector(state => state.comic.tags)
     const [loading, setLoading] = useState(false)
 
-    const dispatch = useDispatch()
-
     useEffect(() => {
-        dispatch(actFetchAllTag())
+        fetchAllTags()
 
-        return () => dispatch(actFetchDetailComic(comicID))
+        return () => fetchDetailComic(comicID)
     }, [])
 
     const handleChecked = (id) => {
@@ -67,4 +69,23 @@ function Modal({comicID, setShow}) {
     )
 }
 
-export default React.memo(Modal)
+const mapStateToProps = (state) => {
+    return {
+        user: state.user.user,
+        categories: state.comic.tags
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+    return {
+        fetchAllTags : () => {
+            dispatch(actFetchAllTag())
+        },
+        fetchDetailComic : (comicID) => {
+            dispatch(actFetchDetailComic(comicID))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Modal))

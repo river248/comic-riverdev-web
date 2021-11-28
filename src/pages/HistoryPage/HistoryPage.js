@@ -7,25 +7,27 @@ import { useParams } from 'react-router-dom'
 
 import './HistoryPage.scss'
 import ListReadComics from 'components/ListReadComics/ListReadComics'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { getToken } from 'utils/common'
 import { removeAllReadComic } from 'actions/ApiCall/userAPI'
 import { actFetchReadComics } from 'actions/userAction'
 
-function HistoryPage() {
+function HistoryPage(props) {
 
-    const comics = useSelector(state => state.user.comics)
-    const user = useSelector(state => state.user.user)
+    const {
+        comics, user,
+        fetchReadComics
+    } = props
+
     const [loading, setLoading] = useState(false)
     const token = getToken()
     const { id } = useParams()
-    const dispatch = useDispatch()
 
     const handleRemoveAllHistory = () => {
         setLoading(true)
         if(user._id && token)
             removeAllReadComic(user._id, token).then(() => {
-                dispatch(actFetchReadComics(user._id, 1, token))
+                fetchReadComics(user._id, 1, token)
                 setLoading(false)
             })
     }
@@ -64,4 +66,19 @@ function HistoryPage() {
     )
 }
 
-export default HistoryPage
+const mapStateToProps = (state) => {
+    return {
+        comics: state.user.comics,
+        user: state.user.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchReadComics : (userID, page, token) => {
+            dispatch(actFetchReadComics(userID, page, token))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HistoryPage)

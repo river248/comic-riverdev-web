@@ -5,19 +5,18 @@ import { useHistory } from 'react-router-dom'
 import ImageNewComic from './ImageNewComic'
 
 import './NewComic.scss'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { actFetchNewComics } from 'actions/comicAction'
 import { loadingNewComic } from 'actions/loading'
 
-function NewComic() {
+function NewComic(props) {
 
-    const comics = useSelector(state => state.comic.newComics)
+    const { comics, fetchNewComics, loadingNewComic } = props
     const history = useHistory()
-    const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(loadingNewComic(true))
-        dispatch(actFetchNewComics())
+        loadingNewComic(true)
+        fetchNewComics()
     }, [])
     
     return (
@@ -48,4 +47,22 @@ function NewComic() {
     )
 }
 
-export default React.memo(NewComic)
+const mapStateToProps = (state) => {
+    return {
+        comics: state.comic.newComics
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+    return {
+        fetchNewComics : () => {
+            dispatch(actFetchNewComics())
+        },
+        loadingNewComic : (status) => {
+            dispatch(loadingNewComic(status))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewComic)

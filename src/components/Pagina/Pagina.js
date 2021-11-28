@@ -5,49 +5,54 @@ import { Pagination } from 'react-bootstrap'
 
 import './Pagina.scss'
 import useQuery from 'utils/useQuery'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { actFetchQuantityPage, clearQuantityPage } from 'actions/comicAction'
 import { actFetchQuantityFollowedComics, actFetchQuantityLikedComics } from 'actions/userAction'
 import { getToken } from 'utils/common'
 import { loadingComic } from 'actions/loading'
 
-function Pagina() {
+function Pagina(props) {
 
-    const quantityPage = useSelector(state => state.comic.quantityPage)
-    const user = useSelector(state => state.user.user)
+    const {
+        quantityPage, user,
+        fetchQuantityPage,
+        fetchQuantityLikedComics,
+        fetchQuantityFollowedComics,
+        clearQuantityPage,
+        loadingComic
+    } = props
 
     const [pages, setPages] = useState([])
 
     const location = useLocation()
     const history = useHistory()
-    const dispatch = useDispatch()
     let query = useQuery()
     
     useEffect(() => {
 
         switch (location.pathname) {
             case '/':
-                dispatch(actFetchQuantityPage(''))
+                fetchQuantityPage('')
                 break
             case '/home':
-                dispatch(actFetchQuantityPage(''))
+                fetchQuantityPage('')
                 break
             case '/category':    
-                dispatch(actFetchQuantityPage(query.get('tag')))
+                fetchQuantityPage(query.get('tag'))
                 break
             case '/history/liked':
                 if(user._id)
-                    dispatch(actFetchQuantityLikedComics(user._id, getToken()))
+                    fetchQuantityLikedComics(user._id, getToken())
                 break
             case '/history/followed':
                 if(user._id)
-                    dispatch(actFetchQuantityFollowedComics(user._id, getToken()))
+                    fetchQuantityFollowedComics(user._id, getToken())
                 break
             default:
                 break
         }
         
-        return () => dispatch(clearQuantityPage(-1))
+        return () => clearQuantityPage()
         
     }, [location.search, location.pathname, user])
 
@@ -66,13 +71,13 @@ function Pagina() {
             location.pathname === '/history/liked' ||
             location.pathname === '/history/followed' ||
             location.pathname === '/history/read') ) {
-            dispatch(loadingComic(false))
+            loadingComic(false)
         }
         if(quantityPage === -1 && (
             location.pathname === '/history/liked' ||
             location.pathname === '/history/followed' ||
             location.pathname === '/history/read') ) {
-            dispatch(loadingComic(true))
+            loadingComic(true)
         }
 
     }, [quantityPage])
@@ -254,4 +259,31 @@ function Pagina() {
     )
 }
 
-export default React.memo(Pagina)
+const mapStateToProps = (state) => {
+    return {
+        quantityPage: state.comic.quantityPage,
+        user: state.user.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchQuantityPage : (data) => {
+            dispatch(actFetchQuantityPage(data))
+        },
+        fetchQuantityLikedComics : (userID, token) => {
+            dispatch(actFetchQuantityLikedComics(userID, token))
+        },
+        fetchQuantityFollowedComics : (userID, token) => {
+            dispatch(actFetchQuantityFollowedComics(userID, token))
+        },
+        clearQuantityPage : () => {
+            dispatch(clearQuantityPage(-1))
+        },
+        loadingComic : (status) => {
+            dispatch(loadingComic(status))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Pagina))

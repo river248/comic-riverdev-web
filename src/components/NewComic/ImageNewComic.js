@@ -4,25 +4,34 @@ import loading from 'resources/loading.png'
 import { storage } from 'firebase/index'
 import { ref, getDownloadURL } from 'firebase/storage'
 import { useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { loadingNewComic } from 'actions/loading'
 
-function ImageNewComic({comicID, number, chap, title, thumbnail}) {
+function ImageNewComic(props) {
+
+    const {
+        comicID, number, chap, title, thumbnail,
+        loadingNewComic
+    } = props
 
     const [image, setImage] = useState('')
-    const dispatch = useDispatch()
     const history = useHistory()
     
     useEffect(() => {
+        let isSubcribe = true
         if(number)
             getDownloadURL(ref(storage, `comics/truyen${number}/${thumbnail}`))
             .then(url => {
-                setImage(url)
-                dispatch(loadingNewComic(false))
+                if (isSubcribe)
+                    setImage(url)
+                loadingNewComic(false)
             })
             .catch((error) => console.log(error))
 
-        return () => setImage('')
+        return () => {
+            isSubcribe = false
+            setImage('')
+        }
     }, [comicID, chap])
 
     return (
@@ -36,4 +45,12 @@ function ImageNewComic({comicID, number, chap, title, thumbnail}) {
     )
 }
 
-export default React.memo(ImageNewComic)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadingNewComic : (status) => {
+            dispatch(loadingNewComic(status))
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(React.memo(ImageNewComic))

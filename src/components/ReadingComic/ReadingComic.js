@@ -6,29 +6,27 @@ import ImagesComic from './ImagesComic'
 import useQuery from 'utils/useQuery'
 
 import './ReadingComic.scss'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { actFetchFullChapter, actFetchQuantityChapter } from 'actions/comicAction'
 import { loadingChapter } from 'actions/loading'
 import { addHistory } from 'actions/ApiCall/userAPI'
 import { getToken } from 'utils/common'
 import { updateComics } from 'actions/ApiCall/comicAPI'
 
-function ReadingComic() {
+function ReadingComic(props) {
 
-    const chapter = useSelector(state => state.comic.chapter)
-    const comic = useSelector(state => state.comic.comic)
-    const quantityChapter = useSelector(state => state.comic.quantityChapter)
-    const user = useSelector(state => state.user.user)
-
+    const {
+        chapter, user, quantityChapter, comic,
+        fetchFullChapter, fetchQuantityChapter, loadingChapter
+    } = props
     const history = useHistory()
-    const dispatch = useDispatch()
 
     let query = useQuery()
 
     useEffect(() => {
-        dispatch(loadingChapter(true))
-        dispatch(actFetchFullChapter(query.get('comic'), query.get('chap')))
-        dispatch(actFetchQuantityChapter(query.get('comic')))
+        loadingChapter(true)
+        fetchFullChapter(query.get('comic'), query.get('chap'))
+        fetchQuantityChapter(query.get('comic'))
 
         if(getToken() && user._id && comic._id) {
         
@@ -89,4 +87,27 @@ function ReadingComic() {
     )
 }
 
-export default React.memo(ReadingComic)
+const mapStateToProps = (state) => {
+    return {
+        chapter: state.comic.chapter,
+        comic: state.comic.comic,
+        quantityChapter: state.comic.quantityChapter,
+        user: state.user.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadingChapter : (status) => {
+            dispatch(loadingChapter(status))
+        },
+        fetchFullChapter : (comicID, chap) => {
+            dispatch(actFetchFullChapter(comicID, chap))
+        },
+        fetchQuantityChapter : (comicID) => {
+            dispatch(actFetchQuantityChapter(comicID))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(ReadingComic))

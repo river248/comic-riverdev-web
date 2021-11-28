@@ -3,16 +3,15 @@ import React, { useEffect } from 'react'
 import { actFetchDetailComic } from 'actions/comicAction'
 import ReadingComic from 'components/ReadingComic/ReadingComic'
 import { Container, Row } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import useQuery from 'utils/useQuery'
 
-function ReadingPage() {
+function ReadingPage({ fetchDetailComic }) {
 
-    const disptach = useDispatch()
     const query = useQuery()
 
     useEffect(() => {
-        disptach(actFetchDetailComic(query.get('comic')))
+        fetchDetailComic(query.get('comic'))
     }, [query.get('chap')])
 
     return (
@@ -24,4 +23,11 @@ function ReadingPage() {
     )
 }
 
-export default ReadingPage
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchDetailComic : (comicID) => {
+            dispatch(actFetchDetailComic(comicID))
+        }
+    }
+}
+export default connect(null, mapDispatchToProps)(ReadingPage)

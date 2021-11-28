@@ -4,29 +4,28 @@ import { Link, NavLink, useLocation, useHistory } from 'react-router-dom'
 import { AiFillHome } from 'react-icons/ai'
 import { MdEmail, MdCategory } from 'react-icons/md'
 import { FaUserCircle } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import './Navigation.scss'
 import { getToken, removeUserSession } from 'utils/common'
 import jwtDecode from 'jwt-decode'
 import { actFetchFullUser, getFullUser } from 'actions/userAction'
 import { fetchLogout } from 'actions/ApiCall/userAPI'
 
-function Navigation() {
+function Navigation({ user, fetchFullUser, getFullUser}) {
 
     const location = useLocation()
     const history = useHistory()
-    const dispatch = useDispatch()
-    const user = useSelector(state => state.user.user)
+    
     const token = getToken()
 
     useEffect(() => {
 
         if(token !== null) {
             const userData = jwtDecode(token)
-            dispatch(actFetchFullUser(userData.data._id, token))
+            fetchFullUser(userData.data._id, token)
         }
 
-        return () => dispatch(getFullUser({}))
+        return () => getFullUser({})
 
     }, [token])
 
@@ -78,4 +77,22 @@ function Navigation() {
     )
 }
 
-export default React.memo(Navigation)
+const mapStateToProps = (state) => {
+    return {
+        user: state.user.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+    return {
+        fetchFullUser : (userID, token) => {
+            dispatch(actFetchFullUser(userID, token))
+        },
+        getFullUser : () => {
+            dispatch(getFullUser({}))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Navigation))
