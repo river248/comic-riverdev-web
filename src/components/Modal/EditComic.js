@@ -2,27 +2,31 @@
 import { updateComic } from 'actions/ApiCall/adminAPI'
 import { actFetchDetailComic } from 'actions/comicAction'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { getToken } from 'utils/common'
 import { storage} from 'firebase/index'
 import { ref, uploadBytes } from 'firebase/storage'
 
 import './EditComic.scss'
 
-function EditComic({content, setShowBox, comicID, number, valuePar}) {
+function EditComic(props) {
+
+    const {
+        content, setShowBox, comicID, number, valuePar,
+        user,
+        fetchDetailComic
+    } = props
+
     const [value, setValue] = useState('')
     const [thumbnail, setThumbnail] = useState(null)
     const [status, setStatus] = useState(valuePar)
     const [loading, setLoading] = useState(false)
 
     const token = getToken()
-    const user = useSelector(state => state.user.user)
-
-    const dispatch = useDispatch()
 
     useEffect(() => {
         return () => {
-            dispatch(actFetchDetailComic(comicID))
+            fetchDetailComic(comicID)
             setValue('')
             setThumbnail(null)
             setLoading(false)
@@ -100,4 +104,19 @@ function EditComic({content, setShowBox, comicID, number, valuePar}) {
     )
 }
 
-export default EditComic
+const mapStateToProps = (state) => {
+    return {
+        user: state.user.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+    return {
+        fetchDetailComic : (comicID) => {
+            dispatch(actFetchDetailComic(comicID))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditComic)

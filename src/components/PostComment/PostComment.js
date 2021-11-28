@@ -2,16 +2,20 @@ import { postComment } from 'actions/ApiCall/userAPI'
 import { actComments, actFetchInteractions } from 'actions/comicAction'
 import React, { useState } from 'react'
 import { RiSendPlaneFill } from 'react-icons/ri'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { getToken } from 'utils/common'
 
 import './PostComment.scss'
 
-function PostComment({ comic }) {
+function PostComment(props) {
     
+    const {
+        comic,
+        user,
+        getComments, fetchInteractions
+    } = props
+
     const [content, setContent] = useState('')
-    const user = useSelector(state => state.user.user)
-    const dispatch = useDispatch()
 
     const handleComment = (value) => {
         setContent(value)
@@ -25,9 +29,9 @@ function PostComment({ comic }) {
                     userID: user._id,
                     content: content
                 }
-                postComment(data, getToken()).then(res => {
-                    dispatch(actFetchInteractions(comic._id))
-                    dispatch(actComments(comic._id, 1))
+                postComment(data, getToken()).then(() => {
+                    fetchInteractions(comic._id)
+                    getComments(comic._id, 1)
                 })
             }                       
         } else alert('Vui lòng đăng nhập để bình luận !')
@@ -43,4 +47,21 @@ function PostComment({ comic }) {
     )
 }
 
-export default React.memo(PostComment)
+const mapStateToProps = (state) => {
+    return {
+        user: state.user.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getComments : (comicID, page) => {
+            dispatch(actComments(comicID, page))
+        },
+        fetchInteractions : (comicID) => {
+            dispatch(actFetchInteractions(comicID))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(PostComment))

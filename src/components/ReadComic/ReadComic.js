@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { useHistory } from 'react-router'
 import { loadingComic } from 'actions/loading'
 import { storage } from 'firebase/index'
@@ -14,26 +14,35 @@ import { removeReadComic } from 'actions/ApiCall/userAPI'
 import { actFetchReadComics } from 'actions/userAction'
 import useQuery from 'utils/useQuery'
 
-function ReadComic({ comic }) {
+function ReadComic(props) {
+
+    const {
+        comic,
+        user,
+        loadingComic, fetchReadComics
+    } = props
 
     const [image, setImage] = useState('')
     const [loading, setLoading] = useState(false)
-    const user = useSelector(state => state.user.user)
     const token = getToken()
 
-    const dispatch = useDispatch()
     const history = useHistory()
     const query = useQuery()
 
     useEffect(() => {
+        let isSubcribe = true
         getDownloadURL(ref(storage, `comics/truyen${comic.number}/${comic.thumbnail}`))
         .then(url => {
-            setImage(url)
-            dispatch(loadingComic(false))
+            if (isSubcribe)
+                setImage(url)
+            loadingComic(false)
         })
         .catch((error) => console.log(error))
 
-        return () => setImage('')
+        return () => {
+            isSubcribe = false
+            setImage('')
+        }
     }, [comic])
 
     const handleRemoveReadComic = (comicID, chap) => {
@@ -41,9 +50,9 @@ function ReadComic({ comic }) {
         if(user._id && token) {
             removeReadComic(user._id, comicID, chap, token).then(() => {
                 if(query.get('page'))
-                    dispatch(actFetchReadComics(user._id, query.get('page'), token))
+                    fetchReadComics(user._id, query.get('page'), token)
                 else
-                    dispatch(actFetchReadComics(user._id, 1, token))
+                    fetchReadComics(user._id, 1, token)
                 setLoading(false)
             })
         }
@@ -73,4 +82,21 @@ function ReadComic({ comic }) {
     )
 }
 
-export default ReadComic
+const mapStateToProps = (state) => {
+    return {
+        user: state.user.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchReadComics : (userID, page, token) => {
+            dispatch(actFetchReadComics(userID, page, token))
+        },
+        loadingComic : (status) => {
+            dispatch(loadingComic(status))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ReadComic)

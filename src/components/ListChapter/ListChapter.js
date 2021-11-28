@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { actFetchAllChapterOfComic } from 'actions/comicAction'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { convertDate } from 'utils/convertDate'
 import { ImBin } from 'react-icons/im'
@@ -11,26 +11,30 @@ import { loadingChapter } from 'actions/loading'
 import { getToken } from 'utils/common'
 import { updateChapter } from 'actions/ApiCall/adminAPI'
 
-function ListChapter({ comic }) {
+function ListChapter(props) {
 
-    const chapters = useSelector(state => state.comic.chapters)
-    const user = useSelector(state => state.user.user)
+    const {
+        comic,
+        chapters, user,
+        loadingChapter,
+        fetchAllChaptersOfComic
+    } = props
+
     const [loading, setLoading ] = useState(false)
     const token = getToken()
 
     const history = useHistory()
-    const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(actFetchAllChapterOfComic(comic._id))
-        dispatch(loadingChapter(false))
+        fetchAllChaptersOfComic(comic._id)
+        loadingChapter(false)
     }, [comic])
     
     const handleRemoveChapter = (id) => {
         setLoading(true)
         if(id && user._id && token) {
             updateChapter(id, {_destroy: true}, user.role, token).then(res => {
-                dispatch(actFetchAllChapterOfComic(comic._id))
+                fetchAllChaptersOfComic(comic._id)
                 setLoading(false)
             })
         }
@@ -53,4 +57,22 @@ function ListChapter({ comic }) {
     )
 }
 
-export default ListChapter
+const mapStateToProps = (state) => {
+    return {
+        chapters: state.comic.chapters,
+        user: state.user.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadingChapter : (status) => {
+            dispatch(loadingChapter(status))
+        },
+        fetchAllChaptersOfComic : (comicID) => {
+            dispatch(actFetchAllChapterOfComic(comicID))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListChapter)

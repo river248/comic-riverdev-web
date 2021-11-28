@@ -2,100 +2,103 @@
 import React, { useEffect, useLayoutEffect } from 'react'
 import Comic from 'components/Comic/Comic'
 import { useLocation  } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import './ListComic.scss'
 import useQuery from 'utils/useQuery'
-import { useDispatch, useSelector } from 'react-redux'
 import { getHeightChange } from 'actions/getHeight'
 import { actFetchAllComic, actFetchAllComicOfTag, clearComics } from 'actions/comicAction'
 import { loadingComic } from 'actions/loading'
 import { actFetchFollowedComics, actFetchLikedComics } from 'actions/userAction'
 
-function ListComic() {
+function ListComic(props) {
 
-    const comics = useSelector(state => state.comic.comics)
-    const user = useSelector(state => state.user.user)
-    const quantityPage = useSelector(state => state.comic.quantityPage)
+    const {
+        comics, user, quantityPage,
+        fetchAllComics,
+        fetchAllComicOfTag,
+        fetchLikedComics,
+        fetchFollowedComics,
+        getHeightChange,
+        loadingComic,
+        clearComics } = props
 
     let query = useQuery()
     const location = useLocation()
 
-    const dispatch = useDispatch()
-
-    useEffect(() => {
+    useLayoutEffect(() => {
         switch (location.pathname) {
             case '/':
                 if(query.get('page') !== null) {
-                    dispatch(loadingComic(true))
-                    dispatch(actFetchAllComic(query.get('page')))
+                    loadingComic()
+                    fetchAllComics(query.get('page'))
                 }
                 else {
-                    dispatch(loadingComic(true))
-                    dispatch(actFetchAllComic(1))
+                    loadingComic()
+                    fetchAllComics(1)
                 }
                 break
             case '/home':
                 if(query.get('page') !== null) {
-                    dispatch(loadingComic(true))
-                    dispatch(actFetchAllComic(query.get('page')))
+                    loadingComic()
+                    fetchAllComics(query.get('page'))
                 }
                 else {
-                    dispatch(loadingComic(true))
-                    dispatch(actFetchAllComic(1))
+                    loadingComic()
+                    fetchAllComics(1)
                 }
                 break
             case '/category':
                 if(query.get('page') !== null) {
-                    dispatch(loadingComic(true))
-                    dispatch(actFetchAllComicOfTag(query.get('tag'), query.get('page')))
+                    loadingComic()
+                    fetchAllComicOfTag(query.get('tag'), query.get('page'))
                 }
                 else {
-                    dispatch(loadingComic(true))
-                    dispatch(actFetchAllComicOfTag('616af71268f59ad44354b30f', 1))
+                    loadingComic()
+                    fetchAllComicOfTag('616af71268f59ad44354b30f', 1)
                 }
                 break
             case '/history/liked':
                 if(query.get('page') !== null && user._id !== undefined) {
-                    dispatch(loadingComic(true))
-                    dispatch(actFetchLikedComics(user?._id, query.get('page')))
+                    loadingComic()
+                    fetchLikedComics(user._id, query.get('page'))
                 }
                 else
                     if (user._id !== undefined) {
-                        dispatch(loadingComic(true))
-                        dispatch(actFetchLikedComics(user._id, 1))
+                        loadingComic()
+                        fetchLikedComics(user._id, 1)
                     }
                 break
             case '/history/followed':
                 if(query.get('page') !== null && user._id !== undefined) {
-                    dispatch(loadingComic(true))
-                    dispatch(actFetchFollowedComics(user._id, query.get('page')))
+                    loadingComic()
+                    fetchFollowedComics(user._id, query.get('page'))
                 }
                 else
                     if (user._id !== undefined) {
-                        dispatch(loadingComic(true))
-                        dispatch(actFetchFollowedComics(user._id, 1))
+                        loadingComic()
+                        fetchFollowedComics(user._id, 1)
                     }
                 break
             default:
                 break
         }
 
-        return () => dispatch(clearComics([]))
+
+        return () => clearComics()
 
     }, [location.search, location.pathname, user])
     
     useLayoutEffect(() => {
 
-        const action = getHeightChange(document.getElementById("category-height").scrollHeight)
-        dispatch(action)
+        getHeightChange(document.getElementById("category-height").scrollHeight)
 
     }, [comics])
 
     useEffect(() => {
 
         const handleResize = () => {
-            const action = getHeightChange(document.getElementById("category-height").scrollHeight)
-            dispatch(action)
+            getHeightChange(document.getElementById("category-height").scrollHeight)
         }
         window.addEventListener('resize', handleResize)
 
@@ -118,4 +121,39 @@ function ListComic() {
     )
 }
 
-export default React.memo(ListComic)
+const mapStateToProps = (state) => {
+    return {
+        comics: state.comic.comics,
+        user: state.user.user,
+        quantityPage: state.comic.quantityPage
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+    return {
+        fetchAllComics : (page) => {
+            dispatch(actFetchAllComic(page))
+        },
+        fetchAllComicOfTag : (tag, page) => {
+            dispatch(actFetchAllComicOfTag(tag, page))
+        },
+        fetchLikedComics : (userID, page) => {
+            dispatch(actFetchLikedComics(userID, page))
+        },
+        fetchFollowedComics : (userID, page) => {
+            dispatch(actFetchFollowedComics(userID, page))
+        },
+        loadingComic : () => {
+            dispatch(loadingComic(true))
+        },
+        getHeightChange : (height) => {
+            dispatch(getHeightChange(height))
+        },
+        clearComics : () => {
+            dispatch(clearComics([]))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(ListComic))

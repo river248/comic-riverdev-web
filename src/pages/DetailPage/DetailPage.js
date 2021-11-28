@@ -9,28 +9,31 @@ import { GiStarFormation } from 'react-icons/gi'
 import { FaComments } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
 import './DetailPage.scss'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { actFetchDetailComic, actFetchInteractions, clearDetailComic } from 'actions/comicAction'
 import { loadingChapter, loadingComic } from 'actions/loading'
 import Modal from 'components/Modal/Modal'
 
-function DetailPage() {
+function DetailPage(props) {
+
+    const {
+        comic, interactions, user,
+        loadingComic,
+        loadingChapter,
+        fetchDetailComic,
+        fetchInteractions
+    } = props
 
     const [show, setShow] = useState(false)
-    const comic = useSelector(state => state.comic.comic)
-    const interactions = useSelector(state => state.comic.interactions)
-    const user = useSelector(state => state.user.user)
-
-    const dispatch = useDispatch()
 
     let { id } = useParams()
 
     useEffect(() => {
-        dispatch(loadingComic(true))
-        dispatch(loadingChapter(true))
-        dispatch(actFetchDetailComic(id))
-        dispatch(actFetchInteractions(id))
-        return () => dispatch(clearDetailComic())
+        loadingComic(true)
+        loadingChapter(true)
+        fetchDetailComic(id)
+        fetchInteractions(id)
+        return () => clearDetailComic()
 
     }, [id])
 
@@ -59,4 +62,32 @@ function DetailPage() {
     )
 }
 
-export default React.memo(DetailPage)
+const mapStateToProps = (state) => {
+    return {
+        comic: state.comic.comic,
+        interactions: state.comic.interactions,
+        user: state.user.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadingComic : (status) => {
+            dispatch(loadingComic(status))
+        },
+        loadingChapter : (status) => {
+            dispatch(loadingChapter(status))
+        },
+        fetchDetailComic : (comicID) => {
+            dispatch(actFetchDetailComic(comicID))
+        },
+        fetchInteractions : (comicID) => {
+            dispatch(actFetchInteractions(comicID))
+        },
+        clearDetailComic : () => {
+            dispatch(clearDetailComic([]))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(DetailPage))

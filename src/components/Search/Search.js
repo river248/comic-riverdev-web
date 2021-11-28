@@ -2,24 +2,21 @@ import { actSearchComic } from 'actions/comicAction'
 import React, { useRef, useState } from 'react'
 import { BiSearch } from 'react-icons/bi'
 import { ImCancelCircle } from 'react-icons/im'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import ImageComic from './ImageComic'
 
 import './Search.scss'
 
-function Search() {
+function Search({ comics, quantityPage, searchComic }) {
     const [key, setKey] = useState('')
     const [page, setPage] = useState(1)
     const [displayResult, setDisplayResult] = useState(false)
 
     const history = useHistory()
-    const comics = useSelector(state => state.comic.searchComics)
-    const quantityPage = useSelector(state => state.comic.quantitySearchPage)
+
     const typingTimeOutRef = useRef(null)
     const searchRef = useRef(null)
-
-    const dispatch = useDispatch()
 
     const handleValueChange = (value) => {
         setKey(value)
@@ -29,7 +26,7 @@ function Search() {
         }
 
         typingTimeOutRef.current = setTimeout(() => {
-            dispatch(actSearchComic(value, page))
+            searchComic(value, page)
             if(value === '')
                 setDisplayResult(false)
             else
@@ -45,7 +42,7 @@ function Search() {
     }
 
     const handleLoadMore = () => {
-        dispatch(actSearchComic(key, page+1))
+        searchComic(key, page+1)
         setPage(page+1)
     }
 
@@ -65,4 +62,20 @@ function Search() {
     )
 }
 
-export default React.memo(Search)
+const mapStateToProps = (state) => {
+    return {
+        comics: state.comic.searchComics,
+        quantityPage: state.comic.quantitySearchPage
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+
+    return {
+        searchComic : (key, page) => {
+            dispatch(actSearchComic(key, page))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Search))

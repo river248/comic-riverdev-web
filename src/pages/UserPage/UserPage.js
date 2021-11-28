@@ -11,13 +11,17 @@ import { storage} from 'firebase/index'
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 import './UserPage.scss'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { actFetchFullUser } from 'actions/userAction'
 import Alert from 'components/Alert/Alert'
 import { loadingComic } from 'actions/loading'
 
-function UserPage() {
+function UserPage(props) {
 
+    const {
+        user,
+        loadingComic, fetchFullUser
+    } = props
     const [username, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -29,15 +33,13 @@ function UserPage() {
     const [loading2, setLoading2] = useState(false)
     const [alert, setAlert] = useState({ show: false, message: ''})
 
-    const user = useSelector(state => state.user.user)
-    const dispatch = useDispatch()
     const history = useHistory()
     const token = getToken()
 
     useEffect(() => {
-        dispatch(loadingComic(true))
+        loadingComic(true)
         if (user._id && token)
-            dispatch(loadingComic(false))
+            loadingComic(false)
 
     }, [user])
 
@@ -58,7 +60,7 @@ function UserPage() {
                 setError({status: true, message:'Đang cập nhật...'})
                 setShow({...show, icon: false})
                 updateUser(user._id, token, { name: username}).then(res => {
-                    dispatch(actFetchFullUser(user._id, token))
+                    fetchFullUser(user._id, token)
                     setError({status: false, message:''})
                     setShow({...show, name: false})
                     setUserName('')
@@ -92,7 +94,7 @@ function UserPage() {
                     updateUser(user._id, token, { avatar: url}).then(res => {
                         setLoading(false)
                         setShow({...show, avatar: false})
-                        dispatch(actFetchFullUser(user._id, token))
+                        fetchFullUser(user._id, token)
                         setAlert({show: true, message: 'Đổi ảnh đại diện thành công!'})
                     })
                 })
@@ -113,7 +115,7 @@ function UserPage() {
             setLoading2(true)
             fetchResetPassword(user._id, {password: password, confirmPassword: confirmPassword}, token)
                 .then(res => {
-                    dispatch(actFetchFullUser(user._id, token))
+                    fetchFullUser(user._id, token)
                     setLoading2(false)
                     setPassword('')
                     setConfirmPassword('')
@@ -191,4 +193,21 @@ function UserPage() {
     )
 }
 
-export default UserPage
+const mapStateToProps = (state) => {
+    return {
+        user: state.user.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadingComic : (status) => {
+            dispatch(loadingComic(status))
+        },
+        fetchFullUser : (userID, token) => {
+            dispatch(actFetchFullUser(userID, token))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage)

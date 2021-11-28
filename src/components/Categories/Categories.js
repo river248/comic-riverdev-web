@@ -4,16 +4,13 @@ import sasuke from 'resources/sasuke.png'
 import { Link } from 'react-router-dom'
 
 import './Categories.scss'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { actFetchAllTag } from 'actions/comicAction'
 
-function Categories() {
-
-    const categories = useSelector(state => state.comic.tags)
-    const dispatch = useDispatch()
+function Categories({ categories, fetchAllTag }) {
 
     useEffect(() => {
-        dispatch(actFetchAllTag())
+        fetchAllTag()
     }, [])
 
     return (
@@ -29,4 +26,18 @@ function Categories() {
     )
 }
 
-export default React.memo(Categories)
+const mapStateToProps = (state) => {
+    return {
+        categories: state.comic.tags
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchAllTag : () => {
+            dispatch(actFetchAllTag())
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Categories))

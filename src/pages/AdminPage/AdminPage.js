@@ -5,28 +5,29 @@ import { Col, Container, Row } from 'react-bootstrap'
 import { NavLink, useParams } from 'react-router-dom'
 
 import './AdminPage.scss'
-import { useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import AddComicForm from 'components/AddComicForm/AddComicForm'
 import AddChapterForm from 'components/AddComicForm/AddChapterForm'
-import { useSelector } from 'react-redux'
 import { loadingComic } from 'actions/loading'
 
-function AdminPage() {
+function AdminPage(props) {
 
-    const dispatch = useDispatch()
-    const quantityComics = useSelector(state => state.comic.quantityComics)
+    const {
+        quantityComics,
+        loadingComic, fetchAllTags, fetchQuantityComic, fetchUnfinishedComic
+    } = props
     const { id } = useParams()
 
     useEffect(() => {
         if(id === 'new-comic') {
-            dispatch(loadingComic(true))
-            dispatch(actFetchAllTag())
-            dispatch(actFetchQuantityComic())
+            loadingComic(true)
+            fetchAllTags()
+            fetchQuantityComic()
         }
 
         if(id === 'new-chapter') {
-            dispatch(loadingComic(true))
-            dispatch(actFetchUnfinishedComic())
+            loadingComic(true)
+            fetchUnfinishedComic()
         }
         
         return () => clearComics([])
@@ -55,4 +56,27 @@ function AdminPage() {
     )
 }
 
-export default AdminPage
+const mapStateToProps = (state) => {
+    return {
+        quantityComics: state.comic.quantityComics
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadingComic : (status) => {
+            dispatch(loadingComic(status))
+        },
+        fetchAllTags : () => {
+            dispatch(actFetchAllTag())
+        },
+        fetchQuantityComic : () => {
+            dispatch(actFetchQuantityComic())
+        },
+        fetchUnfinishedComic : () => {
+            dispatch(actFetchUnfinishedComic())
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminPage)

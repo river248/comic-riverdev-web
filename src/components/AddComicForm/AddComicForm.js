@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { comicData } from 'utils/comicData'
 import { storage} from 'firebase/index'
@@ -10,8 +10,13 @@ import { getToken } from 'utils/common'
 import { createNewComic } from 'actions/ApiCall/adminAPI'
 import Alert from 'components/Alert/Alert'
 
-function AddComicForm({ nextComic }) {
+function AddComicForm(props) {
 
+    const {
+        nextComic,
+        user, categories,
+        loadingComic
+    } = props
     const [thumbnail, setThumbnail] = useState(null)
     const [error, setError] = useState (false)
     const [title, setTitle] = useState('')
@@ -21,16 +26,13 @@ function AddComicForm({ nextComic }) {
     const [loading, setLoading] = useState(false)
     const [alert, setAlert] = useState({ show: false, message: ''})
 
-    const categories = useSelector(state => state.comic.tags)
-    const user = useSelector(state => state.user.user)
+
     const token = getToken()
     const { id } = useParams()
 
-    const dispatch = useDispatch()
-
     useEffect(() => {
         if(categories.length > 0 && nextComic > 0)
-            dispatch(loadingComic(false))
+            loadingComic(false)
     }, [categories, nextComic])
 
     const handleChangeImage = e => {
@@ -119,4 +121,19 @@ function AddComicForm({ nextComic }) {
     )
 }
 
-export default AddComicForm
+const mapStateToProps = (state) => {
+    return {
+        categories: state.comic.tags,
+        user: state.user.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadingComic : (status) => {
+            dispatch(loadingComic(status))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddComicForm)

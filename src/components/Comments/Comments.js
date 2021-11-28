@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { actComments, actFetchInteractions } from 'actions/comicAction'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import ReactTimeAgo from 'react-time-ago'
 import { FiMoreHorizontal } from 'react-icons/fi'
 import { MdSend } from 'react-icons/md'
@@ -10,19 +10,22 @@ import './Comments.scss'
 import { removeComment, updateComment } from 'actions/ApiCall/userAPI'
 import { getToken } from 'utils/common'
 
-function Comments({ comic }) {
+function Comments(props) {
+
+    const {
+        comic,
+        user, comments,
+        getComments, fetchInteractions
+    } = props
 
     const [page, setPage] = useState(1)
     const [content, setContent] = useState('')
-    const comments = useSelector(state => state.comic.comments)
-    const user = useSelector(state => state.user.user)
+    
     const [show, setShow] = useState(false)
-
-    const dispatch = useDispatch()
 
     useEffect(() => {
         if(comic._id) {
-            dispatch(actComments(comic._id, page))
+            getComments(comic._id, page)
         }
     }, [comic._id, page])
 
@@ -34,17 +37,17 @@ function Comments({ comic }) {
         const data = {
             content: content
         }
-        updateComment(value, data, getToken()).then(res => {
-            dispatch(actComments(comic._id, page))
-            dispatch(actFetchInteractions(comic._id))
+        updateComment(value, data, getToken()).then(() => {
+            getComments(comic._id, page)
+            fetchInteractions(comic._id)
             setShow(false)
         })
     }
 
     const handleRemoveComment = (value) => {
-        removeComment(value, getToken()).then(res => {
-            dispatch(actComments(comic._id, page))
-            dispatch(actFetchInteractions(comic._id))
+        removeComment(value, getToken()).then(() => {
+            getComments(comic._id, page)
+            fetchInteractions(comic._id)
         })
     }
 
@@ -82,4 +85,22 @@ function Comments({ comic }) {
     )
 }
 
-export default React.memo(Comments)
+const mapStateToProps = (state) => {
+    return {
+        comments: state.comic.comments,
+        user: state.user.user
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getComments : (comicID, page) => {
+            dispatch(actComments(comicID, page))
+        },
+        fetchInteractions : (comicID) => {
+            dispatch(actFetchInteractions(comicID))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Comments))
