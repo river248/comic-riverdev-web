@@ -18,7 +18,7 @@ function AddChapterForm(props) {
         loadingComic, fetchQuantityChapter, fetchUnfinishedComic
     } = props
 
-    const [error, setError] = useState (false)
+    const [error, setError] = useState ({status: false, message: ''})
     const [comicID, setComicID] = useState('')
     const [number, setNumber] = useState(0)
     const [thumbnail, setThumbnail] = useState('')
@@ -68,7 +68,8 @@ function AddChapterForm(props) {
             setLoading({ chapter: true, image: true})
             const data = {
                 comicID: comicID,
-                image: imagesName
+                image: imagesName,
+                chap: chapter
             }
 
             if(status.isFinished) {
@@ -84,18 +85,29 @@ function AddChapterForm(props) {
             } else {
                 setLoading({ chapter: true, image: true})
                 createNewChapter(data, user.isAdmin, token).then( res => {
-                    uploadImages()
-                    fetchUnfinishedComic()
-                    loadingComic(true)
-                    setImages([])
-                    setAlert({show: true, message: 'Đã thêm chương mới'})
+                    if (res.data) {
+                        uploadImages()
+                        fetchUnfinishedComic()
+                        loadingComic(true)
+                        setImages([])
+                        setAlert({show: true, message: 'Đã thêm chương mới'})
+                        setError({status: false, message: ''})
+                    }
+                    if (res.data === null) {
+                        setError({status: true, message: `Chương ${data.chap} đã tồn tại!`})
+                        setLoading({ chapter: false, image: false})
+                    }
+                    if (res.data === '') {
+                        setError({status: true, message: `Chương phải > 0!`})
+                        setLoading({ chapter: false, image: false})
+                    }
                 }).catch(error => console.log(error))
                 setStatus({isFinished: false, name: 'Chưa hoàn thành'})
             }
 
-            setError(false)
+            setError({status: false, message: ''})
         } else {
-            setError(true)
+            setError({status: true, message:'Vui lòng không bỏ trống!'})
         }
         
     }
@@ -127,7 +139,6 @@ function AddChapterForm(props) {
             }
         fetchQuantityChapter(value)
     }
-
     return (
         <>
         <Alert status={alert.show} message={alert.message}/>
@@ -148,7 +159,7 @@ function AddChapterForm(props) {
 
             <div className="input-item">
                 <label>Chương :</label>
-                <input type="number" min={1} value={chapter} readOnly onChange={(e) => setChapter(e.target.value)}/>
+                <input type="number" min={1} value={chapter} onChange={(e) => setChapter(e.target.value)}/>
             </div>
             
             <div className="input-radio-item">
@@ -161,7 +172,7 @@ function AddChapterForm(props) {
             <input type="file" accept="image/*" onChange={handleChangeImage} multiple/>
 
             <span>(*) : Không được bỏ trống!</span>
-            {error && <span>Vui lòng không bỏ trống!</span>}
+            {error.status && <span>{error.message}</span>}
             <button >
             { (!loading.chapter && !loading.image) ? <span onClick={handleSubmit}>Thêm</span> :
                 <div className="spinner-border spinner-border-sm text-warning" role="status"/> }
