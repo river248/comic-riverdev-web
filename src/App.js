@@ -26,6 +26,7 @@ import HistoryPage from 'pages/HistoryPage/HistoryPage'
 import AdminPage from 'pages/AdminPage/AdminPage'
 import Signup from 'pages/AccountPage/Signup'
 import ForgotPassword from 'pages/AccountPage/ForgotPassword'
+import MessengerCustomerChat from 'react-messenger-customer-chat'
 
 function App() {
 
@@ -53,6 +54,7 @@ function App() {
             <Route exact component={NotFound}/>
           </Switch>
         </ScrollToTop>
+        <MessengerCustomerChat pageId="107515045102191" appId="399127468622408"/>
         {(loading.comicLoading || loading.newComicLoading || loading.chapterLoading) && <Loading/>}
         <ToTop/>
         <Footer/>
