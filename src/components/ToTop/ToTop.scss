@@ -5,8 +5,8 @@
     height: 50px;
     position: fixed;
     background-color: $yellow;
-    right: 20px;
-    bottom: 40px;
+    right: 30px;
+    bottom: 100px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -17,5 +17,13 @@
     svg {
         width: 30px;
         height: 30px;
+    }
+}
+
+@media screen and (max-width: 520px){
+    .totop-container {
+        left: 20px;
+        right: unset;
+        bottom: 50px;
     }
 }
