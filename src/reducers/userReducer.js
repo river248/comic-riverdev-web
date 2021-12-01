@@ -1,10 +1,14 @@
-const { GET_USER, GET_LIKE_STATUS, GET_FOLLOW_STATUS, GET_READ_COMICS } = require("utils/constants")
+const { GET_USER, GET_LIKE_STATUS, GET_FOLLOW_STATUS, GET_READ_COMICS, GET_NOTIFICATIONS, SHOW_NOTIFICATION, SEEN_NOTIFICATION } = require("utils/constants")
 
 const initialState = {
     user: {},
     likeStatus: false,
     followStatus: false,
-    comics: []
+    comics: [],
+    notifications: [],
+    quantityPageNotification: 0,
+    yet: 0,
+    show: false
 }
 
 const userReducer = (state = initialState, action) => {
@@ -17,6 +21,20 @@ const userReducer = (state = initialState, action) => {
             return {...state, followStatus: action.payload}
         case GET_READ_COMICS:
             return {...state, comics: action.payload.comics}
+        case GET_NOTIFICATIONS:
+            return {
+                ...state,
+                notifications: action.payload.notifications,
+                quantityPageNotification: action.payload.quantityPage,
+                yet: action.payload.yet
+            }
+        case SHOW_NOTIFICATION:
+            return {
+                ...state,
+                show: action.payload
+            }
+        case SEEN_NOTIFICATION:
+            return { ...state, yet: action.payload }
         default:
             return state
     }

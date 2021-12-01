@@ -10,6 +10,7 @@ import './ListChapter.scss'
 import { loadingChapter } from 'actions/loading'
 import { getToken } from 'utils/common'
 import { updateChapter } from 'actions/ApiCall/adminAPI'
+import { actfetchNotifications } from 'actions/userAction'
 
 function ListChapter(props) {
 
@@ -17,7 +18,8 @@ function ListChapter(props) {
         comic,
         chapters, user,
         loadingChapter,
-        fetchAllChaptersOfComic
+        fetchAllChaptersOfComic,
+        fetchNotifications
     } = props
 
     const [loading, setLoading ] = useState(false)
@@ -35,6 +37,7 @@ function ListChapter(props) {
         if(id && user._id && token) {
             updateChapter(id, {_destroy: true}, user.role, token).then(res => {
                 fetchAllChaptersOfComic(comic._id)
+                fetchNotifications(user._id, 1, token)
                 setLoading(false)
             })
         }
@@ -46,8 +49,8 @@ function ListChapter(props) {
                 <div key={chapter._id}>
                     <div  className="chapter-title">
                         <span onClick={() => history.push(`/home/reading?comic=${comic._id}&chap=${chapter.chap}`)}>Chương {chapter.chap}</span>
-                        { user.isAdmin && (!loading ? <span onClick={() => handleRemoveChapter(chapter._id)}><ImBin/></span> :
-                        <div className="spinner-border spinner-border-sm text-warning" role="status"/>)}
+                        { (user.isAdmin && !loading) ? <span onClick={() => handleRemoveChapter(chapter._id)}><ImBin/></span> :
+                        <div className="spinner-border spinner-border-sm text-warning" role="status"/>}
                         <span>{convertDate(chapter.createAt)}</span>
                     </div>
                     <hr/>
@@ -71,6 +74,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         fetchAllChaptersOfComic : (comicID) => {
             dispatch(actFetchAllChapterOfComic(comicID))
+        },
+        fetchNotifications : (userID, page, token) => {
+            dispatch(actfetchNotifications(userID, page, token))
         }
     }
 }

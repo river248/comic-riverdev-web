@@ -84,6 +84,16 @@ export const fetchQuantityPageFollowedComics = async (userID, token) => await ax
 export const fetchReadComics = async (userID, page, token) => await axios.get(`${API_ROOT}/v1/user/history?userID=${userID}&page=${page}`, { headers: { 'x-access-token': token}})
 
 export const removeReadComic = async (userID, comicID, chap, token) => await axios.delete(`${API_ROOT}/v1/user/remove-history?userID=${userID}&comicID=${comicID}&chap=${chap}`, { headers: { 'x-access-token': token}})
+
 export const removeAllReadComic = async (userID, token) => await axios.delete(`${API_ROOT}/v1/user/remove-all-history?userID=${userID}`, { headers: { 'x-access-token': token}})
 
 export const updateUser = async (userID, token, data) => await axios.put(`${API_ROOT}/v1/user/${userID}`, data, { headers: { 'x-access-token': token}})
+
+export const fetchNotifications = async (userID, page, token) => await axios.get(
+    `${API_ROOT}/v1/notification?userID=${userID}&page=${page}`, { headers: { 'x-access-token': token } })
+
+export const removeNotification = async (token, id) => await axios.delete(
+    `${API_ROOT}/v1/notification/${id}`, { header: { 'x-access-token': token }})
+
+export const updateNotification = async (userID, token) => await axios.put(
+    `${API_ROOT}/v1/notification/${userID}`, { header: { 'x-access-token': token }})

@@ -1,0 +1,98 @@
+@import '_setting.scss';
+
+.notification-container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+    height: auto;
+    max-height: 380px;
+    overflow: auto;
+    background-color: $yellow;
+    border-radius: 8px;
+    box-shadow: 4px 6px 8px $black;
+    z-index: 2;
+    top: 110%;
+    right: 0;
+    padding: 5px;
+    &::-webkit-scrollbar { width: 0;}
+
+    .notification-item {
+        height: 70px;
+        display: flex;
+        align-items: center;
+        padding: 0 2px;
+        margin-bottom: 5px;
+
+        .notification-image {
+            width: 52.8px;
+            height: 67.2px;
+            border-radius: 6px;
+            margin-right: 10px;
+            box-shadow: 2px 2px 4px darken($yellow, $amount: 50);
+
+            .loading-image, img {
+                width: 100%;
+                height: 100%;
+                background-color: lighten($black, $amount: 10);
+                border-radius: 6px;
+            }
+        }
+
+        .notification-content {
+            display: flex;
+            justify-content: space-between;
+            height: inherit;
+            flex-direction: column;
+            padding: 5px;
+            width: calc(100% - 68px);
+            
+            span {
+                font-size: 0.9rem;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-weight: normal;
+                word-break: break-all;
+            }
+        }
+
+        &:hover {
+            background-color: darken($yellow, $amount: 10);
+            border-radius: 6px;
+        }
+    }
+
+    button {
+        width: 100%;
+        height: 40px;
+        outline: none;
+        border: none;
+        background-color: $purple;
+        color: $white;
+        font-size: 1rem;
+        font-size: bold;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    .no-content {
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .notification-container {
+        width: 96vw;
+        right: -140px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .notification-container {
+        width: 96vw;
+        right: -76px;
+    }
+}
