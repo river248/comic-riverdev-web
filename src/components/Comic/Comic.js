@@ -14,6 +14,7 @@ import { getToken } from 'utils/common'
 import { softRemoveComic } from 'actions/ApiCall/adminAPI'
 import useQuery from 'utils/useQuery'
 import { actFetchAllComic, actFetchAllComicOfTag, actFetchNewComics } from 'actions/comicAction'
+import { actfetchNotifications } from 'actions/userAction'
 
 function Comic(props) {
 
@@ -23,7 +24,8 @@ function Comic(props) {
         loadingNewComic,
         fetchNewComics,
         fetchAllComics,
-        fetchAllComicsOfTag
+        fetchAllComicsOfTag,
+        fetchNotifications
     } = props
 
     const [image, setImage] = useState('')
@@ -57,6 +59,7 @@ function Comic(props) {
             const data = { _destroy: true }
             softRemoveComic(comic._id, data, user.isAdmin, token).then(res => {
                 setLoading(false)
+                fetchNotifications(user._id, 1, token)
                 switch (location.pathname) {
                     case '/':
                         loadingNewComic(true)
@@ -147,6 +150,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         fetchAllComicsOfTag : (tag, page) => {
             dispatch(actFetchAllComicOfTag(tag, page))
+        },
+        fetchNotifications : (userID, page, token) => {
+            dispatch(actfetchNotifications(userID, page, token))
         }
     }
 }

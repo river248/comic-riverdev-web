@@ -2,17 +2,23 @@
 import React, { useEffect } from 'react'
 import { Link, NavLink, useLocation, useHistory } from 'react-router-dom'
 import { AiFillHome } from 'react-icons/ai'
-import { MdEmail, MdCategory } from 'react-icons/md'
+import { MdCategory } from 'react-icons/md'
+import { IoNotifications } from 'react-icons/io5'
 import { FaUserCircle } from 'react-icons/fa'
 import { connect } from 'react-redux'
 import './Navigation.scss'
 import { getToken, removeUserSession } from 'utils/common'
 import jwtDecode from 'jwt-decode'
-import { actFetchFullUser, getFullUser } from 'actions/userAction'
-import { fetchLogout } from 'actions/ApiCall/userAPI'
+import { actFetchFullUser, actfetchNotifications, getFullUser, seenNotification, showNotification } from 'actions/userAction'
+import { fetchLogout, updateNotification } from 'actions/ApiCall/userAPI'
+import Notification from 'components/Notification/Notification'
 
-function Navigation({ user, fetchFullUser, getFullUser}) {
+function Navigation(props) {
 
+    const {
+        user, yet, show,
+        fetchFullUser, getFullUser, getNotifications, toggleNotification, actSeenNotification
+    } = props
     const location = useLocation()
     const history = useHistory()
     
@@ -23,6 +29,7 @@ function Navigation({ user, fetchFullUser, getFullUser}) {
         if(token !== null) {
             const userData = jwtDecode(token)
             fetchFullUser(userData.data._id, token)
+            getNotifications(userData.data._id, 1, token)
         }
 
         return () => getFullUser({})
@@ -34,6 +41,14 @@ function Navigation({ user, fetchFullUser, getFullUser}) {
             history.replace('/')
             removeUserSession()
         })
+    }
+
+    const handleNotification = () => {
+        toggleNotification(!show)
+        if (user && token) {
+            updateNotification(user._id, token)
+            actSeenNotification()
+        }
     }
 
     return (
@@ -52,26 +67,32 @@ function Navigation({ user, fetchFullUser, getFullUser}) {
                         <MdCategory/>
                         <span>Thể loại</span>
                 </NavLink>
-                {/* <NavLink to="/contact" activeClassName="navbar-active" className="navbar-item">
-                        <MdEmail/>
-                        <span>Liên hệ</span>
-                </NavLink> */}
             </div>
             <div className="navigation-right-container">
                 {!getToken() && <Link to='/login' className="navbar-item">
                         <FaUserCircle/>
                         <span>Tài khoản</span>
                 </Link>}
-                {getToken() && <div className="user-avatar">
-                        <span className="username">{user.name}</span>
-                        <img src={user.avatar} alt='avatar'/>
-                        <div className="user-dropdown">
-                            { user.isAdmin && <span onClick={() => history.push('/admin/new-comic')}>Quản lý truyện</span>}
-                            <span onClick={() => history.push('/user')}>Thông tin</span>
-                            <span onClick={() => history.push('/history/read')}>Lịch sử</span>
-                            <span onClick={hanldeLogout}>Đăng xuất</span>
+                {getToken() && <>
+                <div className="notification">
+                    <div className="user-notification" onClick={handleNotification}>
+                        <span>Thông báo</span>
+                        <IoNotifications/>
+                        { (yet > 0) && <div className="quantity-notifications">{yet}</div>}
                     </div>
-                </div>}
+                    { show && <Notification useID={user._id} token={token}/> }
+                </div>
+                <div className="user-avatar">
+                    <span className="username">{user.name}</span>
+                    <img src={user.avatar} alt='avatar'/>
+                    <div className="user-dropdown">
+                        { user.isAdmin && <span onClick={() => history.push('/admin/new-comic')}>Quản lý truyện</span>}
+                        <span onClick={() => history.push('/user')}>Thông tin</span>
+                        <span onClick={() => history.push('/history/read')}>Lịch sử</span>
+                        <span onClick={hanldeLogout}>Đăng xuất</span>
+                    </div>
+                </div>
+                </>}
             </div>
         </div>
     )
@@ -79,7 +100,9 @@ function Navigation({ user, fetchFullUser, getFullUser}) {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user.user
+        user: state.user.user,
+        yet: state.user.yet,
+        show: state.user.show
     }
 }
 
@@ -91,6 +114,15 @@ const mapDispatchToProps = (dispatch) => {
         },
         getFullUser : () => {
             dispatch(getFullUser({}))
+        },
+        getNotifications : (userID, page, token) => {
+            dispatch(actfetchNotifications(userID, page, token))
+        },
+        toggleNotification : (status) => {
+            dispatch(showNotification(status))
+        },
+        actSeenNotification : () => {
+            dispatch(seenNotification())
         }
     }
 }

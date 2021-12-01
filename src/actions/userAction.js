@@ -1,5 +1,28 @@
-import { GET_FOLLOWED_COMICS, GET_FOLLOW_STATUS, GET_LIKED_COMICS, GET_LIKE_STATUS, GET_QUANTITY_PAGE_FOLLOWED_COMICS, GET_QUANTITY_PAGE_LIKED_COMICS, GET_READ_COMICS, GET_USER } from "utils/constants"
-import { fetchFollowedComics, fetchFollowStatus, fetchFullUser, fetchLikedComics, fetchLikeStatus, fetchQuantityPageFollowedComics, fetchQuantityPageLikedComics, fetchReadComics } from "./ApiCall/userAPI"
+import {
+    GET_FOLLOWED_COMICS,
+    GET_FOLLOW_STATUS,
+    GET_LIKED_COMICS,
+    GET_LIKE_STATUS,
+    GET_NOTIFICATIONS,
+    GET_QUANTITY_PAGE_FOLLOWED_COMICS,
+    GET_QUANTITY_PAGE_LIKED_COMICS,
+    GET_READ_COMICS,
+    GET_USER,
+    SEEN_NOTIFICATION,
+    SHOW_NOTIFICATION
+} from "utils/constants"
+
+import {
+    fetchFollowedComics,
+    fetchFollowStatus,
+    fetchFullUser,
+    fetchLikedComics,
+    fetchLikeStatus,
+    fetchNotifications,
+    fetchQuantityPageFollowedComics,
+    fetchQuantityPageLikedComics,
+    fetchReadComics
+} from "./ApiCall/userAPI"
 
 export const actFetchFullUser = (id, token) => {
     return (dispatch) => {
@@ -118,5 +141,34 @@ export const getReadComics = (data) => {
     return {
         type: GET_READ_COMICS,
         payload: data
+    }
+}
+
+export const actfetchNotifications = (userID, page, token) => {
+    return (dispatch) => {
+        return fetchNotifications(userID, page, token).then(res => {
+            dispatch(getNotifications(res.data))
+        })
+    }
+}
+
+export const getNotifications = (data) => {
+    return {
+        type: GET_NOTIFICATIONS,
+        payload: data
+    }
+}
+
+export const showNotification = (status) => {
+    return {
+        type: SHOW_NOTIFICATION,
+        payload: status
+    }
+}
+
+export const seenNotification = () => {
+    return {
+        type: SEEN_NOTIFICATION,
+        payload: 0
     }
 }

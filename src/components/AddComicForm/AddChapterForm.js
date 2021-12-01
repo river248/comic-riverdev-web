@@ -10,12 +10,13 @@ import { getToken } from 'utils/common'
 import { createNewChapter } from 'actions/ApiCall/adminAPI'
 import { updateComics } from 'actions/ApiCall/comicAPI'
 import Alert from 'components/Alert/Alert'
+import { actfetchNotifications } from 'actions/userAction'
 
 function AddChapterForm(props) {
 
     const {
         chapters, comics, user,
-        loadingComic, fetchQuantityChapter, fetchUnfinishedComic
+        loadingComic, fetchQuantityChapter, fetchUnfinishedComic, fetchNotifications
     } = props
 
     const [error, setError] = useState ({status: false, message: ''})
@@ -78,6 +79,7 @@ function AddChapterForm(props) {
                     fetchUnfinishedComic()
                     loadingComic(true)
                     setImages([])
+                    fetchNotifications(user._id, 1, token)
                     setAlert({show: true, message: 'Đã thêm chương mới'})
                 }).catch(error => console.log(error))
                 updateComics(data.comicID, {status: 'Đã hoàn thành'})
@@ -90,6 +92,7 @@ function AddChapterForm(props) {
                         fetchUnfinishedComic()
                         loadingComic(true)
                         setImages([])
+                        fetchNotifications(user._id, 1, token)
                         setAlert({show: true, message: 'Đã thêm chương mới'})
                         setError({status: false, message: ''})
                     }
@@ -200,6 +203,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         fetchUnfinishedComic : () => {
             dispatch(actFetchUnfinishedComic())
+        },
+        fetchNotifications : (userID, page, token) => {
+            dispatch(actfetchNotifications(userID, page, token))
         }
     }
 }
