@@ -78,7 +78,7 @@ function Navigation(props) {
                     <div className="user-notification" onClick={handleNotification}>
                         <span>Thông báo</span>
                         <IoNotifications/>
-                        { (yet > 0) && <div className="quantity-notifications">{yet}</div>}
+                        { (yet > 0) && <div className={ (yet <= 99) ? "quantity-notifications" : "quantity-notifications quantity-notifications-2"}>{yet}</div>}
                     </div>
                     { show && <Notification useID={user._id} token={token}/> }
                 </div>
