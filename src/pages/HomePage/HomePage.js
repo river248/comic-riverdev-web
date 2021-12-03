@@ -6,9 +6,11 @@ import './HomePage.scss'
 import NewComic from 'components/NewComic/NewComic'
 import ListComic from 'components/ListComic/ListComic'
 import Pagina from 'components/Pagina/Pagina'
+import Footer from 'components/Footer/Footer'
 
 function HomePage() {
     return (
+        <>
         <Container fluid>
             <Row className="header-page-row">
                 <Col lg={9} md={8} sm={12}>
@@ -22,6 +24,8 @@ function HomePage() {
                 </Col>
             </Row>
         </Container>
+        <Footer/>
+        </>
     )
 }
 

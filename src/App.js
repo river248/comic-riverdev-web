@@ -9,7 +9,6 @@ import Header from 'components/Header/Header'
 import Navigation from 'components/Navigation/Navigation'
 import HomePage from 'pages/HomePage/HomePage'
 import ToTop from 'components/ToTop/ToTop'
-import Footer from 'components/Footer/Footer'
 import DetailPage from 'pages/DetailPage/DetailPage'
 import CategoriesPage from 'pages/CategoriesPage/CategoriesPage'
 import ScrollToTop from 'utils/ScrollToTop'
@@ -57,7 +56,6 @@ function App() {
         <MessengerCustomerChat pageId="107515045102191" appId="399127468622408"/>
         {(loading.comicLoading || loading.newComicLoading || loading.chapterLoading) && <Loading/>}
         <ToTop/>
-        <Footer/>
     </div>
     </Router>
   )

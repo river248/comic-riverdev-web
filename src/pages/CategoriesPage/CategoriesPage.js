@@ -11,6 +11,7 @@ import Pagina from 'components/Pagina/Pagina'
 import useQuery from 'utils/useQuery'
 import { connect } from 'react-redux'
 import { actFetchDetailTag } from 'actions/comicAction'
+import Footer from 'components/Footer/Footer'
 
 function CategoriesPage(props) {
 
@@ -27,6 +28,7 @@ function CategoriesPage(props) {
     }, [query.get('tag')])
 
     return (
+        <>
         <Container fluid>
             <Row className="category-page-row">
                 <Col lg={3} md={4} sm={12}>
@@ -42,6 +44,8 @@ function CategoriesPage(props) {
                 </Col>
             </Row>
         </Container>
+        <Footer/>
+        </>
     )
 }
 

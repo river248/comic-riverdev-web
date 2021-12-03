@@ -10,6 +10,7 @@ import { setUserSession } from 'utils/common'
 import { Spinner } from 'react-bootstrap'
 import GoogleLogin from 'react-google-login'
 import { validateEmail } from 'utils/validateEmail'
+import Footer from 'components/Footer/Footer'
 
 function Login(props) {
 
@@ -106,6 +107,7 @@ function Login(props) {
     }
 
     return (
+        <>
         <div className="login-page-container" ref={loginContainerRef}>
             <div className="fake-container" onClick={handleGoBack}/>
             <img src={naruto} alt='naruto' className="image-naruto"/>
@@ -137,6 +139,8 @@ function Login(props) {
                 { loading && <Spinner animation="border" variant="warning"/>}
             </div>
         </div>
+        <Footer/>
+        </>
     )
 }
 

@@ -13,6 +13,7 @@ import { connect } from 'react-redux'
 import { actFetchDetailComic, actFetchInteractions, clearDetailComic } from 'actions/comicAction'
 import { loadingChapter, loadingComic } from 'actions/loading'
 import Modal from 'components/Modal/Modal'
+import Footer from 'components/Footer/Footer'
 
 function DetailPage(props) {
 
@@ -58,6 +59,7 @@ function DetailPage(props) {
                 <PostComment comic={comic}/>
             </Row>
         </Container>
+        <Footer/>
         </>
     )
 }

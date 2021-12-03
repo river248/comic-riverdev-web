@@ -5,6 +5,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { validateEmail } from 'utils/validateEmail'
 import './Signup.scss'
 import Alert from 'components/Alert/Alert'
+import Footer from 'components/Footer/Footer'
 
 function ForgotPassword() {
 
@@ -64,6 +65,7 @@ function ForgotPassword() {
                 { loading && <Spinner animation="border" variant="warning"/>}
             </div>
         </div>
+        <Footer/>
         </>
     )
 }

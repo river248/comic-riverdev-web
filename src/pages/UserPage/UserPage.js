@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import { actFetchFullUser } from 'actions/userAction'
 import Alert from 'components/Alert/Alert'
 import { loadingComic } from 'actions/loading'
+import Footer from 'components/Footer/Footer'
 
 function UserPage(props) {
 
@@ -135,6 +136,7 @@ function UserPage(props) {
             setShow({...show, password: true})
     }
     return (
+        <>
         <Container>
             <Alert status={alert.show} message={alert.message}/>
             <Row>
@@ -190,6 +192,8 @@ function UserPage(props) {
                 </button>
             </Row>
         </Container>
+        <Footer/>
+        </>
     )
 }
 
