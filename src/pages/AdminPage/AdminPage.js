@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import AddComicForm from 'components/AddComicForm/AddComicForm'
 import AddChapterForm from 'components/AddComicForm/AddChapterForm'
 import { loadingComic } from 'actions/loading'
+import Footer from 'components/Footer/Footer'
 
 function AdminPage(props) {
 
@@ -36,6 +37,7 @@ function AdminPage(props) {
 
 
     return (
+        <>
         <Container>
             <Row>
                 <Col className='admin-nav-col'>
@@ -53,6 +55,8 @@ function AdminPage(props) {
                 { id === 'new-chapter' && <AddChapterForm/>}
             </Row>
         </Container>
+        <Footer/>
+        </>
     )
 }
 

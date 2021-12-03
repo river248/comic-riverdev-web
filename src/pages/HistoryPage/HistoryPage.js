@@ -11,6 +11,7 @@ import { connect } from 'react-redux'
 import { getToken } from 'utils/common'
 import { removeAllReadComic } from 'actions/ApiCall/userAPI'
 import { actFetchReadComics } from 'actions/userAction'
+import Footer from 'components/Footer/Footer'
 
 function HistoryPage(props) {
 
@@ -33,6 +34,7 @@ function HistoryPage(props) {
     }
 
     return (
+        <>
         <Container>
             <Row>
                 <Col className='history-col'>
@@ -63,6 +65,8 @@ function HistoryPage(props) {
                 </div>
             </Row>}
         </Container>
+        <Footer/>
+        </>
     )
 }
 

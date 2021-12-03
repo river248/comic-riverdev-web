@@ -5,6 +5,7 @@ import ReadingComic from 'components/ReadingComic/ReadingComic'
 import { Container, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import useQuery from 'utils/useQuery'
+import Footer from 'components/Footer/Footer'
 
 function ReadingPage({ fetchDetailComic }) {
 
@@ -15,11 +16,14 @@ function ReadingPage({ fetchDetailComic }) {
     }, [query.get('chap')])
 
     return (
+        <>
         <Container fluid="md">
             <Row>
                 <ReadingComic/>
             </Row>
         </Container>
+        <Footer/>
+        </>
     )
 }
 

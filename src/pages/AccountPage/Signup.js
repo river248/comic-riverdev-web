@@ -6,6 +6,7 @@ import { Spinner } from 'react-bootstrap'
 
 import './Signup.scss'
 import Alert from 'components/Alert/Alert'
+import Footer from 'components/Footer/Footer'
 function Signup() {
 
     const [email, setEmail] = useState('')
@@ -81,6 +82,7 @@ function Signup() {
                 { loading && <Spinner animation="border" variant="warning"/>}
             </div>
         </div>
+        <Footer/>
         </>
     )
 }
