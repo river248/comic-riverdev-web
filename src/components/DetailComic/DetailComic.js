@@ -59,7 +59,7 @@ function DetailComic(props) {
             isSubcribe = false
             setImage('')
         }
-    }, [comic])
+    }, [comic, user])
 
     const handleFollow = () => {
         if(getToken()) {
