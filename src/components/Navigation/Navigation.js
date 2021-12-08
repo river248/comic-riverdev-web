@@ -12,12 +12,15 @@ import jwtDecode from 'jwt-decode'
 import { actFetchFullUser, actfetchNotifications, getFullUser, seenNotification, showNotification } from 'actions/userAction'
 import { fetchLogout, updateNotification } from 'actions/ApiCall/userAPI'
 import Notification from 'components/Notification/Notification'
+import { actFetchNewComics } from 'actions/comicAction'
+import { loadingNewComic } from 'actions/loading'
 
 function Navigation(props) {
 
     const {
         user, yet, show,
-        fetchFullUser, getFullUser, getNotifications, toggleNotification, actSeenNotification
+        fetchFullUser, getFullUser, getNotifications, toggleNotification, actSeenNotification,
+        fetchNewComics, loadingNewComic
     } = props
     const location = useLocation()
     const history = useHistory()
@@ -48,6 +51,14 @@ function Navigation(props) {
 
         return () => clearTimeout(timer)
     },[time])
+
+    useEffect(() => {
+        if (token !== null && yet > 0) {
+            fetchNewComics()
+            loadingNewComic(false)
+        }
+
+    },[yet])
 
     useEffect(() => {
         const checkIfClickedOutside = e => {
@@ -153,6 +164,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         actSeenNotification : () => {
             dispatch(seenNotification())
+        },
+        fetchNewComics : () => {
+            dispatch(actFetchNewComics())
+        },
+        loadingNewComic : (status) => {
+            dispatch(loadingNewComic(status))
         }
     }
 }
