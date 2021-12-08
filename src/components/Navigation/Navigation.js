@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation, useHistory } from 'react-router-dom'
 import { AiFillHome } from 'react-icons/ai'
 import { MdCategory } from 'react-icons/md'
@@ -21,7 +21,9 @@ function Navigation(props) {
     } = props
     const location = useLocation()
     const history = useHistory()
-    
+    const [time, setTime] = useState(0)
+    const ref = useRef()
+
     const token = getToken()
 
     useEffect(() => {
@@ -29,12 +31,40 @@ function Navigation(props) {
         if(token !== null) {
             const userData = jwtDecode(token)
             fetchFullUser(userData.data._id, token)
-            getNotifications(userData.data._id, 1, token)
         }
 
         return () => getFullUser({})
 
     }, [token])
+
+    useEffect(() => {
+        if (token !== null) {
+            getNotifications(user._id, 1, token)
+        }
+
+        const timer = setTimeout(() => {
+            setTime(time+5)
+        }, 5000)
+
+        return () => clearTimeout(timer)
+    },[time])
+
+    useEffect(() => {
+        const checkIfClickedOutside = e => {
+            // If the menu is open and the clicked target is not within the menu,
+            // then close the menu
+            if (show && ref.current && !ref.current.contains(e.target)) {
+                toggleNotification(false)
+            }
+        }
+      
+        document.addEventListener("mousedown", checkIfClickedOutside)
+      
+        return () => {
+            // Cleanup the event listener
+            document.removeEventListener("mousedown", checkIfClickedOutside)
+        }
+    }, [show])
 
     const hanldeLogout = () => {
         fetchLogout().then(response => {
@@ -74,7 +104,7 @@ function Navigation(props) {
                         <span>Tài khoản</span>
                 </Link>}
                 {getToken() && <>
-                <div className="notification">
+                <div ref={ref} className="notification">
                     <div className="user-notification" onClick={handleNotification}>
                         <span>Thông báo</span>
                         <IoNotifications/>
@@ -118,7 +148,7 @@ const mapDispatchToProps = (dispatch) => {
         getNotifications : (userID, page, token) => {
             dispatch(actfetchNotifications(userID, page, token))
         },
-        toggleNotification : (status) => {
+        toggleNotification: (status) => {
             dispatch(showNotification(status))
         },
         actSeenNotification : () => {
