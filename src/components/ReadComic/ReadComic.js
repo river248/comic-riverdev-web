@@ -9,25 +9,18 @@ import { ImBin } from 'react-icons/im'
 import loadingImg from 'resources/loading.png'
 
 import './ReadComic.scss'
-import { getToken } from 'utils/common'
-import { removeReadComic } from 'actions/ApiCall/userAPI'
-import { actFetchReadComics } from 'actions/userAction'
-import useQuery from 'utils/useQuery'
+import { actConfirm } from 'actions/userAction'
 
 function ReadComic(props) {
 
     const {
         comic,
-        user,
-        loadingComic, fetchReadComics
+        loadingComic, actConfirm
     } = props
 
     const [image, setImage] = useState('')
-    const [loading, setLoading] = useState(false)
-    const token = getToken()
 
     const history = useHistory()
-    const query = useQuery()
 
     useEffect(() => {
         let isSubcribe = true
@@ -45,17 +38,14 @@ function ReadComic(props) {
         }
     }, [comic])
 
-    const handleRemoveReadComic = (comicID, chap) => {
-        setLoading(true)
-        if(user._id && token) {
-            removeReadComic(user._id, comicID, chap, token).then(() => {
-                if(query.get('page'))
-                    fetchReadComics(user._id, query.get('page'), token)
-                else
-                    fetchReadComics(user._id, 1, token)
-                setLoading(false)
-            })
-        }
+    const handleRemoveReadComic = () => {
+        actConfirm({
+            show: true,
+            comicID: comic.comicID,
+            chap: comic.chap,
+            chapterID: '',
+            title: comic.title
+        })
     }
 
     return (
@@ -63,9 +53,8 @@ function ReadComic(props) {
             <div className="read-comic-image">
                 { image ? <>
                     <img src={image} alt={comic.comicID} onClick={() => history.push(`/home/reading?comic=${comic.comicID}&chap=${comic.chap}`)}/>
-                    <div className="remove-read-comic" onClick={() => handleRemoveReadComic(comic.comicID, comic.chap)}>
-                        { !loading ? <ImBin/> :
-                        <div className="spinner-border text-warning" role="status"/> }
+                    <div className="remove-read-comic" onClick={handleRemoveReadComic}>
+                        <ImBin/>
                     </div>
                     </>
                     : 
@@ -90,11 +79,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchReadComics : (userID, page, token) => {
-            dispatch(actFetchReadComics(userID, page, token))
-        },
         loadingComic : (status) => {
             dispatch(loadingComic(status))
+        },
+        actConfirm : (data) => {
+            dispatch(actConfirm(data))
         }
     }
 }

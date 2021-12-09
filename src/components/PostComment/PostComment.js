@@ -1,7 +1,7 @@
 import { postComment } from 'actions/ApiCall/userAPI'
 import { actComments, actFetchInteractions } from 'actions/comicAction'
 import React, { useState } from 'react'
-import { RiSendPlaneFill } from 'react-icons/ri'
+import { AiOutlineSend } from 'react-icons/ai'
 import { connect } from 'react-redux'
 import { getToken } from 'utils/common'
 
@@ -42,7 +42,7 @@ function PostComment(props) {
     return (
         <div className="post-comment-container">
             <textarea placeholder="Nội dung bình luận" value={content} onChange={(e) => handleComment(e.target.value)}></textarea>
-            <RiSendPlaneFill onClick={handlePostComment}/>
+            <AiOutlineSend onClick={handlePostComment}/>
         </div>
     )
 }

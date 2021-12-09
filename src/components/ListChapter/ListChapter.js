@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { actFetchAllChapterOfComic } from 'actions/comicAction'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -8,9 +8,7 @@ import { ImBin } from 'react-icons/im'
 
 import './ListChapter.scss'
 import { loadingChapter } from 'actions/loading'
-import { getToken } from 'utils/common'
-import { updateChapter } from 'actions/ApiCall/adminAPI'
-import { actfetchNotifications } from 'actions/userAction'
+import { actConfirm } from 'actions/userAction'
 
 function ListChapter(props) {
 
@@ -19,11 +17,8 @@ function ListChapter(props) {
         chapters, user,
         loadingChapter,
         fetchAllChaptersOfComic,
-        fetchNotifications
+        actConfirm
     } = props
-
-    const [loading, setLoading ] = useState(false)
-    const token = getToken()
 
     const history = useHistory()
 
@@ -32,15 +27,14 @@ function ListChapter(props) {
         loadingChapter(false)
     }, [comic])
     
-    const handleRemoveChapter = (id) => {
-        setLoading(true)
-        if(id && user._id && token) {
-            updateChapter(id, {_destroy: true}, user.role, token).then(res => {
-                fetchAllChaptersOfComic(comic._id)
-                fetchNotifications(user._id, 1, token)
-                setLoading(false)
-            })
-        }
+    const handleRemoveChapter = (id, chap) => {
+        actConfirm({
+            show: true,
+            comicID: comic._id,
+            chap: chap,
+            chapterID: id,
+            title: ''
+        })
     }
 
     return (
@@ -49,9 +43,8 @@ function ListChapter(props) {
                 <div key={chapter._id}>
                     <div  className="chapter-title">
                         <span onClick={() => history.push(`/home/reading?comic=${comic._id}&chap=${chapter.chap}`)}>Chương {chapter.chap}</span>
-                        { user.isAdmin && <> {
-                        !loading ? <span onClick={() => handleRemoveChapter(chapter._id)}><ImBin/></span> :
-                        <div className="spinner-border spinner-border-sm text-warning" role="status"/>}</>}
+                        { user.isAdmin &&
+                        <span onClick={() => handleRemoveChapter(chapter._id, chapter.chap)}><ImBin/></span>}
                         <span>{convertDate(chapter.createAt)}</span>
                     </div>
                     <hr/>
@@ -76,9 +69,9 @@ const mapDispatchToProps = (dispatch) => {
         fetchAllChaptersOfComic : (comicID) => {
             dispatch(actFetchAllChapterOfComic(comicID))
         },
-        fetchNotifications : (userID, page, token) => {
-            dispatch(actfetchNotifications(userID, page, token))
-        }
+        actConfirm : (data) => {
+            dispatch(actConfirm(data))
+        },
     }
 }
 

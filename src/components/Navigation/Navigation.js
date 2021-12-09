@@ -41,7 +41,7 @@ function Navigation(props) {
     }, [token])
 
     useEffect(() => {
-        if (token !== null) {
+        if (token !== null && user._id) {
             getNotifications(user._id, 1, token)
         }
 

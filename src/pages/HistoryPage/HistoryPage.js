@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ListComic from 'components/ListComic/ListComic'
 import Pagina from 'components/Pagina/Pagina'
 import { Col, Container, Row } from 'react-bootstrap'
@@ -8,29 +8,25 @@ import { useParams } from 'react-router-dom'
 import './HistoryPage.scss'
 import ListReadComics from 'components/ListReadComics/ListReadComics'
 import { connect } from 'react-redux'
-import { getToken } from 'utils/common'
-import { removeAllReadComic } from 'actions/ApiCall/userAPI'
-import { actFetchReadComics } from 'actions/userAction'
+import { actConfirm } from 'actions/userAction'
 import Footer from 'components/Footer/Footer'
 
 function HistoryPage(props) {
 
     const {
-        comics, user,
-        fetchReadComics
+        comics,
+        actConfirm
     } = props
-
-    const [loading, setLoading] = useState(false)
-    const token = getToken()
     const { id } = useParams()
-
+    
     const handleRemoveAllHistory = () => {
-        setLoading(true)
-        if(user._id && token)
-            removeAllReadComic(user._id, token).then(() => {
-                fetchReadComics(user._id, 1, token)
-                setLoading(false)
-            })
+        actConfirm({
+            show: true,
+            comicID: '',
+            chap: 0,
+            chapter: '',
+            title: ''
+        })
     }
 
     return (
@@ -60,8 +56,7 @@ function HistoryPage(props) {
             { comics.length > 0 &&
             <Row>
                 <div className="remove-all-read-comics" onClick={handleRemoveAllHistory}>
-                    { !loading ? <span>Xóa lịch sử xem</span> :
-                    <div className="spinner-border text-warning" role="status"/> }
+                    <span>Xóa lịch sử xem</span>
                 </div>
             </Row>}
         </Container>
@@ -73,14 +68,13 @@ function HistoryPage(props) {
 const mapStateToProps = (state) => {
     return {
         comics: state.user.comics,
-        user: state.user.user
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchReadComics : (userID, page, token) => {
-            dispatch(actFetchReadComics(userID, page, token))
+        actConfirm : (data) => {
+            dispatch(actConfirm(data))
         }
     }
 }
