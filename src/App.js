@@ -20,17 +20,15 @@ import UserPage from 'pages/UserPage/UserPage'
 import PrivateRoute from 'utils/PrivateRoute'
 import PublicRoute from 'utils/PublicRoute'
 import Loading from 'components/Loading/Loading'
-import { useSelector } from 'react-redux'
 import HistoryPage from 'pages/HistoryPage/HistoryPage'
 import AdminPage from 'pages/AdminPage/AdminPage'
 import Signup from 'pages/AccountPage/Signup'
 import ForgotPassword from 'pages/AccountPage/ForgotPassword'
 import MessengerCustomerChat from 'react-messenger-customer-chat'
+import { connect } from 'react-redux'
+import ConfirmBox from 'components/Modal/ConfirmBox'
 
-function App() {
-
-  const loading = useSelector(state => state.loading)
-
+function App({ loading, confirmStatus}) {
   return (
     <Router>
       
@@ -53,12 +51,20 @@ function App() {
             <Route exact component={NotFound}/>
           </Switch>
         </ScrollToTop>
-        <MessengerCustomerChat pageId="107515045102191" appId="399127468622408"/>
+        {/* <MessengerCustomerChat pageId="107515045102191" appId="399127468622408"/> */}
         {(loading.comicLoading || loading.newComicLoading || loading.chapterLoading) && <Loading/>}
         <ToTop/>
+        {confirmStatus.show && <ConfirmBox/>}
     </div>
     </Router>
   )
 }
 
-export default App
+const mapStateToProps = (state) => {
+  return {
+    loading: state.loading,
+    confirmStatus: state.user.confirmStatus
+  }
+}
+
+export default connect(mapStateToProps, null)(App)

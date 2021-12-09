@@ -11,15 +11,15 @@ function Footer() {
     const location = useLocation()
     
     useEffect(() => {
-
         if(
             location.pathname === '/history/read' ||
             location.pathname === '/history/liked' ||
             location.pathname === '/history/followed' ||
             location.pathname === '/login' ||
             location.pathname === '/forgot-password' ||
-            location.pathname === '/register')
-            if (document.documentElement.offsetHeight < 731)
+            location.pathname === '/register' ||
+            location.pathname === '/home/reading')
+            if (document.documentElement.offsetHeight < 727)
                 setStyle('footer-container footer-position')
             else
                 setStyle('footer-container')

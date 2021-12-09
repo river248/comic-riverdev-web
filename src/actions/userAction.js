@@ -1,4 +1,5 @@
 import {
+    CONFIRM,
     GET_FOLLOWED_COMICS,
     GET_FOLLOW_STATUS,
     GET_LIKED_COMICS,
@@ -170,5 +171,12 @@ export const seenNotification = () => {
     return {
         type: SEEN_NOTIFICATION,
         payload: 0
+    }
+}
+
+export const actConfirm = (data) => {
+    return {
+        type: CONFIRM,
+        payload: data
     }
 }
