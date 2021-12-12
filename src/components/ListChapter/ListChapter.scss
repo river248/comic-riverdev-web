@@ -16,7 +16,7 @@
         align-items: center;
         
         span {
-            &:first-child, &:nth-child(2) {
+            &:first-child, &:nth-child(3) {
                 cursor: pointer;
                 &:hover { color: $purple;}
             }

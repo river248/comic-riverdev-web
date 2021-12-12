@@ -16,17 +16,17 @@
         text-decoration: none;
         font-size: 1rem;
         font-weight: 600;
-        background-color: $yellow,;
+        background-color: $yellow;
         color: $black;
     }
 
     .admin-nav-active {
         
         color: $white;
-        background-color: darken($purple, $amount: 20);
+        background-color: $purple;
 
         &:hover {
-            background-color: darken($purple, $amount: 20);
+            background-color: $purple;
         }
     }
 }
