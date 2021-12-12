@@ -158,6 +158,8 @@
 
     button {
 
+        margin: auto;
+        width: 600px;
         height: 40px;
         border-radius: 6px;
         outline: none;
@@ -207,6 +209,44 @@
                 }
             }
         }
+
+        button {
+            width: 480px;
+        }
+
+        input[type=file] {
+            width: 480px;
+            margin: auto;
+        }
+
+        select { width: 100%;}
+    }
+}
+
+@media screen and (max-width: 510px) {
+    .add-comic {
+        width: 100%;
+        .input-item {
+            width: 100%;
+            justify-content: center;
+            label { display: none;}
+
+            .list-tags-container {
+                .list-tags { 
+                    label { display: flex; align-items: center;}
+                }
+            }
+        }
+
+        button {
+            width: 100%;
+        }
+
+        input[type=file] {
+            width: 100%;
+            margin: auto;
+        }
+
         select { width: 100%;}
     }
 }

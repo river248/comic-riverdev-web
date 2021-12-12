@@ -17,8 +17,7 @@ function Footer() {
             location.pathname === '/history/followed' ||
             location.pathname === '/login' ||
             location.pathname === '/forgot-password' ||
-            location.pathname === '/register' ||
-            location.pathname === '/home/reading')
+            location.pathname === '/register')
             if (document.documentElement.offsetHeight < 727)
                 setStyle('footer-container footer-position')
             else

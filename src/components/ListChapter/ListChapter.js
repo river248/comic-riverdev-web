@@ -43,9 +43,9 @@ function ListChapter(props) {
                 <div key={chapter._id}>
                     <div  className="chapter-title">
                         <span onClick={() => history.push(`/home/reading?comic=${comic._id}&chap=${chapter.chap}`)}>Chương {chapter.chap}</span>
+                        <span>{convertDate(chapter.createAt)}</span>
                         { user.isAdmin &&
                         <span onClick={() => handleRemoveChapter(chapter._id, chapter.chap)}><ImBin/></span>}
-                        <span>{convertDate(chapter.createAt)}</span>
                     </div>
                     <hr/>
                 </div> ))}
