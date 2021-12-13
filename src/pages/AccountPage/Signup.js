@@ -50,11 +50,14 @@ function Signup() {
             }, 4000)
         }).catch(error => {
             setLoading(false)
-            if(error.response.status === 401 || error.response.status === 400)
+            if(error.response.status === 401 || error.response.status === 400) {
+                if (error.response.data.message === 'Password must have number, uppercase letter, lowercase letter and specical character!')
+                    signupBoxRef.current.style.setProperty('height', '520px')
                 setError({
                     status: true,
                     message: error.response.data.message
                 })
+            }
             else
                 setError({
                     status: true,
