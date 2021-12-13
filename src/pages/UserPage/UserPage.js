@@ -105,13 +105,13 @@ function UserPage(props) {
 
     const handleChangPassword = () => {
         setAlert({show: false, message: ''})
-        if(password.length < 8)
-            setError2({ status: true, message: 'Mật khẩu phải có ít nhất 8 kí tự!'})
+        if(password.length < 8 || !password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/))
+            setError2({ status: true, message: 'Mật khẩu phải có ít nhất 8 kí tự, 1 chữ hoa, 1 chữ thường, 1 chứ số và 1 kí tự đặc biệt!'})
         if(password !== confirmPassword) {
             setError2({ status: true, message: 'Xác nhận mật khẩu không trùng khớp!'})
         }
             
-        if(password.length > 7 && password === confirmPassword) {
+        if(password.length > 7 && password === confirmPassword && password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)) {
             setError2({ status: false, message: ''})
             setLoading2(true)
             fetchResetPassword(user._id, {password: password, confirmPassword: confirmPassword}, token)
