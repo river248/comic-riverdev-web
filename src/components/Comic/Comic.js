@@ -11,6 +11,7 @@ import './Comic.scss'
 import { connect } from 'react-redux'
 import { loadingComic } from 'actions/loading'
 import { actConfirm, } from 'actions/userAction'
+import { useLocation } from 'react-router-dom'
 
 function Comic(props) {
 
@@ -23,6 +24,7 @@ function Comic(props) {
     const [image, setImage] = useState('')
 
     const history = useHistory()
+    const location = useLocation()
 
     useEffect(() => {
         let isSubcribe = true
@@ -59,7 +61,7 @@ function Comic(props) {
                         <img src={loadingImage} alt="loading"/>
                     </div> 
                 }
-                { image && <ReactTimeAgo locale="en-US" date={comic.createAt}/>}
+                { (location.pathname !== '/history/liked' && location.pathname !== '/history/followed') && image && <ReactTimeAgo locale="en-US" date={comic.createAt}/>}
                 { (image && user?.isAdmin) &&
                  <div className="remove-comic" onClick={handleRemoveThisComic}><ImBin/></div>}
             </div>
