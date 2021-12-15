@@ -27,14 +27,14 @@ function ListReadComics(props) {
 
     useEffect(() => {
 
-        if(user._id) {
+        if(token) {
             if(query.get('page')) {
                 loadingComic(true)
-                fetchReadComics(user._id, query.get('page'), token)
+                fetchReadComics(query.get('page'), token)
             }
             else {
                 loadingComic(true)
-                fetchReadComics(user._id, 1, token)
+                fetchReadComics(1, token)
             }
         }
 
@@ -70,8 +70,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchReadComics : (userID, page, token) => {
-            dispatch(actFetchReadComics(userID, page, token))
+        fetchReadComics : (page, token) => {
+            dispatch(actFetchReadComics(page, token))
         },
         loadingComic : (status) => {
             dispatch(loadingComic(status))

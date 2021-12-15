@@ -8,16 +8,10 @@ export const getToken = () => {
     return localStorage.getItem('accessToken') || null
 }
 
-export const getRefreshToken = () => {
-    return localStorage.getItem('refreshToken') || null
-}
-
-export const setUserSession = (accessToken, refreshToken) => {
+export const setUserSession = (accessToken) => {
     localStorage.setItem('accessToken', accessToken)
-    localStorage.setItem('refreshToken', refreshToken)
 }
 
 export const removeUserSession = () => {
     localStorage.removeItem('accessToken')
-    localStorage.removeItem('refreshToken')
 }

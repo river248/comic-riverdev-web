@@ -8,7 +8,6 @@ import { FaUserCircle } from 'react-icons/fa'
 import { connect } from 'react-redux'
 import './Navigation.scss'
 import { getToken, removeUserSession } from 'utils/common'
-import jwtDecode from 'jwt-decode'
 import { actFetchFullUser, actfetchNotifications, getFullUser, seenNotification, showNotification } from 'actions/userAction'
 import { fetchLogout, updateNotification } from 'actions/ApiCall/userAPI'
 import Notification from 'components/Notification/Notification'
@@ -32,8 +31,7 @@ function Navigation(props) {
     useEffect(() => {
 
         if(token !== null) {
-            const userData = jwtDecode(token)
-            fetchFullUser(userData.data._id, token)
+            fetchFullUser(token)
         }
 
         return () => getFullUser({})
@@ -41,8 +39,8 @@ function Navigation(props) {
     }, [token])
 
     useEffect(() => {
-        if (token !== null && user._id) {
-            getNotifications(user._id, 1, token)
+        if (token !== null) {
+            getNotifications(1, token)
         }
 
         const timer = setTimeout(() => {
@@ -87,7 +85,7 @@ function Navigation(props) {
     const handleNotification = () => {
         toggleNotification(!show)
         if (user && token) {
-            updateNotification(user._id, token)
+            updateNotification(token)
             actSeenNotification()
         }
     }
@@ -124,10 +122,10 @@ function Navigation(props) {
                     { show && <Notification useID={user._id} token={token}/> }
                 </div>
                 <div className="user-avatar">
-                    <span className="username">{user.name}</span>
-                    <img src={user.avatar} alt='avatar'/>
+                    <span className="username">{user?.name}</span>
+                    <img src={user?.avatar} alt='avatar'/>
                     <div className="user-dropdown">
-                        { user.isAdmin && <span onClick={() => history.push('/admin/new-comic')}>Quản lý truyện</span>}
+                        { user?.isAdmin && <span onClick={() => history.push('/admin/new-comic')}>Quản lý truyện</span>}
                         <span onClick={() => history.push('/user')}>Thông tin</span>
                         <span onClick={() => history.push('/history/read')}>Lịch sử</span>
                         <span onClick={hanldeLogout}>Đăng xuất</span>

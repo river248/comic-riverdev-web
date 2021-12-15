@@ -72,7 +72,7 @@ function EditComic(props) {
                 default:
                     break
             }
-            updateComic(comicID, user.isAdmin, data, token).then(res => {
+            updateComic(comicID, data, token).then(res => {
                 if (content === 'Ảnh')
                     uploadThumbnail()
                 else

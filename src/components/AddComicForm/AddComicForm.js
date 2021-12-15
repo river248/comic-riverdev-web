@@ -14,7 +14,7 @@ function AddComicForm(props) {
 
     const {
         nextComic,
-        user, categories,
+        categories,
         loadingComic
     } = props
     const [thumbnail, setThumbnail] = useState(null)
@@ -47,7 +47,7 @@ function AddComicForm(props) {
         if(thumbnail && title && (tags.length > 0)) {
             setThumbnail(null)
             const data = comicData(title, tags, thumbnail.name, author, description)
-            createNewComic(data, user.isAdmin, token).then(res => {
+            createNewComic(data, token).then(res => {
                 uploadThumbnail()
             })
             setTitle('')
@@ -124,7 +124,6 @@ function AddComicForm(props) {
 const mapStateToProps = (state) => {
     return {
         categories: state.comic.tags,
-        user: state.user.user
     }
 }
 

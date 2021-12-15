@@ -10,6 +10,7 @@ import { getHeightChange } from 'actions/getHeight'
 import { actFetchAllComic, actFetchAllComicOfTag, clearComics } from 'actions/comicAction'
 import { loadingComic } from 'actions/loading'
 import { actFetchFollowedComics, actFetchLikedComics } from 'actions/userAction'
+import { getToken } from 'utils/common'
 
 function ListComic(props) {
 
@@ -25,6 +26,7 @@ function ListComic(props) {
 
     let query = useQuery()
     const location = useLocation()
+    const token = getToken()
 
     useLayoutEffect(() => {
         switch (location.pathname) {
@@ -59,25 +61,25 @@ function ListComic(props) {
                 }
                 break
             case '/history/liked':
-                if(query.get('page') !== null && user._id !== undefined) {
+                if(query.get('page') !== null && token) {
                     loadingComic()
-                    fetchLikedComics(user._id, query.get('page'))
+                    fetchLikedComics(query.get('page'), token)
                 }
                 else
-                    if (user._id !== undefined) {
+                    if (token) {
                         loadingComic()
-                        fetchLikedComics(user._id, 1)
+                        fetchLikedComics(1, token)
                     }
                 break
             case '/history/followed':
-                if(query.get('page') !== null && user._id !== undefined) {
+                if(query.get('page') !== null && token) {
                     loadingComic()
-                    fetchFollowedComics(user._id, query.get('page'))
+                    fetchFollowedComics(query.get('page'), token)
                 }
                 else
-                    if (user._id !== undefined) {
+                    if (token) {
                         loadingComic()
-                        fetchFollowedComics(user._id, 1)
+                        fetchFollowedComics(1, token)
                     }
                 break
             default:
@@ -138,11 +140,11 @@ const mapDispatchToProps = (dispatch) => {
         fetchAllComicOfTag : (tag, page) => {
             dispatch(actFetchAllComicOfTag(tag, page))
         },
-        fetchLikedComics : (userID, page) => {
-            dispatch(actFetchLikedComics(userID, page))
+        fetchLikedComics : (page, token) => {
+            dispatch(actFetchLikedComics(page, token))
         },
-        fetchFollowedComics : (userID, page) => {
-            dispatch(actFetchFollowedComics(userID, page))
+        fetchFollowedComics : (page, token) => {
+            dispatch(actFetchFollowedComics(page, token))
         },
         loadingComic : () => {
             dispatch(loadingComic(true))

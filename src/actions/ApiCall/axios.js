@@ -33,8 +33,7 @@ instance.interceptors.response.use(
       if (err.response.status === 401) {
 
         try {
-          const refreshToken = getRefreshToken()
-          const rs = await instance.post(`/v1/user/refresh-token?refreshToken=${refreshToken}`)
+          const rs = await instance.get('/v1/user/refresh-token')
           
           const { accessToken } = rs.data
           localStorage.setItem('accessToken', accessToken)

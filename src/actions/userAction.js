@@ -25,9 +25,9 @@ import {
     fetchReadComics
 } from "./ApiCall/userAPI"
 
-export const actFetchFullUser = (id, token) => {
+export const actFetchFullUser = (token) => {
     return (dispatch) => {
-        return fetchFullUser(id, token).then(res => {
+        return fetchFullUser(token).then(res => {
             dispatch(getFullUser(res.data))
         })
     }
@@ -40,9 +40,9 @@ export const getFullUser = (info) => {
     }
 }
 
-export const actFetchLikeStatus = (userID, comicID, token) => {
+export const actFetchLikeStatus = (comicID, token) => {
     return (dispatch) => {
-        return fetchLikeStatus(userID, comicID, token).then(res => {
+        return fetchLikeStatus(comicID, token).then(res => {
             dispatch(getLikeStatus(res.data))
         })
     }
@@ -55,9 +55,9 @@ export const getLikeStatus = (status) => {
     }
 }
 
-export const actFetchFollowStatus = (userID, comicID, token) => {
+export const actFetchFollowStatus = (comicID, token) => {
     return (dispatch) => {
-        return fetchFollowStatus(userID, comicID, token).then(res => {
+        return fetchFollowStatus(comicID, token).then(res => {
             dispatch(getFollowStatus(res.data))
         })
     }
@@ -70,9 +70,9 @@ export const getFollowStatus = (status) => {
     }
 }
 
-export const actFetchLikedComics = (userID, page, token) => {
+export const actFetchLikedComics = (page, token) => {
     return (dispatch) => {
-        return fetchLikedComics(userID, page, token).then(res => {
+        return fetchLikedComics(page, token).then(res => {
             dispatch(getLikedComics(res.data))
         })
     }
@@ -85,9 +85,9 @@ export const getLikedComics = (comics) => {
     }
 }
 
-export const actFetchQuantityLikedComics = (userID, token) => {
+export const actFetchQuantityLikedComics = (token) => {
     return (dispatch) => {
-        return fetchQuantityPageLikedComics(userID, token).then(res => {
+        return fetchQuantityPageLikedComics(token).then(res => {
             dispatch(getQuantityLikedComics(res.data))
         })
     }
@@ -100,9 +100,9 @@ export const getQuantityLikedComics = (quantity) => {
     }
 }
 
-export const actFetchFollowedComics = (userID, page, token) => {
+export const actFetchFollowedComics = (page, token) => {
     return (dispatch) => {
-        return fetchFollowedComics(userID, page, token).then(res => {
+        return fetchFollowedComics(page, token).then(res => {
             dispatch(getFollowedComics(res.data))
         })
     }
@@ -115,9 +115,9 @@ export const getFollowedComics = (comics) => {
     }
 }
 
-export const actFetchQuantityFollowedComics = (userID, token) => {
+export const actFetchQuantityFollowedComics = (token) => {
     return (dispatch) => {
-        return fetchQuantityPageFollowedComics(userID, token).then(res => {
+        return fetchQuantityPageFollowedComics(token).then(res => {
             dispatch(getQuantityFollowedComics(res.data))
         })
     }
@@ -130,9 +130,9 @@ export const getQuantityFollowedComics = (quantity) => {
     }
 }
 
-export const actFetchReadComics = (userID, page, token) => {
+export const actFetchReadComics = (page, token) => {
     return (dispatch) => {
-        return fetchReadComics(userID, page, token).then(res => {
+        return fetchReadComics(page, token).then(res => {
             dispatch(getReadComics(res.data))
         })
     }
@@ -145,9 +145,9 @@ export const getReadComics = (data) => {
     }
 }
 
-export const actfetchNotifications = (userID, page, token) => {
+export const actfetchNotifications = (page, token) => {
     return (dispatch) => {
-        return fetchNotifications(userID, page, token).then(res => {
+        return fetchNotifications(page, token).then(res => {
             dispatch(getNotifications(res.data))
         })
     }

@@ -45,9 +45,9 @@ function ConfirmBox(props) {
             setLoading(true)
             if (confirmStatus.comicID && confirmStatus.chap === 0 && !confirmStatus.chapterID) {
                 const data = { _destroy: true }
-                softRemoveComic(confirmStatus.content._id, data, user.isAdmin, token).then(res => {
+                softRemoveComic(confirmStatus.content._id, data, token).then(res => {
                     setLoading(false)
-                    fetchNotifications(user._id, 1, token)
+                    fetchNotifications(1, token)
                     switch (location.pathname) {
                         case '/':
                             fetchNewComics()
@@ -81,9 +81,9 @@ function ConfirmBox(props) {
             }
 
             if (confirmStatus.comicID && confirmStatus.chap > 0 && confirmStatus.chapterID) {
-                updateChapter(confirmStatus.chapterID, {_destroy: true}, user.role, token).then(res => {
+                updateChapter(confirmStatus.chapterID, {_destroy: true}, token).then(res => {
                     fetchAllChaptersOfComic(confirmStatus.comicID)
-                    fetchNotifications(user._id, 1, token)
+                    fetchNotifications(1, token)
                     setLoading(false)
                     boxRef.current.style.setProperty('animation', 'slideUpDisappear 0.5s ease-in forwards')
                     containerRef.current.style.setProperty('animation', 'slideDownDisappear 0.5s ease-in 0.5s forwards')
@@ -94,11 +94,11 @@ function ConfirmBox(props) {
             }
 
             if (confirmStatus.comicID && confirmStatus.chap > 0 && !confirmStatus.chapterID) {
-                removeReadComic(user._id, confirmStatus.comicID, confirmStatus.chap, token).then(res => {
+                removeReadComic(confirmStatus.comicID, confirmStatus.chap, token).then(res => {
                     if(query.get('page'))
-                        fetchReadComics(user._id, query.get('page'), token)
+                        fetchReadComics(query.get('page'), token)
                     else
-                        fetchReadComics(user._id, 1, token)
+                        fetchReadComics(1, token)
                     setLoading(false)
                     boxRef.current.style.setProperty('animation', 'slideUpDisappear 0.5s ease-in forwards')
                     containerRef.current.style.setProperty('animation', 'slideDownDisappear 0.5s ease-in 0.5s forwards')
@@ -109,8 +109,8 @@ function ConfirmBox(props) {
             }
 
             if (!confirmStatus.comicID && confirmStatus.chap === 0 && !confirmStatus.chapterID)
-                removeAllReadComic(user._id, token).then(() => {
-                    fetchReadComics(user._id, 1, token)
+                removeAllReadComic(token).then(() => {
+                    fetchReadComics(1, token)
                     setLoading(false)
                     boxRef.current.style.setProperty('animation', 'slideUpDisappear 0.5s ease-in forwards')
                     containerRef.current.style.setProperty('animation', 'slideDownDisappear 0.5s ease-in 0.5s forwards')
@@ -171,8 +171,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchAllComicsOfTag : (tag, page) => {
             dispatch(actFetchAllComicOfTag(tag, page))
         },
-        fetchNotifications : (userID, page, token) => {
-            dispatch(actfetchNotifications(userID, page, token))
+        fetchNotifications : (page, token) => {
+            dispatch(actfetchNotifications(page, token))
         },
         actConfirm : (data) => {
             dispatch(actConfirm(data))
@@ -180,8 +180,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchAllChaptersOfComic : (comicID) => {
             dispatch(actFetchAllChapterOfComic(comicID))
         },
-        fetchReadComics : (userID, page, token) => {
-            dispatch(actFetchReadComics(userID, page, token))
+        fetchReadComics : (page, token) => {
+            dispatch(actFetchReadComics(page, token))
         }
     }
 }

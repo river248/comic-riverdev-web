@@ -40,7 +40,7 @@ function Login(props) {
             const data = {email: email, password: password}
             fetchLogin(data).then(response => {
 
-                setUserSession(response.accessToken, response.refreshToken)
+                setUserSession(response.accessToken)
                 loginBoxRef.current.style.setProperty('animation', 'slideUpDisappear 0.5s ease-in forwards')
                 loginContainerRef.current.style.setProperty('animation', 'slideDownDisappear 0.5s ease-in 0.5s forwards')
                 setTimeout(() => {
@@ -79,7 +79,7 @@ function Login(props) {
         setLoading(true)
         fetchGoogleLogin(data).then(response => {
 
-            setUserSession(response.accessToken, response.refreshToken)
+            setUserSession(response.accessToken)
             loginBoxRef.current.style.setProperty('animation', 'slideUpDisappear 0.5s ease-in forwards')
             loginContainerRef.current.style.setProperty('animation', 'slideDownDisappear 0.5s ease-in 0.5s forwards')
             setTimeout(() => {

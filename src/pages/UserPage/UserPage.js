@@ -57,11 +57,11 @@ function UserPage(props) {
         if (username.length < 5 || username.length > 50)
             setError({status: true, message: '(*) Tên người dùng phải ít nhất 5 kí tự và không quá 50 ký tự !'})
         else
-            if (user._id && token) {
+            if (token) {
                 setError({status: true, message:'Đang cập nhật...'})
                 setShow({...show, icon: false})
-                updateUser(user._id, token, { name: username}).then(res => {
-                    fetchFullUser(user._id, token)
+                updateUser(token, { name: username}).then(res => {
+                    fetchFullUser(token)
                     setError({status: false, message:''})
                     setShow({...show, name: false})
                     setUserName('')
@@ -92,10 +92,10 @@ function UserPage(props) {
         }).then(() => {
             getDownloadURL(ref(storage, `users/${user.email}/${avatar.name}`))
                 .then(url => {
-                    updateUser(user._id, token, { avatar: url}).then(res => {
+                    updateUser(token, { avatar: url}).then(res => {
                         setLoading(false)
                         setShow({...show, avatar: false})
-                        fetchFullUser(user._id, token)
+                        fetchFullUser(token)
                         setAlert({show: true, message: 'Đổi ảnh đại diện thành công!'})
                     })
                 })
@@ -114,9 +114,9 @@ function UserPage(props) {
         if(password.length > 7 && password === confirmPassword && password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)) {
             setError2({ status: false, message: ''})
             setLoading2(true)
-            fetchResetPassword(user._id, {password: password, confirmPassword: confirmPassword}, token)
+            fetchResetPassword({password: password, confirmPassword: confirmPassword}, token)
                 .then(res => {
-                    fetchFullUser(user._id, token)
+                    fetchFullUser(token)
                     setLoading2(false)
                     setPassword('')
                     setConfirmPassword('')
@@ -208,8 +208,8 @@ const mapDispatchToProps = (dispatch) => {
         loadingComic : (status) => {
             dispatch(loadingComic(status))
         },
-        fetchFullUser : (userID, token) => {
-            dispatch(actFetchFullUser(userID, token))
+        fetchFullUser : (token) => {
+            dispatch(actFetchFullUser(token))
         }
     }
 }

@@ -74,25 +74,25 @@ function AddChapterForm(props) {
             }
 
             if(status.isFinished) {
-                createNewChapter(data, user.isAdmin, token).then( res => {
+                createNewChapter(data, token).then( res => {
                     uploadImages()
                     fetchUnfinishedComic()
                     loadingComic(true)
                     setImages([])
-                    fetchNotifications(user._id, 1, token)
+                    fetchNotifications(1, token)
                     setAlert({show: true, message: 'Đã thêm chương mới'})
                 }).catch(error => console.log(error))
                 updateComics(data.comicID, {status: 'Đã hoàn thành'})
                 setStatus({isFinished: false, name: 'Chưa hoàn thành'})
             } else {
                 setLoading({ chapter: true, image: true})
-                createNewChapter(data, user.isAdmin, token).then( res => {
+                createNewChapter(data, token).then( res => {
                     if (res.data) {
                         uploadImages()
                         fetchUnfinishedComic()
                         loadingComic(true)
                         setImages([])
-                        fetchNotifications(user._id, 1, token)
+                        fetchNotifications(1, token)
                         setAlert({show: true, message: 'Đã thêm chương mới'})
                         setError({status: false, message: ''})
                     }
@@ -204,8 +204,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchUnfinishedComic : () => {
             dispatch(actFetchUnfinishedComic())
         },
-        fetchNotifications : (userID, page, token) => {
-            dispatch(actfetchNotifications(userID, page, token))
+        fetchNotifications : (page, token) => {
+            dispatch(actfetchNotifications(page, token))
         }
     }
 }
