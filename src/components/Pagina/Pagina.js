@@ -41,12 +41,12 @@ function Pagina(props) {
                 fetchQuantityPage(query.get('tag'))
                 break
             case '/history/liked':
-                if(user._id)
-                    fetchQuantityLikedComics(user._id, getToken())
+                if(getToken())
+                    fetchQuantityLikedComics(getToken())
                 break
             case '/history/followed':
-                if(user._id)
-                    fetchQuantityFollowedComics(user._id, getToken())
+                if(getToken())
+                    fetchQuantityFollowedComics(getToken())
                 break
             default:
                 break
@@ -271,11 +271,11 @@ const mapDispatchToProps = (dispatch) => {
         fetchQuantityPage : (data) => {
             dispatch(actFetchQuantityPage(data))
         },
-        fetchQuantityLikedComics : (userID, token) => {
-            dispatch(actFetchQuantityLikedComics(userID, token))
+        fetchQuantityLikedComics : (token) => {
+            dispatch(actFetchQuantityLikedComics(token))
         },
-        fetchQuantityFollowedComics : (userID, token) => {
-            dispatch(actFetchQuantityFollowedComics(userID, token))
+        fetchQuantityFollowedComics : (token) => {
+            dispatch(actFetchQuantityFollowedComics(token))
         },
         clearQuantityPage : () => {
             dispatch(clearQuantityPage(-1))

@@ -40,7 +40,7 @@ function Modal(props) {
         if(tags.length > 0 && user._id && token) {
             setLoading(true)
             const data = { tagID: tags }
-            updateComic(comicID, user.isAdmin, data, token).then(res => {
+            updateComic(comicID, data, token).then(res => {
                 setShow(false)
                 setLoading(false)
             })

@@ -50,9 +50,9 @@ function DetailComic(props) {
             })
             .catch((error) => console.log(error))
         }
-        if(user._id && comic._id) {
-            fetchFollowStatus(user._id, comic._id, token)
-            fetchLikeStatus(user._id, comic._id, token)
+        if(comic._id && token) {
+            fetchFollowStatus(comic._id, token)
+            fetchLikeStatus(comic._id, token)
         }
 
         return () => {
@@ -64,8 +64,8 @@ function DetailComic(props) {
     const handleFollow = () => {
         if(getToken()) {
             setLoadingFollow(true)
-            followComic(user._id, comic._id, token).then(() =>{
-                fetchFollowStatus(user._id, comic._id, token)
+            followComic(comic._id, token).then(() =>{
+                fetchFollowStatus(comic._id, token)
                 fetchInteractions(comic._id)
                 setLoadingFollow(false)
             })
@@ -77,8 +77,8 @@ function DetailComic(props) {
     const handleLike = () => {
         if(token) {
             setLoadingLike(true)
-            likeComic(user._id, comic._id, token).then(res => {
-                fetchLikeStatus(user._id, comic._id, token)
+            likeComic(comic._id, token).then(res => {
+                fetchLikeStatus(comic._id, token)
                 fetchInteractions(comic._id)
                 setLoadingLike(false)
             })
@@ -161,11 +161,11 @@ const mapDispatchToProps = (dispatch) => {
         loadingComic : (status) => {
             dispatch(loadingComic(status))
         },
-        fetchLikeStatus : (userID, comicID, token) => {
-            dispatch(actFetchLikeStatus(userID, comicID, token))
+        fetchLikeStatus : (comicID, token) => {
+            dispatch(actFetchLikeStatus(comicID, token))
         },
-        fetchFollowStatus : (userID, comicID, token) => {
-            dispatch(actFetchFollowStatus(userID, comicID, token))
+        fetchFollowStatus : (comicID, token) => {
+            dispatch(actFetchFollowStatus(comicID, token))
         },
         fetchInteractions : (comicID) => {
             dispatch(actFetchInteractions(comicID))

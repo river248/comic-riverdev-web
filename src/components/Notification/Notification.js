@@ -19,7 +19,7 @@ function Notification(props) {
 
     useEffect(() => {
         if (userID && token)
-            fetchNotifications(userID, page, token)
+            fetchNotifications(page, token)
     }, [quantityPage, page])
 
     const handleThisNotification = (comicID, chap) => {
@@ -52,8 +52,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchNotifications : (userID, page, token) => {
-            dispatch(actfetchNotifications(userID, page, token))
+        fetchNotifications : (page, token) => {
+            dispatch(actfetchNotifications(page, token))
         },
         toggleNotification : (status) => {
             dispatch(showNotification(status))
