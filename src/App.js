@@ -51,7 +51,7 @@ function App({ loading, confirmStatus}) {
             <Route exact component={NotFound}/>
           </Switch>
         </ScrollToTop>
-        {/* <MessengerCustomerChat pageId="107515045102191" appId="399127468622408"/> */}
+        <MessengerCustomerChat pageId="107515045102191" appId="399127468622408"/>
         {(loading.comicLoading || loading.newComicLoading || loading.chapterLoading) && <Loading/>}
         <ToTop/>
         {confirmStatus.show && <ConfirmBox/>}

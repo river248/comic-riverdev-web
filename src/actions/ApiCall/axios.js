@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getRefreshToken, getToken, removeUserSession } from 'utils/common'
+import { getToken, removeUserSession } from 'utils/common'
 
 const instance = axios.create({
   baseURL: /*process.env.NODE_ENV === 'production' ? */ 'https://comic-riverdev-api.herokuapp.com/' /*: 'http://localhost:8080/'*/
