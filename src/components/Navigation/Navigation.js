@@ -148,14 +148,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 
     return {
-        fetchFullUser : (userID, token) => {
-            dispatch(actFetchFullUser(userID, token))
+        fetchFullUser : (token) => {
+            dispatch(actFetchFullUser(token))
         },
         getFullUser : () => {
             dispatch(getFullUser({}))
         },
-        getNotifications : (userID, page, token) => {
-            dispatch(actfetchNotifications(userID, page, token))
+        getNotifications : (page, token) => {
+            dispatch(actfetchNotifications(page, token))
         },
         toggleNotification: (status) => {
             dispatch(showNotification(status))
