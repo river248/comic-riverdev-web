@@ -13,7 +13,7 @@ import { removeAllReadComic, removeReadComic } from 'actions/ApiCall/userAPI'
 function ConfirmBox(props) {
 
     const {
-        user, confirmStatus,
+        confirmStatus,
         fetchNewComics,
         fetchAllComics,
         fetchAllComicsOfTag,
@@ -41,11 +41,11 @@ function ConfirmBox(props) {
     }
 
     const handleAccept = () => {
-        if(user._id && token) {
+        if(token) {
             setLoading(true)
             if (confirmStatus.comicID && confirmStatus.chap === 0 && !confirmStatus.chapterID) {
                 const data = { _destroy: true }
-                softRemoveComic(confirmStatus.content._id, data, token).then(res => {
+                softRemoveComic(confirmStatus.comicID, data, token).then(res => {
                     setLoading(false)
                     fetchNotifications(1, token)
                     switch (location.pathname) {
@@ -155,7 +155,6 @@ function ConfirmBox(props) {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user.user,
         confirmStatus: state.user.confirmStatus
     }
 }
