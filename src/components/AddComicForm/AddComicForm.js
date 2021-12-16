@@ -6,13 +6,13 @@ import { comicData } from 'utils/comicData'
 import { storage} from 'firebase/index'
 import { ref, uploadBytes } from 'firebase/storage'
 import { loadingComic } from 'actions/loading'
-import { getToken } from 'utils/common'
 import { createNewComic } from 'actions/ApiCall/adminAPI'
 import Alert from 'components/Alert/Alert'
 
 function AddComicForm(props) {
 
     const {
+        token,
         nextComic,
         categories,
         loadingComic
@@ -26,8 +26,6 @@ function AddComicForm(props) {
     const [loading, setLoading] = useState(false)
     const [alert, setAlert] = useState({ show: false, message: ''})
 
-
-    const token = getToken()
     const { id } = useParams()
 
     useEffect(() => {
@@ -124,6 +122,7 @@ function AddComicForm(props) {
 const mapStateToProps = (state) => {
     return {
         categories: state.comic.tags,
+        token: state.user.token
     }
 }
 

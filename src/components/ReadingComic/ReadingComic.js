@@ -10,14 +10,14 @@ import { connect } from 'react-redux'
 import { actFetchFullChapter, actFetchQuantityChapter } from 'actions/comicAction'
 import { loadingChapter } from 'actions/loading'
 import { addHistory } from 'actions/ApiCall/userAPI'
-import { getToken } from 'utils/common'
 import { updateComics } from 'actions/ApiCall/comicAPI'
+import { actGetAccessToken } from 'actions/userAction'
 
 function ReadingComic(props) {
 
     const {
-        chapter, user, quantityChapter, comic,
-        fetchFullChapter, fetchQuantityChapter, loadingChapter
+        chapter, user, quantityChapter, comic, token,
+        fetchFullChapter, fetchQuantityChapter, loadingChapter, getAccessToken
     } = props
     const history = useHistory()
 
@@ -27,8 +27,8 @@ function ReadingComic(props) {
         loadingChapter(true)
         fetchFullChapter(query.get('comic'), query.get('chap'))
         fetchQuantityChapter(query.get('comic'))
-
-        if(getToken() && user._id && comic._id) {
+        getAccessToken()
+        if(token && user._id && comic._id) {
         
             const timer = setTimeout(() => {
                 const data = {
@@ -36,7 +36,7 @@ function ReadingComic(props) {
                     comicID: query.get('comic'),
                     chap: query.get('chap')
                 }
-                addHistory(data, getToken()).then()
+                addHistory(data, token).then()
 
                 updateComics(comic._id, {views: comic.views+1})
               }, 5000);
@@ -44,7 +44,7 @@ function ReadingComic(props) {
             return () => clearTimeout(timer);
         }
 
-    }, [query.get('chap'), comic])
+    }, [query.get('chap'), comic, token])
 
     return (
         <>
@@ -92,7 +92,8 @@ const mapStateToProps = (state) => {
         chapter: state.comic.chapter,
         comic: state.comic.comic,
         quantityChapter: state.comic.quantityChapter,
-        user: state.user.user
+        user: state.user.user,
+        token: state.user.token
     }
 }
 
@@ -106,6 +107,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         fetchQuantityChapter : (comicID) => {
             dispatch(actFetchQuantityChapter(comicID))
+        },
+        getAccessToken : () => {
+            dispatch(actGetAccessToken())
         }
     }
 }

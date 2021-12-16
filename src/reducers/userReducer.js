@@ -1,4 +1,14 @@
-const { GET_USER, GET_LIKE_STATUS, GET_FOLLOW_STATUS, GET_READ_COMICS, GET_NOTIFICATIONS, SHOW_NOTIFICATION, SEEN_NOTIFICATION, CONFIRM } = require("utils/constants")
+import {
+    GET_USER,
+    GET_LIKE_STATUS,
+    GET_FOLLOW_STATUS,
+    GET_READ_COMICS,
+    GET_NOTIFICATIONS,
+    SHOW_NOTIFICATION,
+    SEEN_NOTIFICATION,
+    CONFIRM,
+    ACCESS_TOKEN
+} from 'utils/constants'
 
 const initialState = {
     user: {},
@@ -9,7 +19,8 @@ const initialState = {
     quantityPageNotification: 0,
     yet: 0,
     show: false,
-    confirmStatus: {show: false, comicID: '', chap: 0, chapterID: '', title: ''}
+    confirmStatus: {show: false, comicID: '', chap: 0, chapterID: '', title: ''},
+    token: ''
 }
 
 const userReducer = (state = initialState, action) => {
@@ -38,6 +49,8 @@ const userReducer = (state = initialState, action) => {
             return { ...state, yet: action.payload }
         case CONFIRM:
             return { ...state, confirmStatus: action.payload }
+        case ACCESS_TOKEN:
+            return { ...state, token: action.payload }
         default:
             return state
     }

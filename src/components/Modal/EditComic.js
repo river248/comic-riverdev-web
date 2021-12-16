@@ -3,7 +3,6 @@ import { updateComic } from 'actions/ApiCall/adminAPI'
 import { actFetchDetailComic } from 'actions/comicAction'
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { getToken } from 'utils/common'
 import { storage} from 'firebase/index'
 import { ref, uploadBytes } from 'firebase/storage'
 
@@ -12,7 +11,7 @@ import './EditComic.scss'
 function EditComic(props) {
 
     const {
-        content, setShowBox, comicID, number, valuePar,
+        content, setShowBox, comicID, number, valuePar, token,
         user,
         fetchDetailComic
     } = props
@@ -21,8 +20,6 @@ function EditComic(props) {
     const [thumbnail, setThumbnail] = useState(null)
     const [status, setStatus] = useState(valuePar)
     const [loading, setLoading] = useState(false)
-
-    const token = getToken()
 
     useEffect(() => {
         return () => {
@@ -106,7 +103,8 @@ function EditComic(props) {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user.user
+        user: state.user.user,
+        token: state.user.token
     }
 }
 

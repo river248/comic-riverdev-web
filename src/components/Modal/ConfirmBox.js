@@ -3,7 +3,6 @@ import { actConfirm, actfetchNotifications, actFetchReadComics } from 'actions/u
 import { connect } from 'react-redux'
 import useQuery from 'utils/useQuery'
 import { useLocation } from 'react-router-dom'
-import { getToken } from 'utils/common'
 import { actFetchAllChapterOfComic, actFetchAllComic, actFetchAllComicOfTag, actFetchNewComics } from 'actions/comicAction'
 import { softRemoveComic, updateChapter } from 'actions/ApiCall/adminAPI'
 
@@ -13,6 +12,7 @@ import { removeAllReadComic, removeReadComic } from 'actions/ApiCall/userAPI'
 function ConfirmBox(props) {
 
     const {
+        token,
         confirmStatus,
         fetchNewComics,
         fetchAllComics,
@@ -30,7 +30,6 @@ function ConfirmBox(props) {
     let query = useQuery()
 
     const location = useLocation()
-    const token = getToken()
 
     const handleCancel = () => {
         boxRef.current.style.setProperty('animation', 'slideUpDisappear 0.5s ease-in forwards')
@@ -155,7 +154,8 @@ function ConfirmBox(props) {
 
 const mapStateToProps = (state) => {
     return {
-        confirmStatus: state.user.confirmStatus
+        confirmStatus: state.user.confirmStatus,
+        token: state.user.token
     }
 }
 

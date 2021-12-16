@@ -8,7 +8,7 @@ import { FaUserCircle } from 'react-icons/fa'
 import { connect } from 'react-redux'
 import './Navigation.scss'
 import { getToken, removeUserSession } from 'utils/common'
-import { actFetchFullUser, actfetchNotifications, getFullUser, seenNotification, showNotification } from 'actions/userAction'
+import { actFetchFullUser, actfetchNotifications, actGetAccessToken, getFullUser, seenNotification, showNotification } from 'actions/userAction'
 import { fetchLogout, updateNotification } from 'actions/ApiCall/userAPI'
 import Notification from 'components/Notification/Notification'
 import { actFetchNewComics } from 'actions/comicAction'
@@ -17,20 +17,21 @@ import { loadingNewComic } from 'actions/loading'
 function Navigation(props) {
 
     const {
-        user, yet, show,
+        user, yet, show, token,
         fetchFullUser, getFullUser, getNotifications, toggleNotification, actSeenNotification,
-        fetchNewComics, loadingNewComic
+        fetchNewComics, loadingNewComic,
+        getAccessToken
     } = props
     const location = useLocation()
     const history = useHistory()
     const [time, setTime] = useState(0)
     const ref = useRef()
-
-    const token = getToken()
-
+    const isLoggedIn = getToken()
     useEffect(() => {
 
-        if(token !== null) {
+        getAccessToken()
+
+        if(token) {
             fetchFullUser(token)
         }
 
@@ -39,7 +40,7 @@ function Navigation(props) {
     }, [token])
 
     useEffect(() => {
-        if (token !== null) {
+        if (token) {
             getNotifications(1, token)
         }
 
@@ -51,7 +52,7 @@ function Navigation(props) {
     },[time])
 
     useEffect(() => {
-        if (token !== null && yet > 0) {
+        if (token && yet > 0) {
             fetchNewComics()
             loadingNewComic(false)
         }
@@ -108,11 +109,11 @@ function Navigation(props) {
                 </NavLink>
             </div>
             <div className="navigation-right-container">
-                {!getToken() && <Link to='/login' className="navbar-item">
+                {!isLoggedIn && <Link to='/login' className="navbar-item">
                         <FaUserCircle/>
                         <span>Tài khoản</span>
                 </Link>}
-                {getToken() && <>
+                {isLoggedIn && <>
                 <div ref={ref} className="notification">
                     <div className="user-notification" onClick={handleNotification}>
                         <span>Thông báo</span>
@@ -141,21 +142,22 @@ const mapStateToProps = (state) => {
     return {
         user: state.user.user,
         yet: state.user.yet,
-        show: state.user.show
+        show: state.user.show,
+        token: state.user.token
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
 
     return {
-        fetchFullUser : (userID, token) => {
-            dispatch(actFetchFullUser(userID, token))
+        fetchFullUser : (token) => {
+            dispatch(actFetchFullUser(token))
         },
         getFullUser : () => {
             dispatch(getFullUser({}))
         },
-        getNotifications : (userID, page, token) => {
-            dispatch(actfetchNotifications(userID, page, token))
+        getNotifications : (page, token) => {
+            dispatch(actfetchNotifications(page, token))
         },
         toggleNotification: (status) => {
             dispatch(showNotification(status))
@@ -168,6 +170,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         loadingNewComic : (status) => {
             dispatch(loadingNewComic(status))
+        },
+        getAccessToken : () => {
+            dispatch(actGetAccessToken())
         }
     }
 }

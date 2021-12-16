@@ -8,12 +8,11 @@ import { MdSend } from 'react-icons/md'
 
 import './Comments.scss'
 import { removeComment, updateComment } from 'actions/ApiCall/userAPI'
-import { getToken } from 'utils/common'
 
 function Comments(props) {
 
     const {
-        comic,
+        comic, token,
         user, comments,
         getComments, fetchInteractions
     } = props
@@ -37,7 +36,7 @@ function Comments(props) {
         const data = {
             content: content
         }
-        updateComment(value, data, getToken()).then(() => {
+        updateComment(value, data, token).then(() => {
             getComments(comic._id, page)
             fetchInteractions(comic._id)
             setShow(false)
@@ -45,7 +44,7 @@ function Comments(props) {
     }
 
     const handleRemoveComment = (value) => {
-        removeComment(value, getToken()).then(() => {
+        removeComment(value, token).then(() => {
             getComments(comic._id, page)
             fetchInteractions(comic._id)
         })
@@ -88,7 +87,8 @@ function Comments(props) {
 const mapStateToProps = (state) => {
     return {
         comments: state.comic.comments,
-        user: state.user.user
+        user: state.user.user,
+        token: state.user.token
     }
 }
 

@@ -3,20 +3,18 @@ import { updateComic } from 'actions/ApiCall/adminAPI'
 import { actFetchAllTag, actFetchDetailComic } from 'actions/comicAction'
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { getToken } from 'utils/common'
 
 import './Modal.scss'
 
 function Modal(props) {
 
     const {
-        comicID, setShow,
+        comicID, setShow, token,
         user, categories,
         fetchAllTags, fetchDetailComic
     } = props
 
     const [tags, setTags] = useState([])
-    const token = getToken()
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
@@ -72,7 +70,8 @@ function Modal(props) {
 const mapStateToProps = (state) => {
     return {
         user: state.user.user,
-        categories: state.comic.tags
+        categories: state.comic.tags,
+        token: state.user.token
     }
 }
 

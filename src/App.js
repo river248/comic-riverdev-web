@@ -37,7 +37,7 @@ function App({ loading, confirmStatus}) {
         <Navigation/>
         <ScrollToTop>
           <Switch>
-            <Route exact path='/' component={HomePage}/>
+            {/* <Route exact path='/' component={HomePage}/> */}
             <Route exact path='/home' component={HomePage}/>
             <Route path='/home/detail-comic/:id' component={DetailPage}/>
             <Route path='/home/reading' component={ReadingPage}/>
@@ -54,7 +54,7 @@ function App({ loading, confirmStatus}) {
         <MessengerCustomerChat pageId="107515045102191" appId="399127468622408"/>
         {(loading.comicLoading || loading.newComicLoading || loading.chapterLoading) && <Loading/>}
         <ToTop/>
-        {confirmStatus.show && <ConfirmBox/>}
+        {/* {confirmStatus.show && <ConfirmBox/>} */}
     </div>
     </Router>
   )

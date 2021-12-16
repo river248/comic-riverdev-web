@@ -12,17 +12,19 @@ import useQuery from 'utils/useQuery'
 import { connect } from 'react-redux'
 import { actFetchDetailTag } from 'actions/comicAction'
 import Footer from 'components/Footer/Footer'
+import { actGetAccessToken } from 'actions/userAction'
 
 function CategoriesPage(props) {
 
     const {
         tagName, heightComponent,
-        fetchDetailTag
+        fetchDetailTag, getAccessToken
     } = props
 
     let query = useQuery()
 
     useEffect(() => {
+        getAccessToken()
         if(query.get('tag') !== null)
             fetchDetailTag(query.get('tag'))
     }, [query.get('tag')])
@@ -60,6 +62,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchDetailTag : (page) => {
             dispatch(actFetchDetailTag(page))
+        },
+        getAccessToken : () => {
+            dispatch(actGetAccessToken())
         }
     }
 }

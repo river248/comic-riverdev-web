@@ -10,12 +10,11 @@ import { getHeightChange } from 'actions/getHeight'
 import { actFetchAllComic, actFetchAllComicOfTag, clearComics } from 'actions/comicAction'
 import { loadingComic } from 'actions/loading'
 import { actFetchFollowedComics, actFetchLikedComics } from 'actions/userAction'
-import { getToken } from 'utils/common'
 
 function ListComic(props) {
 
     const {
-        comics, user, quantityPage,
+        comics, user, quantityPage, token,
         fetchAllComics,
         fetchAllComicOfTag,
         fetchLikedComics,
@@ -26,7 +25,6 @@ function ListComic(props) {
 
     let query = useQuery()
     const location = useLocation()
-    const token = getToken()
 
     useLayoutEffect(() => {
         switch (location.pathname) {
@@ -127,7 +125,8 @@ const mapStateToProps = (state) => {
     return {
         comics: state.comic.comics,
         user: state.user.user,
-        quantityPage: state.comic.quantityPage
+        quantityPage: state.comic.quantityPage,
+        token: state.user.token
     }
 }
 

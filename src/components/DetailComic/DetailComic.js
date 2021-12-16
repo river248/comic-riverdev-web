@@ -21,7 +21,7 @@ import EditComic from 'components/Modal/EditComic'
 function DetailComic(props) {
     
     const {
-        comic, interactions,
+        comic, interactions, token,
         user, likeStatus, followStatus, chapters,
         loadingComic,
         fetchLikeStatus,
@@ -36,7 +36,6 @@ function DetailComic(props) {
     const [content, setContent] = useState('')
     const [value, setValue] = useState('')
 
-    const token = getToken()
     const history = useHistory()
 
     useEffect(() => {
@@ -152,7 +151,8 @@ const mapStateToProps = (state) => {
         user: state.user.user,
         likeStatus: state.user.likeStatus,
         followStatus: state.user.followStatus,
-        chapters: state.comic.chapters
+        chapters: state.comic.chapters,
+        token: state.user.token
     }
 }
 

@@ -10,16 +10,21 @@ import AddComicForm from 'components/AddComicForm/AddComicForm'
 import AddChapterForm from 'components/AddComicForm/AddChapterForm'
 import { loadingComic } from 'actions/loading'
 import Footer from 'components/Footer/Footer'
+import { actGetAccessToken } from 'actions/userAction'
 
 function AdminPage(props) {
 
     const {
         quantityComics,
-        loadingComic, fetchAllTags, fetchQuantityComic, fetchUnfinishedComic
+        loadingComic, fetchAllTags, fetchQuantityComic, fetchUnfinishedComic,
+        getAccessToken
     } = props
     const { id } = useParams()
 
     useEffect(() => {
+
+        getAccessToken()
+
         if(id === 'new-comic') {
             loadingComic(true)
             fetchAllTags()
@@ -79,6 +84,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         fetchUnfinishedComic : () => {
             dispatch(actFetchUnfinishedComic())
+        },
+        getAccessToken : () => {
+            dispatch(actGetAccessToken())
         }
     }
 }

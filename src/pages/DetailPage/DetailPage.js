@@ -14,6 +14,7 @@ import { actFetchDetailComic, actFetchInteractions, clearDetailComic } from 'act
 import { loadingChapter, loadingComic } from 'actions/loading'
 import Modal from 'components/Modal/Modal'
 import Footer from 'components/Footer/Footer'
+import { actGetAccessToken } from 'actions/userAction'
 
 function DetailPage(props) {
 
@@ -22,7 +23,8 @@ function DetailPage(props) {
         loadingComic,
         loadingChapter,
         fetchDetailComic,
-        fetchInteractions
+        fetchInteractions,
+        getAccessToken
     } = props
 
     const [show, setShow] = useState(false)
@@ -34,6 +36,7 @@ function DetailPage(props) {
         loadingChapter(true)
         fetchDetailComic(id)
         fetchInteractions(id)
+        getAccessToken()
         return () => clearDetailComic()
 
     }, [id])
@@ -85,6 +88,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         fetchInteractions : (comicID) => {
             dispatch(actFetchInteractions(comicID))
+        },
+        getAccessToken : () => {
+            dispatch(actGetAccessToken())
         },
         clearDetailComic : () => {
             dispatch(clearDetailComic([]))

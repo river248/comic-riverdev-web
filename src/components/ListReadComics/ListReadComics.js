@@ -5,7 +5,6 @@ import ReadComic from 'components/ReadComic/ReadComic'
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { getToken } from 'utils/common'
 import useQuery from 'utils/useQuery'
 
 import './ListReadComics.scss'
@@ -13,14 +12,12 @@ import './ListReadComics.scss'
 function ListReadComics(props) {
 
     const {
-        comics, user, quantityPage,
+        comics, user, quantityPage, token,
         fetchReadComics,
         loadingComic,
         getReadComics
 
     } = props
-
-    const token = getToken()
 
     let query = useQuery()
     const location = useLocation()
@@ -64,7 +61,8 @@ const mapStateToProps = (state) => {
     return {
         comics: state.user.comics,
         user: state.user.user,
-        quantityPage: state.comic.quantityPage
+        quantityPage: state.comic.quantityPage,
+        token: state.user.token
     }
 }
 

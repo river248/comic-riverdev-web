@@ -1,4 +1,5 @@
-import React from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react'
 import ListComic from 'components/ListComic/ListComic'
 import Pagina from 'components/Pagina/Pagina'
 import { Col, Container, Row } from 'react-bootstrap'
@@ -8,17 +9,22 @@ import { useParams } from 'react-router-dom'
 import './HistoryPage.scss'
 import ListReadComics from 'components/ListReadComics/ListReadComics'
 import { connect } from 'react-redux'
-import { actConfirm } from 'actions/userAction'
+import { actConfirm, actGetAccessToken } from 'actions/userAction'
 import Footer from 'components/Footer/Footer'
 
 function HistoryPage(props) {
 
     const {
         comics,
-        actConfirm
+        actConfirm, getAccessToken
     } = props
+
     const { id } = useParams()
     
+    useEffect(() => {
+        getAccessToken()
+    }, [])
+
     const handleRemoveAllHistory = () => {
         actConfirm({
             show: true,
@@ -75,6 +81,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         actConfirm : (data) => {
             dispatch(actConfirm(data))
+        },
+        getAccessToken : () => {
+            dispatch(actGetAccessToken())
         }
     }
 }

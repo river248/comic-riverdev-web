@@ -97,3 +97,5 @@ export const removeNotification = async (token, id) => await axios.delete(
 
 export const updateNotification = async (token) => await axios.put(
     `${API_ROOT}/v1/notification`, { header: { 'x-access-token': token }})
+
+export const getAccessToken = async () => await axios.get(`${API_ROOT}/v1/user/access-token`)

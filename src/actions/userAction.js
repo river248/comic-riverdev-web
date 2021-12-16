@@ -1,4 +1,5 @@
 import {
+    ACCESS_TOKEN,
     CONFIRM,
     GET_FOLLOWED_COMICS,
     GET_FOLLOW_STATUS,
@@ -22,7 +23,8 @@ import {
     fetchNotifications,
     fetchQuantityPageFollowedComics,
     fetchQuantityPageLikedComics,
-    fetchReadComics
+    fetchReadComics,
+    getAccessToken
 } from "./ApiCall/userAPI"
 
 export const actFetchFullUser = (token) => {
@@ -178,5 +180,20 @@ export const actConfirm = (data) => {
     return {
         type: CONFIRM,
         payload: data
+    }
+}
+
+export const actGetAccessToken = () => {
+    return (dispatch) => {
+        return getAccessToken().then(res => {
+            dispatch(fetchAccessToken(res.data.accessToken))
+        })
+    }
+}
+
+export const fetchAccessToken = (token) => {
+    return {
+        type: ACCESS_TOKEN,
+        payload: token
     }
 }

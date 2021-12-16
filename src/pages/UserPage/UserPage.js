@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
 import { fetchLogout, fetchResetPassword, updateUser } from 'actions/ApiCall/userAPI'
-import { getToken, removeUserSession } from 'utils/common'
+import { removeUserSession } from 'utils/common'
 import { useHistory } from 'react-router-dom'
 import { Container, Row } from 'react-bootstrap'
 import { AiFillEdit, AiOutlineSend, AiTwotoneMail } from 'react-icons/ai'
@@ -12,7 +12,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 
 import './UserPage.scss'
 import { connect } from 'react-redux'
-import { actFetchFullUser } from 'actions/userAction'
+import { actFetchFullUser, actGetAccessToken } from 'actions/userAction'
 import Alert from 'components/Alert/Alert'
 import { loadingComic } from 'actions/loading'
 import Footer from 'components/Footer/Footer'
@@ -20,8 +20,8 @@ import Footer from 'components/Footer/Footer'
 function UserPage(props) {
 
     const {
-        user,
-        loadingComic, fetchFullUser
+        user, token,
+        loadingComic, fetchFullUser, getAccessToken
     } = props
     const [username, setUserName] = useState('')
     const [password, setPassword] = useState('')
@@ -35,9 +35,9 @@ function UserPage(props) {
     const [alert, setAlert] = useState({ show: false, message: ''})
 
     const history = useHistory()
-    const token = getToken()
 
     useEffect(() => {
+        getAccessToken()
         loadingComic(true)
         if (user._id && token)
             loadingComic(false)
@@ -199,7 +199,8 @@ function UserPage(props) {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user.user
+        user: state.user.user,
+        token: state.user.token
     }
 }
 
@@ -210,6 +211,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         fetchFullUser : (token) => {
             dispatch(actFetchFullUser(token))
+        },
+        getAccessToken : () => {
+            dispatch(actGetAccessToken())
         }
     }
 }

@@ -3,14 +3,13 @@ import { actComments, actFetchInteractions } from 'actions/comicAction'
 import React, { useState } from 'react'
 import { AiOutlineSend } from 'react-icons/ai'
 import { connect } from 'react-redux'
-import { getToken } from 'utils/common'
 
 import './PostComment.scss'
 
 function PostComment(props) {
     
     const {
-        comic,
+        comic, token,
         user,
         getComments, fetchInteractions
     } = props
@@ -22,14 +21,14 @@ function PostComment(props) {
     }
 
     const handlePostComment = () => {
-        if(getToken()) {
+        if(token) {
             if(content) {
                 const data = {
                     comicID: comic._id,
                     userID: user._id,
                     content: content
                 }
-                postComment(data, getToken()).then(() => {
+                postComment(data, token).then(() => {
                     fetchInteractions(comic._id)
                     getComments(comic._id, 1)
                 })
@@ -49,7 +48,8 @@ function PostComment(props) {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user.user
+        user: state.user.user,
+        token: state.user.token
     }
 }
 

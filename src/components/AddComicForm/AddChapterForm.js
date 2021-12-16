@@ -6,7 +6,6 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage'
 import { loadingComic } from 'actions/loading'
 import { actFetchQuantityChapter, actFetchUnfinishedComic } from 'actions/comicAction'
 import loadingImage from 'resources/loading.png'
-import { getToken } from 'utils/common'
 import { createNewChapter } from 'actions/ApiCall/adminAPI'
 import { updateComics } from 'actions/ApiCall/comicAPI'
 import Alert from 'components/Alert/Alert'
@@ -15,7 +14,7 @@ import { actfetchNotifications } from 'actions/userAction'
 function AddChapterForm(props) {
 
     const {
-        chapters, comics, user,
+        chapters, comics, user, token,
         loadingComic, fetchQuantityChapter, fetchUnfinishedComic, fetchNotifications
     } = props
 
@@ -29,8 +28,6 @@ function AddChapterForm(props) {
     const [chapter, setChapter] = useState(0)
     const [status, setStatus] = useState({isFinished: false, name: 'Chưa hoàn thành'})
     const [alert, setAlert] = useState({ show: false, message: ''})
-
-    const token = getToken()
 
     useEffect(() => {
         if(comics.length > 0) {
@@ -189,7 +186,8 @@ const mapStateToProps = (state) => {
     return {
         chapters: state.comic.quantityChapter,
         comics: state.comic.comics,
-        user: state.user.user
+        user: state.user.user,
+        token: state.user.token
     }
 }
 
