@@ -27,6 +27,8 @@ import ForgotPassword from 'pages/AccountPage/ForgotPassword'
 import MessengerCustomerChat from 'react-messenger-customer-chat'
 import { connect } from 'react-redux'
 import ConfirmBox from 'components/Modal/ConfirmBox'
+import UserManagementPage from 'pages/UserManagermentPage/UserManagementPage'
+
 
 function App({ loading, confirmStatus}) {
   return (
@@ -48,6 +50,7 @@ function App({ loading, confirmStatus}) {
             <PublicRoute path='/login' component={Login}/>
             <PublicRoute path='/forgot-password' component={ForgotPassword}/>
             <PrivateRoute path='/admin/:id' component={AdminPage}/>
+            <PrivateRoute path='/user-management' component={UserManagementPage}/>
             <Route exact component={NotFound}/>
           </Switch>
         </ScrollToTop>

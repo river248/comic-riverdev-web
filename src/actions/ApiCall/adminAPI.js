@@ -47,3 +47,14 @@ export const updateChapter = async (id, data, token) => await axios.put(
     data,
     { headers: {'x-access-token': token}}
 )
+
+export const getAllUsers = async (token) => await axios.get(
+    `${API_ROOT}/v1/user/get-all-users`,
+    { headers: {'x-access-token': token}}
+)
+
+export const removeUser = async (data, token) => await axios.put(
+    `${API_ROOT}/v1/user/remove-user`,
+    data,
+    { headers: {'x-access-token': token}}
+)

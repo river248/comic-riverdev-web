@@ -1,0 +1,41 @@
+@import '_setting.scss';
+
+.user-manager-title {
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.user-info-container {
+    background-color: $white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+
+    span {
+        &:first-child {
+            font-weight: bold;
+        }
+        &:last-child {
+            cursor: pointer;
+        }
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+    .user-info-container {
+        flex-direction: column;
+
+        span {
+            &:not(:last-child) {
+                margin-bottom: 10px;
+            }
+            &:last-child {
+                font-size: 25px;
+            }
+        }
+    }
+}
