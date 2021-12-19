@@ -19,7 +19,13 @@
             font-weight: bold;
         }
         &:last-child {
+            width: 25px;
             cursor: pointer;
+            text-align: center;
+        }
+
+        &:not(:last-child) {
+            width: calc(100% - 25px - 40px);
         }
     }
 
@@ -32,6 +38,8 @@
         span {
             &:not(:last-child) {
                 margin-bottom: 10px;
+                width: 100%;
+                text-align: center;
             }
             &:last-child {
                 font-size: 25px;

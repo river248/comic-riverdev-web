@@ -72,7 +72,7 @@ function Comments(props) {
                 <textarea className="edit-content-comment" value={content} onChange={(e) => setContent(e.target.value)}/>
                 <MdSend  onClick={() => handleUpdateComment(comment._id)}/>
             </>}
-            { (user._id === comment?.userID) && <div className="user-action">
+            { (user._id === comment?.userID || user.isAdmin) && <div className="user-action">
                 <FiMoreHorizontal/>
                 <div>
                     <span onClick={() => handleEditComment(comment.content)}>Chỉnh sửa</span>
