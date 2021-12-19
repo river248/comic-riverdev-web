@@ -126,6 +126,7 @@ function Navigation(props) {
                     <img src={user?.avatar} alt='avatar'/>
                     <div className="user-dropdown">
                         { user?.isAdmin && <span onClick={() => history.push('/admin/new-comic')}>Quản lý truyện</span>}
+                        { user?.isAdmin && <span onClick={() => history.push('/user-management')}>Quản lý người dùng</span>}
                         <span onClick={() => history.push('/user')}>Thông tin</span>
                         <span onClick={() => history.push('/history/read')}>Lịch sử</span>
                         <span onClick={hanldeLogout}>Đăng xuất</span>
