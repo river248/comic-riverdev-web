@@ -3,13 +3,13 @@
 h1 {
     display: flex;
     align-items: center;
-    color: $purple;
+    color: $main-color-2;
 
     svg { margin-right: 5px; }
 }
 
 h3 {
-    color: $purple;
+    color: $main-color-2;
 }
 
 .edit-detail-comic {
@@ -19,13 +19,13 @@ h3 {
     font-size: 1rem;
     color: $white;
     font-weight: bold;
-    background-color: darken($purple, $amount: 20);
+    background-color: $main-color-2;
     outline: none;
     border: none;
     border-radius: 6px;
     cursor: pointer;
 
     &:hover {
-        box-shadow: 0 0 25px $purple;
+        box-shadow: 0 0 25px $main-color-2;
     }
 }

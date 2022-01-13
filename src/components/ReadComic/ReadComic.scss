@@ -29,7 +29,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background-color: darken($purple, $amount: 15);
+            background-color: $main-color-2;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -47,7 +47,7 @@
             top: 5px;
             font-weight: bold;
             left: 5px;
-            background-color: $purple;
+            background-color: $main-color-2;
             padding: 5px 8px;
             border-radius: 13px;
             font-size: 0.8rem;
@@ -78,7 +78,7 @@
 
             &:hover {
                 cursor: pointer;
-                color: $purple;
+                color: $main-color-2;
             }
         }
     }

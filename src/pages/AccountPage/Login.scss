@@ -23,7 +23,7 @@
         width: 350px;
         height: 420px;
         border-radius: 15px;
-        box-shadow: 8px 6px 14px $purple;
+        box-shadow: 8px 6px 14px $main-color-2;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -35,15 +35,15 @@
         span {
             font-size: 2rem;
             font-weight: bold;
-            color: $purple;
-            text-shadow: 0px 0px 6px $purple;
+            color: $main-color-2;
+            text-shadow: 0px 0px 6px $main-color-2;
             margin-bottom: 20px;
             margin-top: 10px;
         }
 
         a {
             text-decoration: none;
-            color: $purple;
+            color: $main-color-2;
             margin-bottom: 5px;
 
             &:hover {
@@ -62,10 +62,10 @@
             input {
                 padding: 10px 0;
                 font-size: 1rem;
-                color: $purple;
+                color: $main-color-2;
                 margin-bottom: 30px;
                 border: none;
-                border-bottom: 1px solid $purple;
+                border-bottom: 1px solid $main-color-2;
                 outline: none;
                 width: inherit;
                 background: transparent;
@@ -73,7 +73,7 @@
                 &:focus ~ label, &:valid ~ label {
                     top: -20px;
                     left: 0;
-                    color: $purple;
+                    color: $main-color-2;
                     font-weight: 600;
                     font-size: 0.8rem;
                 }
@@ -85,13 +85,13 @@
                 left: 0;
                 padding: 10px 0;
                 font-size: 1rem;
-                color: $purple;
+                color: $main-color-2;
                 pointer-events: none;
                 transition: .5s;
             }
             
             svg {
-                color: $purple;
+                color: $main-color-2;
                 position: absolute;
                 right: 10px;
                 top: 15px;
@@ -109,7 +109,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: $purple;
+            color: $main-color-2;
             font-size: 1rem;
             text-decoration: none;
             text-transform: uppercase;
@@ -125,13 +125,13 @@
             background-color: transparent;
 
             &:hover {
-                background: $purple;
+                background: $main-color-2;
                 color: $white;
                 border-radius: 5px;
-                box-shadow: 0 0 5px $purple,
-                            0 0 25px $purple,
-                            0 0 50px $purple,
-                            0 0 100px $purple;
+                box-shadow: 0 0 5px $main-color-2,
+                            0 0 25px $main-color-2,
+                            0 0 50px $main-color-2,
+                            0 0 100px $main-color-2;
             }
 
             span {
@@ -143,7 +143,7 @@
                     left: -100%;
                     width: 100%;
                     height: 2px;
-                    background: linear-gradient(90deg, transparent, $purple);
+                    background: linear-gradient(90deg, transparent, $main-color-2);
                     animation: btn-anim1 1s linear infinite;
                 }
 
@@ -152,7 +152,7 @@
                     right: 0;
                     width: 2px;
                     height: 100%;
-                    background: linear-gradient(180deg, transparent, $purple);
+                    background: linear-gradient(180deg, transparent, $main-color-2);
                     animation: btn-anim2 1s linear infinite;
                     animation-delay: 0.25s
                 }
@@ -162,7 +162,7 @@
                     right: -100%;
                     width: 100%;
                     height: 2px;
-                    background: linear-gradient(270deg, transparent, $purple);
+                    background: linear-gradient(270deg, transparent, $main-color-2);
                     animation: btn-anim3 1s linear infinite;
                     animation-delay: .5s
                 }
@@ -172,7 +172,7 @@
                     left: 0;
                     width: 2px;
                     height: 100%;
-                    background: linear-gradient(360deg, transparent, $purple);
+                    background: linear-gradient(360deg, transparent, $main-color-2);
                     animation: btn-anim4 1s linear infinite;
                     animation-delay: .75s
                   }
@@ -185,7 +185,7 @@
             height: 50px;
             justify-content: center;
             background-color: transparent !important;
-            box-shadow: 0 0 6px $purple !important;
+            box-shadow: 0 0 6px $main-color-2 !important;
             border-radius: 8px !important;
             top: -25px;
             right: 30px;
@@ -198,7 +198,7 @@
             span { display: none;}
         }
 
-        .spinner-border { color: $purple; margin-top: 40px;}
+        .spinner-border { color: $main-color-2; margin-top: 40px;}
     }
 
     .image-naruto {
