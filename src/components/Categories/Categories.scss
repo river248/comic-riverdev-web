@@ -5,8 +5,8 @@
     display: flex;
     height: inherit;
     flex-direction: column;
-    border-right: 2px dashed $purple;
-    border-bottom: 2px dashed $purple;
+    border-right: 2px dashed $main-color-2;
+    border-bottom: 2px dashed $main-color-2;
     border-radius: 0 0 10px 0;
     position: relative;
 
@@ -21,7 +21,7 @@
 
         a {
             font-size: 1.1rem;
-            color: $purple;
+            color: $main-color-2;
             text-decoration: none;
 
             &:hover { color: $yellow;}

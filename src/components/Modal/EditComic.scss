@@ -11,7 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: $purple;
+    color: $main-color-2;
 
     .edit-comic-modal-box {
         display: flex;
@@ -21,7 +21,7 @@
         width: 425px;
         border-radius: 8px;
         background-color: transparent;
-        box-shadow: 0 0 10px $purple;
+        box-shadow: 0 0 10px $main-color-2;
         padding-bottom: 20px;
 
         .input-radio-item {
@@ -32,7 +32,7 @@
             margin-top: 10px;
             margin-bottom: 10px;
     
-            label { color: $purple; font-weight: 600;}
+            label { color: $main-color-2; font-weight: 600;}
             input{
                 width: 20px;
                 height: 20px;
@@ -41,23 +41,23 @@
         }
 
         h1 {
-            text-shadow: 0 0 4px $purple;
+            text-shadow: 0 0 4px $main-color-2;
             margin-bottom: 10px;
         }
 
         input[type=text] {
             width: 90%;
             height: 40px;
-            color: $purple;
+            color: $main-color-2;
             padding: 0 10px;
-            border: 2px solid $purple;
+            border: 2px solid $main-color-2;
             background-color: transparent;
             border-radius: 6px;
             font-size: 1rem;
-            box-shadow: 0 0 10px $purple;
+            box-shadow: 0 0 10px $main-color-2;
             outline: none;
             
-            &::placeholder { color: $purple; }
+            &::placeholder { color: $main-color-2; }
         }
 
         .button-container {
@@ -76,15 +76,15 @@
                 cursor: pointer;
 
                 &:first-child {
-                    background-color: $purple;
+                    background-color: $main-color-2;
                     color: $white;
 
-                    &:hover { box-shadow: 0 0 25px $purple;}
+                    &:hover { box-shadow: 0 0 25px $main-color-2;}
                 }
 
                 &:last-child {
                     background-color: $white;
-                    color: $purple;
+                    color: $main-color-2;
 
                     &:hover { box-shadow: 0 0 25px $white;}
                 }
@@ -92,7 +92,7 @@
         }
 
         span {
-            color: $purple;
+            color: $main-color-2;
             font-size: 1rem;
             font-weight: bold;
             margin-top: 30px;

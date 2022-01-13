@@ -26,7 +26,7 @@
             bottom: 10px;
             right: 10px;
             font-size: 35px;
-            color: $purple;
+            color: $main-color-2;
             cursor: pointer;
             background-color: $yellow;
             border-radius: 6px;
@@ -56,7 +56,7 @@
             .edit-icon {
                 font-size: 25px;
                 margin-left: 5px;
-                color: $purple;
+                color: $main-color-2;
                 cursor: pointer;
 
                 &:hover {
@@ -87,12 +87,12 @@
 
         .detail-comic-tag {
             display: flex;
-            color: $purple;
+            color: $main-color-2;
             font-weight: 600;
 
             .detail-comic-tag-item {
                 padding: 10px 20px;
-                border: 2px solid $purple;
+                border: 2px solid $main-color-2;
                 border-radius: 8px;
                 cursor: pointer;
                 
@@ -101,8 +101,8 @@
                 }
 
                 &:hover {
-                    background-color: $purple;
-                    box-shadow: 0 0 25px $purple;
+                    background-color: $main-color-2;
+                    box-shadow: 0 0 25px $main-color-2;
                     color: $white;
                 }
             }
@@ -134,8 +134,8 @@
                 }
 
                 &:last-child {
-                    color: $purple;
-                    border: 2px solid $purple; 
+                    color: $main-color-2;
+                    border: 2px solid $main-color-2; 
                 }
 
                 svg {
@@ -157,9 +157,9 @@
 
             #like:checked {
                 & ~ #like-btn {
-                    background-color: $purple;
+                    background-color: $main-color-2;
                     color: $white;
-                    box-shadow: 0 0 20px $purple;
+                    box-shadow: 0 0 20px $main-color-2;
                 }
             }
         }

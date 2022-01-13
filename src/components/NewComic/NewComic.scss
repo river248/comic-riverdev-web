@@ -51,12 +51,12 @@
                         overflow: hidden;
                         cursor: pointer;
 
-                        &:hover { color: $purple; }
+                        &:hover { color: $main-color-2; }
                     }
 
                     &:last-child {
                         cursor: pointer;
-                        &:hover { color: $purple; }
+                        &:hover { color: $main-color-2; }
                     }
 
                 }
@@ -64,7 +64,7 @@
 
             .comic-time-post {
                 width: 100%;
-                color: $purple;
+                color: $main-color-2;
                 font-weight: 600;
             }
         }

@@ -18,7 +18,7 @@
         span {
             &:first-child, &:nth-child(3) {
                 cursor: pointer;
-                &:hover { color: $purple;}
+                &:hover { color: $main-color-2;}
             }
         }
     }

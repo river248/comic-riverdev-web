@@ -3,7 +3,7 @@
 .history-col {
     height: 50px;
     margin-bottom: 20px;
-    background-color: darken($purple, $amount: 20);
+    background-color: $main-color-2;
     padding-left: 0;
     padding-right: 0;
     border-top: 1px solid $black;
@@ -22,10 +22,10 @@
 
     .history-nav-active {
         color: $white;
-        background-color: darken($purple, $amount: 20);
+        background-color: $main-color-2;
 
         &:hover {
-            background-color: darken($purple, $amount: 20);
+            background-color: $main-color-2;
         }
     }
 }
@@ -39,5 +39,5 @@
     border-radius: 8px;
     cursor: pointer;
     box-shadow: 4px 4px 6px $black;
-    background-color: darken($purple, $amount: 10);
+    background-color: $main-color-2;
 }
